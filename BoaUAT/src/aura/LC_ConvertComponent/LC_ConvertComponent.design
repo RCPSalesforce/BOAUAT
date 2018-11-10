@@ -1,0 +1,7 @@
+<design:component label="PDF Butler DocConfigs">
+	<design:attribute name="docConfigIds" label="DocConfigs to retrieve" description="Supply a list of DocConfig Ids. The list has to be comma(,) seperated." />
+	<design:attribute name="showLocale" default="true" label="Locale required?" description="If you have formatters in your document, a locale is required." />
+	<design:attribute name="showAlternative" default="true" label="Alternatives enabled?" description="If you have license for alternatives, the alternative name is required." />
+	<design:attribute name="showPdfProfiles" default="true" label="Profiles who can generate PDF's" description="List of profile names that have the PDF button enabled, leave empty to allow access for everyone. The list has to be comma(,) seperated." />
+	<design:attribute name="showDocxProfiles" default="true" label="Profiles who can generate Word" description="List of profile names that have the DOCX button enabled, leave empty to allow access for everyone. The list has to be comma(,) seperated." />
+</design:component>

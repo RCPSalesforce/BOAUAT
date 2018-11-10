@@ -1,0 +1,22 @@
+<aura:component controller="getCustomerRecordType" implements="flexipage:availableForAllPageTypes,force:hasSObjectName,lightning:hasPageReference,force:hasRecordId">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="showEnterpriseCustomer" type="boolean" default="false"/>
+    <aura:attribute name="showSupplierCustomer" type="boolean" default="false"/>
+    <aura:attribute name="showRetailCustomer" type="boolean" default="false"/>
+    <aura:if isTrue="{!v.showEnterpriseCustomer}">
+        <div>
+            <img src="{!$Resource.enterpriseCustomer}" class="imageStyle" />
+        </div>
+	</aura:if>
+    <aura:if isTrue="{!v.showSupplierCustomer}">
+        <div>
+            <img src="{!$Resource.SupplierCustomer}" class="imageStyle"/>
+        </div>
+	</aura:if>
+    <aura:if isTrue="{!v.showRetailCustomer}">
+        <div>
+            <img src="{!$Resource.Retailcustomer}" class="imageStyle"/>
+        </div>
+	</aura:if>
+</aura:component>

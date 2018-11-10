@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="This event is fired on add product button click from NewOrder_ProductSelection component. " >
+    <aura:attribute name="prodSelected" type="Object[]"/>
+</aura:event>

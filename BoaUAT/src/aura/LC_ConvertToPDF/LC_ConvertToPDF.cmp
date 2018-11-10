@@ -1,0 +1,9 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" controller="DemoConvertController" access="global">
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:attribute name="documentId" type="String" access="private" />
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="docConfigId" type="String" />
+
+    <lightning:spinner variant="brand" size="large" aura:id="mySpinner" />
+    <iframe src="{!'/servlet/servlet.FileDownload?file=' + v.documentId}" width="600" height="700"></iframe>
+</aura:component>

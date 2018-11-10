@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>GoCloudz_Attachment_1__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Attachment 1</label>
+        <referenceTo>Attachment__c</referenceTo>
+        <relationshipLabel>Opportunities</relationshipLabel>
+        <relationshipName>Opportunity_Attachment_1</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>GoCloudz_Attachment_2__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Attachment 2</label>
+        <referenceTo>Attachment__c</referenceTo>
+        <relationshipLabel>Opportunities</relationshipLabel>
+        <relationshipName>Opportunity_Attachment_2</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>GoCloudz_Watermark__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Watermark to display on PDF</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Watermark to display on PDF</inlineHelpText>
+        <label>Watermark</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>envelopeId__c</fullName>
+        <deprecated>false</deprecated>
+        <description>DocuSign envelope id.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>DocuSign envelope id.</inlineHelpText>
+        <label>Envelope Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <webLinks>
+        <fullName>Create_PDF_and_E_Signature</fullName>
+        <availability>online</availability>
+        <description>One click send to DocuSign for e-signature</description>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <linkType>url</linkType>
+        <masterLabel>Create PDF and E-Signature</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <url>/apex/sfcloud2__QuotePDF_Save?id={!Opportunity.Id}&amp;action=sendForESignature</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Create_PDF_and_Email</fullName>
+        <availability>online</availability>
+        <description>One click email send to the recipients</description>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <linkType>url</linkType>
+        <masterLabel>Create PDF and Email</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <url>/apex/sfcloud2__QuotePDF_Save?id={!Opportunity.Id}&amp;action=sendEmail</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Email</fullName>
+        <availability>online</availability>
+        <description>Email attachments</description>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <linkType>url</linkType>
+        <masterLabel>Email</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <url>/apex/sfcloud2__QuotePDF_Email?sObjName=Opportunity&amp;id={!Opportunity.Id}&amp;fetchAll=true</url>
+    </webLinks>
+</CustomObject>

@@ -1,0 +1,37 @@
+.THIS{
+}
+.THIS.contactLookupContainer{
+    margin-top:-14px;
+}
+.THIS .displaySearchResults{
+    display:none
+}
+.THIS .clearSelection{
+    margin-top: -54px;
+    margin-left: 337px;
+}
+.THIS .contactList{
+    margin-top: -31px;
+    margin-left: -2px;
+    min-width: auto;
+    max-width: 30%;
+    width: 27%
+}
+.THIS .contactName{
+    margin-top: 6px;
+}
+
+.THIS .contactClose svg{
+    width: .975rem;
+    fill: #aeaeae;
+}
+.THIS .contactListPhone{
+    margin-top: -20px;
+    margin-left: 0;
+    max-width: 86%;
+    width: 86%
+}
+.THIS .clearSelectionPhone{
+    margin-top: -54px;
+    margin-left: 90%;
+}

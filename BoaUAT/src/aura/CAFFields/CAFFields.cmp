@@ -1,0 +1,19 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="GLOBAL">
+    <aura:attribute name="newcaf" type="Credit_Application_Form__c" 
+                    default="{'sobjectType':'Credit_Application_Form__c',
+                              'How_long_have_they_been_trading_with_you__c':'',
+                              'Have_there_been_any_problems_or_concern__c':'' 
+                             }"/>
+    <lightning:recordForm aura:id="recordCreateForm" 
+                       objectApiName="Credit_Application_Form__c"
+                       recordId="{!v.recordId}" mode="edit">
+    <div class="slds-p-bottom_large slds-p-left_large">
+        <form >
+            <lightning:input label="How long have they been trading with you?" name="trading"
+                             value="{!v.newcaf.How_long_have_they_been_trading_with_you__c}" />
+            <lightning:input label="Have there been any problems or concerns?" name="problems"
+                             value="{!v.newcaf.Have_there_been_any_problems_or_concern__c}"/>
+        </form>        
+    </div>
+    </lightning:recordForm>    
+</aura:component>

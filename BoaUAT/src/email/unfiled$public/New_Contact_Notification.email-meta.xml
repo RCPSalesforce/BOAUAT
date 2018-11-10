@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Boa_Letterhead</letterhead>
+    <name>New Contact Notification</name>
+    <style>freeForm</style>
+    <subject>Contact - {!Contact.Name} has been created</subject>
+    <textOnly>Dear Team,
+
+     Contact {!Contact.Name} has created for Customer{!Account.Name}.
+     Please click the below link to review the contact.
+     Contact {!Contact.Link}.
+
+
+    Thanks,
+    BOA  Team</textOnly>
+    <type>html</type>
+</EmailTemplate>

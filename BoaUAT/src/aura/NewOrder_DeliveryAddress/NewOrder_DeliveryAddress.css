@@ -1,0 +1,35 @@
+.THIS {
+}
+.THIS .slds-modal__container{
+    width:25%;
+}
+.THIS.delAddress{
+    vertical-align: middle;
+    float: right;
+    margin-top: 5px;
+    font-weight: bold;
+    line-height: 1.25;
+}
+.THIS .delAddressLink{
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 1.25;
+}
+
+.THIS .primaryAddressIndicator{
+    background: green;
+    color: white;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    border-radius: 10px;
+    padding-top: 1.5px;
+    /*padding-left: 1.5px;*/
+    margin-top: -7px;
+}
+.THIS .phoneModalContainer{
+    width: 98%;
+    display: block;
+    margin: 0 0px 0px 3.6px;
+    top: 401px;
+}

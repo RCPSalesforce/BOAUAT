@@ -1,0 +1,10 @@
+.THIS {
+}
+.THIS H1 {
+    font-size: 20pt;
+}
+.THIS.slds-spinner_container{
+    top:320px;
+    bottom:320px;
+    width:640PX;
+}

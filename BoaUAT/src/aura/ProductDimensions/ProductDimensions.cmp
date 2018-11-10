@@ -1,0 +1,98 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="GLOBAL"> <!--inherit recordId attribute-->
+<aura:attribute name="product2" type="Object" />
+<aura:attribute name="simpleRecord" type="Object" />
+<aura:attribute name="recordError" type="String" />
+<force:recordData aura:id="recordEditor"
+    layoutType="FULL"
+    recordId="{!v.recordId}"
+    targetError="{!v.recordError}"
+    targetRecord="{!v.product2}"
+    targetFields ="{!v.simpleRecord}"
+    fields = "Nominal_Thread_Size_1__c,Nominal_Thread_Size_2__c,Nominal_Thread_Size_3__c,Nominal_Thread_Size_4__c,Physical_Thread_Size_1__c,physical_thread_size_2__c,Physical_Thread_Size_3__c,Physical_Thread_Size_4__c,
+			  Thread_Type_1__c,Thread_Type_2__c,Thread_Type_3__c,Thread_Type_4__c,Orientation__c,Tail_Size_To_Suit_Hose_ID__c,Nominal_Pipe_Size__c,Hose_Inner_Diameter_Inches__c,Hose_Inner_Diameter_mm__c,Hose_Outer_Diameter_mm__c,
+			  Working_Pressure_PSI__c,Working_Pressure_BAR__c,Minimum_Bend_Radius_mm__c,Full_Coil_Size_metre__c,Nominal_Size_mm__c,Rated_Flow_L_min__c,Max_Flow_L_Min__c,Fluid_Spillage_cc__c,Max_Work_Pressure_PSI__c,Min_Burst_Pressure_Male_PSI__c,
+			  Min_Burst_Pressure_Female_PSI__c,Min_Burst_Pressure_Coupled_PSI__c,B_in__c,D_in__c,E_in__c,H_in__c,L_in__c,M_in__c,N_in__c,Y_in__c,K_DRILL_DIA_in__c"              
+    mode="EDIT" />
+    
+    <!-- Display an editing form -->
+    <div class="Record Details">
+        <lightning:card iconName="action:edit" title="Product Dimensions">
+            <div class="slds-p-horizontal--small">
+                <!-- To show adaptors and fittings related data -->
+                <aura:if isTrue = "{!(v.simpleRecord.Secondary_Group__c eq '15'|| v.simpleRecord.Secondary_Group__c eq '17')}" >
+                Nominal Thread Size :
+                <lightning:input label="Nominal Thread Size 1" value="{!v.simpleRecord.Nominal_Thread_Size_1__c}"/>
+                <lightning:input label="Nominal Thread Size 2" value="{!v.simpleRecord.Nominal_Thread_Size_2__c}"/>
+                <lightning:input label="Nominal Thread Size 3" value="{!v.simpleRecord.Nominal_Thread_Size_3__c}"/>
+                <lightning:input label="Nominal Thread Size 4" value="{!v.simpleRecord.Nominal_Thread_Size_4__c}"/>
+                Physical Thread Size :
+                <lightning:input label="Physical Thread Size 1" value="{!v.simpleRecord.Physical_Thread_Size_1__c}"/>
+                <lightning:input label="Physical Thread Size 2" value="{!v.simpleRecord.physical_thread_size_2__c}"/>
+                <lightning:input label="Physical Thread Size 3" value="{!v.simpleRecord.Physical_Thread_Size_3__c}"/>
+                <lightning:input label="Physical Thread Size 4" value="{!v.simpleRecord.Physical_Thread_Size_4__c}"/>
+				Thread Type:
+                <lightning:input label="Thread Type 1" value="{!v.simpleRecord.Thread_Type_1__c}"/>
+                <lightning:input label="Thread Type 2" value="{!v.simpleRecord.Thread_Type_2__c}"/>
+                <lightning:input label="Thread Type 3" value="{!v.simpleRecord.Thread_Type_3__c}"/>
+                <lightning:input label="Thread Type 4" value="{!v.simpleRecord.Thread_Type_4__c}"/>
+                Other:
+                <lightning:input label="Orientation" value="{!v.simpleRecord.Orientation__c}"/>
+                <lightning:input label="Tail Size(To suite hose ID)" value="{!v.simpleRecord.Tail_Size_To_Suit_Hose_ID__c}"/>
+                <lightning:input label="Nominal Pipe Size" value="{!v.simpleRecord.Nominal_Pipe_Size__c}"/>
+                <br/>
+                </aura:if>     
+                
+                <!-- To show hose related data -->
+                <aura:if isTrue = "{!v.simpleRecord.Secondary_Group__c eq '2'}">
+                Hose Diameter :
+                <lightning:input label="Hose Inner Diameter(Inch)" value="{!v.simpleRecord.Hose_Inner_Diameter_Inches__c}"/>
+                <lightning:input label="Hose Inner Diameter(mm)" value="{!v.simpleRecord.Hose_Inner_Diameter_mm__c}"/>
+                <lightning:input label="Hose Outer Diameter(mm)" value="{!v.simpleRecord.Hose_Outer_Diameter_mm__c}"/>
+                Hose Pressure  :
+                <lightning:input label="Working Pressure (PSI)" value="{!v.simpleRecord.Working_Pressure_PSI__c}"/>
+                <lightning:input label="Working Pressure (BAR)" value="{!v.simpleRecord.Working_Pressure_BAR__c}"/>
+                <lightning:input label="Minimum Bend Radius(mm)" value="{!v.simpleRecord.Minimum_Bend_Radius_mm__c}"/>    
+                <lightning:input label="Full Coil Size-metre" value="{!v.simpleRecord.Full_Coil_Size_metre__c}"/>    
+                </aura:if>				
+                    
+                <!-- To show QRC related data -->
+                <aura:if isTrue = "{!v.simpleRecord.Secondary_Group__c eq '20'}">
+                Generic :
+                <lightning:input label="Nominal Size(mm)" value="{!v.simpleRecord.Nominal_Size_mm__c}"/>
+                <lightning:input label="Rated Flow L/min" value="{!v.simpleRecord.Rated_Flow_L_min__c}"/>
+                <lightning:input label="Max Flow L/Min" value="{!v.simpleRecord.Max_Flow_L_Min__c}"/>
+                <lightning:input label="Fluid Spillage(cc)" value="{!v.simpleRecord.Fluid_Spillage_cc__c}"/>        
+                Pressure :   
+                <lightning:input label="Max Work Pressure (PSI)" value="{!v.simpleRecord.Max_Work_Pressure_PSI__c}"/>
+                <lightning:input label="Min Burst Pressure Male(PSI)" value="{!v.simpleRecord.Min_Burst_Pressure_Male_PSI__c}"/>
+                <lightning:input label="Min Burst Pressure Female(PSI)" value="{!v.simpleRecord.Min_Burst_Pressure_Female_PSI__c}"/>    
+                <lightning:input label="Min Burst Pressure Coupled(PSI)" value="{!v.simpleRecord.Min_Burst_Pressure_Coupled_PSI__c}"/>    
+                <br/>
+                </aura:if>
+				
+				 <!-- To show flange-clamp related data -->
+                <aura:if isTrue = "{!v.simpleRecord.Secondary_Group__c eq ''}">
+                Generic :
+                <lightning:input label="B(inches)" value="{!v.simpleRecord.B_in__c}"/>
+                <lightning:input label="D(inches)" value="{!v.simpleRecord.D_in__c}"/>
+                <lightning:input label="E(inches)" value="{!v.simpleRecord.E_in__c}"/>
+                <lightning:input label="H(inches)" value="{!v.simpleRecord.H_in__c}"/>
+                <lightning:input label="L(inches)" value="{!v.simpleRecord.L_in__c}"/>
+                <lightning:input label="M(inches)" value="{!v.simpleRecord.M_in__c}"/>
+                <lightning:input label="N(inches)" value="{!v.simpleRecord.N_in__c}"/>
+                <lightning:input label="Y(inches)" value="{!v.simpleRecord.Y_in__c}"/>    
+                <lightning:input label="K DRILL DIA.(in.)" value="{!v.simpleRecord.K_DRILL_DIA_in__c}"/>    
+                
+                <br/>
+                </aura:if>
+                
+                <lightning:button label="Save Dimensions" variant="brand" onclick="{!c.handleSaveRecord}" />
+            </div>
+        </lightning:card>
+    </div>
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.recordError))}">
+        <div class="recordError">
+            {!v.recordError}</div>
+    </aura:if>
+</aura:component>

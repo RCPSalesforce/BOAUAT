@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Credit Check Application</name>
+    <style>none</style>
+    <subject>BOA Credit Check Application - {!Account.Name}</subject>
+    <textOnly>Dear {!Account.Name},
+
+There has been a request for a Credit Check Application on your business. Please look at the attached document and fill in the Credit Check Application.
+
+When you have completed this, please send it back to us as soon as possible.
+
+If you have any queries, please do not hesitiate to let us know on [emailhere].
+
+
+Many thanks,
+BOA</textOnly>
+    <type>custom</type>
+</EmailTemplate>

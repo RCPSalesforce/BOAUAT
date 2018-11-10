@@ -1,0 +1,116 @@
+<aura:component implements="force:hasRecordId,force:lightningQuickAction" controller="SendEmailwithAttachmentController">
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="attachments" type="List"/>
+    <aura:attribute name="value" type="List"/>
+    <!--Part 1 [for attribute declare]-->  
+    <aura:attribute name="email" type="string"/>
+    <aura:attribute name="cc" type="string"/>
+    <aura:attribute name="subject" type="string"/>
+    <aura:attribute name="body" type="string"/>
+    <aura:attribute name="mailStatus" type="boolean" default="false"/>
+    <aura:attribute name="message" type="string"/>
+    
+    
+    <aura:attribute name="record" type="Object" 
+                    description="The record object to be displayed"/>
+    <aura:attribute name="simpleRecord" type="Object" 
+                    description="A simplified view record object to be displayed"/>
+    <aura:attribute name="recordError" type="String" 
+                    description="An error message bound to force:recordData"/>
+    
+    <force:recordData aura:id="record"
+                      recordId="{!v.recordId}"
+                      targetError="{!v.recordError}"
+                      targetRecord="{!v.record}"
+                      fields="Order_Placed_By__r.Email"
+                      targetFields ="{!v.simpleRecord}"
+                      mode="VIEW"
+                      recordUpdated="{!c.recordUpdated}"
+                      />
+
+    <!---Part 2 [header part] -->  
+    <div class="slds-page-header" role="banner">
+        <h1 class="slds-page-header__title slds-m-right--small slds-align-middle slds-truncate" title="this should match">            
+            Send Invoice / Proposal
+        </h1>
+        <!--<div class="slds-text-color- -weak">by sfdcMonkey.com</div>-->
+    </div>
+    
+    <!---Part 3 [message display part] --> 
+    <aura:if isTrue="{!v.mailStatus}">
+        <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header slds-theme--error slds-theme--alert-texture">
+                    <h2 class="slds-text-heading--medium" id="prompt-heading-id">Mail Status</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <div>
+                        <p>{!v.message}</p>
+                    </div>
+                </div>
+                <div class="slds-modal__footer slds-theme--default">
+                    <button class="slds-button slds-button--brand" onclick="{!c.closeMessage}">Close</button>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </aura:if>
+    
+    <!---Part 4 [mail fourm part]-->   
+    <div class="slds-m-around--medium">
+        <div class="slds-container--medium">
+            <div class="slds-form--stacked">
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="CC">Email</label>
+                    <div class="slds-form-element__control">
+                        <ui:inputEmail class="slds-input" aura:id="email"  value="{!v.email}" required="true" placeholder="abc@email.com"/>
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="CC">CC</label>
+                    <div class="slds-form-element__control">
+                        <ui:inputEmail class="slds-input" aura:id="cc"  value="{!v.cc}" placeholder="cc"/>
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="CC">Subject</label>
+                    <div class="slds-form-element__control">
+                        <ui:inputText class="slds-input" aura:id="subject"  value="{!v.subject}" placeholder="Subject"/>
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="textareaSample2">Mail Body</label>
+                    <div class="slds-form-element__control">
+                        <lightning:inputRichText aura:id="body" value="{!v.body}"/>
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    
+                    <div class="slds-form-element__control">
+                        
+                            <br/>
+                            
+                            
+                            <lightning:checkboxGroup aura:id="mygroup" name="Attachments"
+        					label="Attachments" options="{!v.attachments}" value="{! v.value }"/>
+                            
+                                                    
+                    </div>
+                </div>
+                <div class="slds-form-element">    
+                    <button class="slds-button slds-button--brand" onclick="{!c.sendMail}">Send</button>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <!-- Display Lightning Data Service errors, if any -->
+        <aura:if isTrue="{!not(empty(v.recordError))}">
+            <div class="recordError">
+                {!v.recordError}</div>
+        </aura:if>
+        
+    </div>
+</aura:component>

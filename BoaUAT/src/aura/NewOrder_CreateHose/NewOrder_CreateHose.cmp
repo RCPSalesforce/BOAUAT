@@ -1,0 +1,5 @@
+<aura:component >
+    
+    <lightning:button variant="brand" label="Create Hose" title="Create Hose" onclick="{! c.handleClick }" class="alignButton" />
+    
+</aura:component>

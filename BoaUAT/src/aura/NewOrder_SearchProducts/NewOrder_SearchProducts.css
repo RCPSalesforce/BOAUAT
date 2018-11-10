@@ -1,0 +1,19 @@
+.THIS{
+}
+.THIS .displaySearchResults{
+    display:none
+}
+.THIS .clearSelection{
+    margin-top: -54px;
+    margin-left: 169px;
+}
+.THIS .searchinput{
+    max-width: 80%;
+}
+.THIS .prodList{
+    margin-top: -31px;
+    margin-left: -52px;
+    min-width: auto;
+    max-width: 28%;
+    width: 20%
+}

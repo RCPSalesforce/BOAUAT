@@ -1,0 +1,50 @@
+<aura:component >    
+    <!-- Aura Attribute for store single Contact[standard Object] Instance
+             And Store Index of Particular Instance --> 
+    <aura:attribute name="stockItemInstance" type="Map"/>
+    <aura:attribute name="rowIndex" type="String"/>
+    
+    <!-- Register 2 Lightning Event for handle add or Delete rows on Parent Component  --> 
+    <aura:registerEvent name="DeleteRowEvt" type="c:NewOrder_DeleteRowEvt"/> 
+    <aura:registerEvent name="AddRowEvt" type="c:NewOrder_AddNewRowEvt"/> 
+    
+    <!-- Table Row -->   
+    <tr class="slds-text-title_caps">
+        <td>
+            <aura:if isTrue="{!v.rowIndex != 0}">
+				<lightning:buttonIcon  iconName="utility:close" class="removeProductButton" onclick="{!c.removeRow}" size=" xx-small" alternativeText="Remove Stock Item" />
+            </aura:if>
+        </td>
+        <td>
+            <ui:inputText class="slds-input" value="{!v.stockItemInstance.LastName}"/>
+        </td>
+        <td>
+            <ui:inputText class="slds-input" value="{!v.stockItemInstance.LastName}"/>
+        </td>
+        <td>
+            <ui:inputPhone class="slds-input" value="{!v.stockItemInstance.Phone}"/>
+        </td>
+        <td>
+            <ui:inputPhone class="slds-input" value="{!v.stockItemInstance.Phone}"/>
+        </td>
+        <td>
+            <ui:inputPhone class="slds-input" value="{!v.stockItemInstance.Phone}"/>
+        </td>
+        <td>
+            <ui:inputPhone class="slds-input" value="{!v.stockItemInstance.Phone}"/>
+        </td>
+        <td>
+            <ui:inputPhone class="slds-input" value="{!v.stockItemInstance.Phone}"/>
+        </td>
+        <td>
+            Total
+        </td>
+        <a onclick="{!c.AddNewRow}">
+            <lightning:icon iconName="utility:add" class="slds-icon slds-icon_small" size="small" alternativeText="add"/>
+            <span class="slds-assistive-text">Add Stock Item</span>
+        </a>    
+    </tr>
+    
+    
+    
+</aura:component>

@@ -1,0 +1,17 @@
+<aura:component Controller='Opportunity_Qoute_generate' implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    
+	<aura:attribute name="IsSpinner" type="Boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+        <div >
+        <center>
+            <H1>Generate Quote?</H1>     
+        </center>
+    </div>
+    <aura:if isTrue="{!v.IsSpinner}">
+        <lightning:spinner variant="brand"  size="small" class="spinnerPosition" />
+    </aura:if> 	
+    <center>
+        <ui:button label="Yes" press="{!c.genpdf}"/>
+    </center>
+</aura:component>

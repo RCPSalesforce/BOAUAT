@@ -1,0 +1,185 @@
+<!-- 
+ @purpose - This component is used to create a new order
+ @CreatedBy - Centelon Team
+-->
+<aura:component controller="NewOrder_SearchAccounts" access="global" >    
+    
+    <ltng:require styles='/resource/NewOrderAlert/alertify/alertify.css,
+                          /resource/NewOrderAlert/alertify/default.css' 
+                  scripts='/resource/NewOrderAlert/alertify/alertify.js'/>
+    
+    <aura:attribute name="accountId" type="String" default=""/>
+    <aura:attribute name="accountDetails" type="Map"/>
+    <aura:attribute name="noSelectedAccount" type="Boolean" default="true"/>
+    <aura:attribute name="orderDate" type="Date"/>
+    <aura:attribute name="dueDate" type="Date"/>
+    <aura:attribute name="onHold" type="Boolean" default="false"/>
+    <aura:attribute name="accConversionRate" type="Map"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="reference" type="String" default=""/>
+    <aura:attribute name="showAccountLookup" type="Boolean" default="false"/>
+    <aura:attribute name="defaultLocOptions" type="Map" />
+    <aura:attribute name="defaultLocSelectedVal" type="String"/>
+    <aura:attribute name="customerOrderNo" type="String" default=""/>
+    <aura:attribute name="oppStages" type="Map" />
+    <aura:attribute name="selectedOppStage" type="String"/>
+    <aura:attribute name="internalNote" type="String"/>
+    <aura:attribute name="showPricingPolicyMessage" type="String"/>
+    <aura:attribute name="deliveryAddr" type="Map"/>
+    <aura:attribute name="selectedContactId" type="String"/>
+    <aura:attribute name="salesPersonOptions" type="Map" />
+    <aura:attribute name="salesPersonSelectedVal" type="String"/>
+    <aura:attribute name="closedLostReason" type="String"/>
+    <aura:attribute name="todaysDate" type="String"/>
+    <aura:attribute name="oppType" type="Map" />
+    <aura:attribute name="oppTypeSelectedVal" type="String"/>
+    <aura:attribute name="orderSource" type="Map" />
+    <aura:attribute name="orderSourceSelectedVal" type="String"/>
+    <aura:attribute name="userProfileName" type="String"/>
+    <aura:attribute name="deviceSize" type="Boolean" default="false"/>
+    
+    <!--Edit Order Attributes -->
+    <aura:attribute name="opportunityData" type="Map"/>
+    <aura:attribute name="contactSearchField" type="String"/>
+    <aura:attribute name="oppIdExists" type="Boolean" default="false"/>
+    
+    <aura:method name="orderDetails" action="{!c.allOrderDetails}" 
+                 description="This method is called from NewOrder_Home component and is used to fire a component event that will be handled by NewOrder_Home"/> 
+    
+    <aura:registerEvent name="OrdProducts" type="c:NewOrder_SendCustomerDetails"/>   
+    <aura:registerEvent name="accToSelectedProd" type="c:NewOrder_AcctDetailsToSelectedProd"/>
+    
+    <aura:handler event="c:NewOrder_SelectedProdToAcctDetails" action="{!c.handleSelectedProdToAcc}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="selectedAccount" event="c:SelectedAccount" action="{!c.handleSelectedAccount}"/> 
+    <aura:handler name="updateDeliveryAddress" event="c:NewOrder_UpdateDeliveryAddress" action="{!c.handleUpdateDeliveryAddress}"/>    
+    
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner variant="brand" alternativeText="Loading" size="medium" />
+    </aura:if>
+    
+    <div>       
+        <aura:if isTrue="{!v.showPricingPolicyMessage == 'True'}">
+            <div style="margin-left: 1rem;color: red;">Pricing policy exists for this account</div>
+        </aura:if>
+        <lightning:layout multipleRows="true" class="accountSections"> 
+            <lightning:layoutItem padding="around-small" size="{!v.deviceSize ? 12 : 4}">
+                <aura:if isTrue="{!v.showAccountLookup}">
+                    <c:NewOrder_AccountLookup recId="{!v.accountId}" accountType="customer" oppIdExists="{!v.oppIdExists}"/>
+                </aura:if>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="{!v.deviceSize ? 12 : 4}">
+                <aura:if isTrue="{!v.showAccountLookup}">
+                    <c:NewOrder_ContactLookUp accountId="{!v.accountId}" selectedContactId="{!v.selectedContactId}" searchKeyword="{!v.contactSearchField}"/>
+                </aura:if>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="{!v.deviceSize ? 12 : 4}" class="{!v.deviceSize ? 'phoneContactLookUp' : ''}">
+                <lightning:select name="salesperson" label="Salesperson: " value="{!v.salesPersonSelectedVal}" disabled="{!v.noSelectedAccount}">
+                    <aura:iteration items="{!v.salesPersonOptions}" var="item">
+                        <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}"/>
+                    </aura:iteration>
+                </lightning:select>            
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    
+    <div>
+        <lightning:layout multipleRows="true" class="accountSections">
+            <lightning:layoutItem padding="around-small" size="{!v.deviceSize ? 12 : 4}" class="accDetails">
+                <div>
+                    <lightning:input name="street" label="Line 1" value="{!v.accountDetails.ShippingStreet}" disabled="{!v.noSelectedAccount}"  maxlength="255"/>
+                    <lightning:input name="cityTown" label="City / Town" value="{!v.accountDetails.ShippingCity}" disabled="{!v.noSelectedAccount}" maxlength="30"/>
+                    <lightning:input name="postalCode" label="PostalCode" value="{!v.accountDetails.ShippingPostalCode}" disabled="{!v.noSelectedAccount}" maxlength="30"/>
+                    <lightning:input name="state" label="State" value="{!v.accountDetails.ShippingState}" disabled="{!v.noSelectedAccount}" maxlength="30"/>
+                    <lightning:input name="country" label="Country" value="{!v.accountDetails.ShippingCountry}" disabled="{!v.noSelectedAccount}"  maxlength="30"/>
+                </div>
+                <aura:if isTrue="{!v.deliveryAddr.length > 1}">
+                    <div>
+                        <c:NewOrder_DeliveryAddress customerDeliveryAddress="{!v.deliveryAddr}"/>
+                    </div>
+                </aura:if>               
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="{!v.deviceSize ? 12 : 3}" class="accDetails">
+                <div>
+                    <lightning:input type="date" name="orderDate" label="Order date: " value="{!v.orderDate}" disabled="{!v.noSelectedAccount}" required="true" aura:id="orderDate" min="{!v.opportunityData == undefined ? v.todaysDate : ''}"/>
+                    <lightning:input type="date" name="dueDate" label="Due date: " value="{!v.dueDate}" disabled="{!v.noSelectedAccount}" required="true" aura:id="dueDate" min="{!v.opportunityData == undefined ? v.todaysDate : ''}"/>    
+                    
+                    <lightning:select name="DefaultLoc" label="Default Loc #:" value="{!v.defaultLocSelectedVal}" disabled="{!v.noSelectedAccount}">
+                        <aura:iteration items="{!v.defaultLocOptions}" var="item">
+                            <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}"/>
+                        </aura:iteration>
+                    </lightning:select>
+                    
+                    <!--<lightning:input type="checkbox" name="OnHold" label="On Hold " checked="{!v.onHold}" disabled="{!v.noSelectedAccount}"/>-->
+                    <lightning:input type="toggle" messageToggleActive="" messageToggleInactive="" name="OnHold" label="On Hold " checked="{!v.onHold}" disabled="{!v.noSelectedAccount}" class="onHold"/>                    
+                    
+                    <lightning:input name="InternalNote" label="InternalNote: " value="{!v.internalNote}" class="reference" maxlength="20" disabled="{!v.noSelectedAccount}" />
+                    
+                    <lightning:select name="OrderSource" label="Order Source: " value="{!v.orderSourceSelectedVal}" disabled="{!v.noSelectedAccount}">
+                        <aura:iteration items="{!v.orderSource}" var="item">
+                            <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}"/>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="{!v.deviceSize ? 12 : 4}" class="accDetails">
+                <div>                                               
+                    <div class="salesperson">{!v.accountDetails.CurrencyIsoCode == null ? 'No currency available' : v.accountDetails.CurrencyIsoCode}</div>
+                    <div class="accountOwner" style="background-color: rgb(236, 235, 234);">{!v.accConversionRate.ConversionRate}</div>
+                </div>
+                <div>
+                    <lightning:input name="reference" label="Customer Note: " value="{!v.reference}" class="reference" maxlength="20" disabled="{!v.noSelectedAccount}"/>
+                </div>
+                <div>
+                    <lightning:input aura:id="customerOrderNo" name="customerOrderNo" label="Cust o/n:" value="{!v.customerOrderNo}" disabled="{!v.noSelectedAccount}" maxlength="20" required="{!v.accountDetails.Need_Order_Number__c}"/>                    
+                </div>
+                <div>
+                    <lightning:select name="OrderStage" label="Order Stage:" value="{!v.selectedOppStage}" disabled="{!v.noSelectedAccount}">
+                        <aura:iteration items="{!v.oppStages}" var="item">
+                            <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}"/>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+                <aura:if isTrue="{!v.selectedOppStage == 'Closed Lost'}">
+                    <div>          
+                        <lightning:input aura:id="lostReason" name="closedLostReason" label="Lost Reason:" value="{!v.closedLostReason}" disabled="{!v.noSelectedAccount}" maxlength="255" required="{!v.selectedOppStage == 'Closed Lost'}"/>                    
+                    </div>
+                </aura:if>
+                <div>
+                    <lightning:select name="Type" label="Onboarding Type:" value="{!v.oppTypeSelectedVal}" disabled="{!v.noSelectedAccount}">
+                        <aura:iteration items="{!v.oppType}" var="item">
+                            <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}"/>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+                <!--Onboarding details-->
+                <aura:if isTrue="{!v.selectedOppStage == 'Closed Won' &amp;&amp; v.oppTypeSelectedVal == 'New Business'}">
+                    <div>            
+                        <lightning:card title="Onboarding Details" iconName="custom:custom14" class="accDetails">
+                            <lightning:recordEditForm
+                                                      recordId="{!v.opportunityData.Id}"
+                                                      objectApiName="Opportunity"
+                                                      recordTypeId="{!$Label.c.BoaSalesOrderRecordType}">
+                                <!--the messages component is for error messages--> 
+                                <lightning:messages />
+                                
+                                <!--Onboarding Inputs-->  
+                                <lightning:layout class="slds-wrap slds-m-around_small" multipleRows="true">
+                                    <lightning:layoutItem size="12" class="slds-p-around_xx-small">
+                                        <lightning:inputField fieldName="Onboarding_Target_Start_Date__c" aura:id="onboardingStartDate"/>
+                                    </lightning:layoutItem>
+                                    <lightning:layoutItem size="12" class="slds-p-around_xx-small">
+                                        <lightning:inputField fieldName="Onboarding_Target_Closure_Date__c" aura:id="onboardingCloseDate"/>
+                                    </lightning:layoutItem>                       
+                                    <lightning:layoutItem size="12" class="slds-p-around_xx-small">
+                                        <lightning:inputField fieldName="Onboarding_Point_of_Contact__c" aura:id="onboardingContact"/>                                               	
+                                    </lightning:layoutItem>
+                                </lightning:layout>      
+                            </lightning:recordEditForm>
+                        </lightning:card>            
+                    </div>
+                </aura:if>
+            </lightning:layoutItem>              
+        </lightning:layout>            
+    </div>
+</aura:component>

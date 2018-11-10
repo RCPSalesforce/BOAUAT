@@ -1,0 +1,141 @@
+<!-- 
+ @purpose - This component is used to create a new purchase order
+ @CreatedBy - Centelon Team
+-->
+<aura:component controller="EditOrder_ProdList" implements="flexipage:availableForAllPageTypes,lightning:isUrlAddressable" access="global">
+    
+    <aura:attribute name="accountId" type="String" default=""/>
+    <aura:attribute name="showAccount" type="Boolean" default="false"/>
+    <aura:attribute name="showProduct" type="Boolean" default="false"/>
+    <!--<aura:attribute name="showSelectedProduct" type="Boolean" default="true"/>-->
+    <aura:attribute name="activeSectionName" type="String" default="selectedProductDetails"/>
+    <aura:attribute name="selectedProducts" type="Object[]"/>
+    <aura:attribute name="accountIdProductList" type="String"/> <!-- changed from Object[] to String -->
+    
+    <!-- accordian atrributes -->
+    <aura:attribute name="section1Icon" type="String" default="utility:switch"/>
+    <aura:attribute name="section2Icon" type="String" default="utility:chevronright"/>
+    <aura:attribute name="section3Icon" type="String" default="utility:chevronright"/>
+    
+    <!-- User Profile Name -->
+    <aura:attribute name="userProfileName" type="String"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="selectedProductEvent" event="c:SelectedProducts" action="{!c.handleSelectedProducts}"/>    
+    <aura:handler name="selectedAccount" event="c:SelectedAccount" action="{!c.handleSelectedAccount}"/>
+    
+    <!-- Edit Order -->
+    <aura:attribute name="opportunityData" type="Object"/>
+    <aura:attribute name="oppId" type="String" default=""/>
+    
+    <aura:if isTrue="{!v.opportunityData.StageName == 'Closed Won' &amp;&amp; v.userProfileName != 'System Administrator'}">
+        <div class="noPermission">
+            <div>
+                <lightning:button label="Go Back" onclick="{!c.handleCancel}" class="slds-m-around_medium"/>
+            </div>
+            <div class="slds-illustration slds-illustration_large" aria-hidden="true">
+                <div class="slds-text-color_weak slds-m-around_medium">
+                    <h3 class="slds-text-heading_medium">You do not have permission to edit the order</h3>
+                </div>
+                <img src="/img/chatter/OpenRoad.svg" class="slds-illustration__svg" alt="No permission to edit the order"/>               
+            </div>
+        </div>
+        <aura:set attribute="else">    
+            <lightning:card title="New Order" iconName="standard:orders">
+                
+                <div class="slds-align_absolute-center">
+                    <lightning:button label="Cancel" onclick="{!c.handleCancel}"/>
+                    <lightning:button variant="brand" label="{!v.oppId == '' ? 'Save' : 'Update'}" onclick="{!c.handleSave}"/>                
+                </div><!--lightning/o/Account/list?filterName=Recent-->
+                
+                <ul class="slds-accordion">
+                    <li class="slds-accordion__list-item">
+                        <section class="slds-accordion__section slds-is-open" aura:id="section1">
+                            <div class="slds-accordion__summary">
+                                <h3 class="slds-text-heading_small slds-accordion__summary-heading">
+                                    <button value="Sec 1" id="section1Button" onclick="{!c.toggleContent}" aria-controls="accordion-details-01" aria-expanded="true" class="slds-button slds-button_reset slds-accordion__summary-action">
+                                        <lightning:icon iconName="{!v.section1Icon}" size="xx-small"/>
+                                        Customer Details
+                                    </button>
+                                </h3>
+                            </div>
+                            <div aria-hidden="false" class="slds-accordion__content" id="accordion-details-01">
+                                <aura:if isTrue="{!v.showAccount}">
+                                    <c:NewOrder_PurchaseOrderAccount accountId="{!v.accountId}"  userProfileName="{!v.userProfileName}" opportunityData="{!v.opportunityData}" aura:id="orderAccount"/>	
+                                </aura:if>                       
+                            </div>
+                        </section>
+                    </li>
+                    
+                    <li class="slds-accordion__list-item">
+                        <section class="slds-accordion__section" aura:id="section2" >
+                            <div class="slds-accordion__summary">
+                                <h3 class="slds-text-heading_small slds-accordion__summary-heading">
+                                    <button id="section2Button" aria-controls="accordion-details-02" onclick="{!c.toggleContent}" aria-expanded="false" class="slds-button slds-button_reset slds-accordion__summary-action">
+                                        <lightning:icon iconName="{!v.section2Icon}" size="xx-small"/>
+                                        Selected Stock Item Details
+                                    </button>
+                                </h3>
+                            </div>
+                            <div aria-hidden="true" class="slds-accordion__content" id="accordion-details-02">
+                                <aura:if isTrue="{!v.showProduct}">
+                                    <c:NewOrder_PurchaseOrder_SelectedProd accountIdProductList="{!v.accountId}" selectedProducts="{!v.selectedProducts}"/>
+                                    <!--<c:NewOrder_PurchaseOrder_SelectedProducts selectedProducts="{!v.selectedProducts}"/>-->	
+                                </aura:if>
+                            </div>
+                        </section>
+                    </li>
+                    <!--<li class="slds-accordion__list-item">
+                    <section class="slds-accordion__section" aura:id="section3">
+                        <div class="slds-accordion__summary">
+                            <h3 class="slds-text-heading_small slds-accordion__summary-heading">
+                                <button id="section3Button" aria-controls="accordion-details-03" onclick="{!c.toggleContent}" aria-expanded="true" class="slds-button slds-button_reset slds-accordion__summary-action">
+                                    <lightning:icon iconName="{!v.section3Icon}" size="xx-small"/>
+                                    Search Stock Items
+                                </button>
+                            </h3>
+                        </div>
+                        <div aria-hidden="false" class="slds-accordion__content" id="accordion-details-03">
+                            <aura:if isTrue="{!v.showProduct}">
+                                <c:NewOrder_PurchaseOrder_ProductSelection accountIdProductList="{!v.accountId}"/>	
+                            </aura:if>
+                        </div>
+                    </section>
+                </li>-->
+                </ul>
+                
+                <!--
+        <lightning:accordion aura:id="orderSections" activeSectionName="{!v.activeSectionName}">            
+            <lightning:accordionSection name="accountDetails" label=" Account Details">            
+                <aura:set attribute="body">
+                    <aura:if isTrue="{!v.showAccount}">
+                        <c:NewOrder_Account accountId="{!v.accountId}"  aura:id="orderAccount"/>	
+                    </aura:if>
+                </aura:set>
+            </lightning:accordionSection>
+            
+            <lightning:accordionSection name="selectedProductDetails" label="Selected Product Details">
+                <aura:set attribute="body">
+                    <aura:if isTrue="{!v.showSelectedProduct}">
+                        <c:NewOrder_SelectedProducts selectedProducts="{!v.selectedProducts}"/>	
+                        <aura:set attribute="else">
+                         Please select some products...
+                        </aura:set>
+                    </aura:if> // comment this
+                    <c:NewOrder_SelectedProducts selectedProducts="{!v.selectedProducts}"/>	                  
+                </aura:set>
+            </lightning:accordionSection>
+            
+            <lightning:accordionSection name="searchProducts" label="Search Products">
+                <aura:set attribute="body">
+                    <aura:if isTrue="{!v.showProduct}">
+                        <c:NewOrder_ProductSelection/>	
+                    </aura:if>
+                </aura:set>
+            </lightning:accordionSection>           
+        </lightning:accordion>-->
+                
+            </lightning:card>
+        </aura:set>
+    </aura:if>
+</aura:component>

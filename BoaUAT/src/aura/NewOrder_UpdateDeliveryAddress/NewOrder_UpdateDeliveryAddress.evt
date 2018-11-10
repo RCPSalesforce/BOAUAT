@@ -1,0 +1,5 @@
+<aura:event type="COMPONENT" description="This event is fired from NewOrder_UpdateDeliveryAddress component
+                                          and received by NewOrder_Account component when a new delivery address
+                                          is selected from NewOrder_UpdateDeliveryAddress component"> 
+    <aura:attribute name="delAddress" type="Object"/>
+</aura:event>

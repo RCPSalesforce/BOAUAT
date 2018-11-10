@@ -1,0 +1,10 @@
+.THIS {
+}
+.THIS .pointOfContact{
+    margin-top: 0.2rem;
+    margin-left: 0.5rem;
+}
+.THIS .pointOfContactName{
+    padding: 1rem;
+    vertical-align: middle;
+}

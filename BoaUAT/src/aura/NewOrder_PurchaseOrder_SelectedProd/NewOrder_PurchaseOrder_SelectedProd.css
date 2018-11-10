@@ -1,0 +1,38 @@
+.THIS {
+}
+.THIS .removeProductButton{
+    background-color: red;
+    color: white;
+    margin-top: 20px;
+    width: 24px;
+    height: 25px;
+    border-radius: 13px;
+}
+.THIS .alignItems{
+    margin-top: 20px;
+}
+.THIS .suppliercode{
+    text-align: center;
+}
+.THIS.addProductButton{
+    text-align: center;
+    margin-top: 2rem;
+}
+.THIS .stockItemImage{
+    margin: 0px !important;
+}
+.THIS .stockName{
+    margin: auto 10px; 
+}
+.THIS .displaySearchResults{
+    display:none
+}
+.THIS .addRowButton{
+    text-align: center;
+    vertical-align: bottom;
+    padding-bottom: 14px;
+}
+.THIS .addRowIcon{
+    width: 20px;
+    height: 20px;
+}

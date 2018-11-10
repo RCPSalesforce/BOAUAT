@@ -1,0 +1,449 @@
+<apex:page controller="sfcloud2.QuotePDF_Email" showHeader="false" standardStylesheets="true" docType="html-5.0" applyHtmlTag="false" applyBodyTag="false">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            
+            <title>GoCloudz :: Send Email</title>
+            <link rel="stylesheet" href="{!URLFOR($Resource.SLDS, 'assets/styles/salesforce-lightning-design-system.min.css')}" />
+            <link rel="stylesheet" href="{!URLFOR($Resource.GoCloudzResources, 'lib/font-awesome/css/font-awesome.min.css')}" />
+            
+            <script src="{!URLFOR($Resource.GoCloudzResources, 'lib/jquery/jquery.js')}"></script>
+            <script src="{!URLFOR($Resource.GoCloudzResources, 'lib/angular/angular.js')}"></script>
+            <script src="{!URLFOR($Resource.GoCloudzResources, 'lib/underscore/underscore.min.js')}"></script>
+            
+            <script type="text/javascript">
+                angular.module('SendEmailApp', [])
+                .filter('fileSize', function() {
+                    return function(a,b,c,d,e) {
+                        return (b=Math,c=b.log,d=1e3,e=c(a)/c(d)|0,a/b.pow(d,e)).toFixed(2) +' '+(e?'kMGTPEZY'[--e]+'B':'Bytes');
+                    }
+                })
+                .service('notificationService', ['$filter', '$timeout', function( $filter, $timeout){
+                    var self = this;
+                    var $sldsContainer = $('.slds');
+                    var notificationTemplate = '<div class="slds-notify slds-notify--alert {{theme}} slds-m-around--xx-small" role="alert">\
+                                                        <span class="slds-assistive-text">{{type}}</span>\
+                                                        <button class="slds-button slds-button--icon-inverse slds-notify__close">\
+                                                            <svg aria-hidden="true" class="slds-button__icon">\
+                                                                <use xlink:href="{{assetUrl}}/assets/icons/action-sprite/svg/symbols.svg#close"></use>\
+                                                            </svg>\
+                                                            <span class="slds-assistive-text">Close</span>\
+                                                        </button>\
+                                                        <h2>{{body}}</h2>\
+                                                    </div>';
+                    
+                    var spinnerTemplate =   '<div class="slds-spinner_container">\
+                                                <div class="slds-spinner--{{theme}} slds-spinner slds-spinner--{{size}}" aria-hidden="false" role="alert">\
+                                                    <div class="slds-spinner__dot-a"></div>\
+                                                    <div class="slds-spinner__dot-b"></div>\
+                                                </div>\
+                                            </div>';
+                    
+                
+                    self.alert = function(message) {
+                        var theme = 'slds-theme--inverse-text';
+                        if( message.type) {
+                            theme = 'slds-theme--' + message.type;
+                        }
+                        
+                        var $notification = $(notificationTemplate
+                                              .replace('{{theme}}', theme)
+                                              .replace(/{{type}}/g, message.type)
+                                              .replace('{{body}}', message.body)
+                                              .replace(/{{assetUrl}}/g, '{!URLFOR($Resource.SLDS)}'));
+                        
+                        var duration = message.duration ? message.duration : 5000;
+                        $sldsContainer.prepend($notification);
+                        var callbackPromise = $timeout(function() {
+                            $notification.remove();
+                        }, duration);
+                        
+                        var $closeBtn = $notification.find('.slds-notify__close');
+                        $closeBtn.on('click', { callbackPromise: callbackPromise}, function(event){
+                            $notification.remove();
+                            $timeout.cancel(event.data.callbackPromise);
+                        });
+                    }
+                }])
+                .controller('SendEmailCtrl', ['$scope', '$timeout', 'notificationService', function($scope, $timeout, notificationService) {
+                    angular.SAC = $scope;
+                    $scope.IsLEXEnabled = (('{!$User.UITheme}' === 'Theme4d' || '{!$User.UITheme}' === 'Theme4t') && {!$User.UITheme == $User.UIThemeDisplayed});
+                    $scope.InitParams = {!InitParams};
+                    $scope.IsSending = false;
+                    $scope.IsProcessing = false;
+                    $scope.SelectAllAttachments = false;
+                    $scope.ContentVersionList = $scope.InitParams.Data.ContentVersionList;
+                    
+                    console.log($scope.InitParams);
+                    
+                    $scope.SingleEmailMessage = {
+                        To: $scope.InitParams.Data.RelatedContact || { Id: '', Name: '' },
+                        RelatedTo: $scope.InitParams.Data.RelatedObject || { Id: '', Name: '' },
+                        AdditionalTo: $scope.InitParams.Data.EmailParams.p24,
+                        CC: $scope.InitParams.Data.EmailParams.p4,
+                        BCC: $scope.InitParams.Data.EmailParams.p5,
+                        Subject: '',
+                        Body: ''
+                    };
+                    
+                    //Delete unnecessary attributes
+                    delete $scope.SingleEmailMessage.To.attributes;
+                    delete $scope.SingleEmailMessage.RelatedTo.attributes;
+                    
+                    $scope.send = function() {
+                        if($scope.IsSending) return;
+                        
+                        console.log($scope.SingleEmailMessage);
+                        
+                        if(!$scope.SingleEmailMessage.To.Id) {
+                            notificationService.alert({ type: 'error', body: 'To recipient can not be blank' });
+                            window.scrollTo(0, 0);
+                            return;
+                        }
+                        
+                        var contentVersionIdList = [];
+                        $scope.ContentVersionList.forEach(function(contentVersion) {
+                            if(contentVersion.IsChecked) {
+                                contentVersionIdList.push(contentVersion.Id);
+                            }
+                        });
+                        
+                        $scope.IsSending = true;
+                        Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.QuotePDF_Email.sendEmail}', $scope.SingleEmailMessage, contentVersionIdList, function(result, event) {
+                            $scope.$apply(function() {
+                                console.log(event);
+                                $scope.IsSending = false;
+                                if(!event.status) {
+                                    notificationService.alert({ type: 'error', body: 'An error occurred while processing your request. Please contact your system administrator' });
+                                    console.log(event);
+                                    window.scrollTo(0, 0);
+                                    return;
+                                }
+                                
+                                if(result.Success) {
+                                    $timeout(function() {
+                                        $scope.cancel();
+                                    }, 1000);
+                                } else {
+                                    notificationService.alert({ type: 'error', body: result.Message });
+                                    window.scrollTo(0, 0);
+                                }
+                            });
+                        });
+                    }
+                    
+                    $scope.onDocumentSelect = function() {
+                        var selectedAttachmentArray =  _.filter($scope.ContentVersionList, function(contentVersion) { return contentVersion.IsChecked; });
+                        $scope.SelectAllAttachments = selectedAttachmentArray.length === $scope.ContentVersionList.length;
+                    }
+                    
+                    $scope.selectAllAttachments = function() {
+                        angular.forEach($scope.ContentVersionList, function(contentVersion) {
+                            contentVersion.IsChecked = $scope.SelectAllAttachments;
+                        });
+                    }
+                    
+                    $scope.cancel = function() {
+                        if($scope.IsLEXEnabled) {
+                            sforce.one.navigateToURL('/{!$CurrentPage.parameters.p3_lkid}');
+                        } else {
+                            window.open('/{!$CurrentPage.parameters.id}', '_self');
+                        }
+                    }
+                    
+                    //Select Default attachment if docId is available
+                    var defaultContentVersion = _.findWhere($scope.ContentVersionList, { ContentDocumentId: $scope.InitParams.Data.EmailParams.con_doc_id });
+                    if(defaultContentVersion) {
+                        defaultContentVersion.IsChecked = true;
+                        $scope.onDocumentSelect();
+                    }
+                }])
+                .directive('sldsLookup', ['$timeout', function($timeout) {
+                    return {
+                        restrict: 'E',
+                        require: ['ngModel'],
+                        replace: true,
+                        templateUrl: 'lookup.tpl.html',
+                        scope: {
+                            id: '@',
+                            label: '@',
+                            nameField: '@',
+                            object: '@',
+                            placeholder: '@',
+                            readonly: '@',
+                            model: '=ngModel'
+                        },
+                        link: function(scope, elem, attrs) {
+                            var nameFieldMap = {
+                                'Case' : 'CaseNumber',
+                                'Order' : 'OrderNumber'
+                            };
+                            scope.data = [];
+                            scope.isAriaExpanded = false;
+                            if(!scope.nameField) {
+                                scope.nameField = nameFieldMap[scope.object] || 'Name';
+                            }
+                            
+                            var $lookupInput = elem.find('input');
+                            
+                            elem.on('keyup', function() {
+                                var $activeA = elem.find('.slds-lookup__list a:focus');
+                                if (event.keyCode === 40) {
+                                    if ($activeA.length > 0) {
+                                        var $nextA = $activeA.parent().next().find('a');
+                                        if($nextA.length > 0) {
+                                            $activeA = $nextA.focus();    
+                                        } else {
+                                            $activeA = elem.find('.slds-lookup__list').find('a:first').focus();
+                                        }
+                                    } else {
+                                        $activeA = elem.find('.slds-lookup__list').find('a:first').focus();
+                                    }
+                                }
+                                
+                                if (event.keyCode === 38) {
+                                    if ($activeA.length > 0) {
+                                        var $prevA = $activeA.parent().prev().find('a');
+                                        if($prevA.length > 0) {
+                                            $activeA = $prevA.focus();    
+                                        } else {
+                                            $activeA = elem.find('.slds-lookup__list').find('a:last').focus();
+                                        }
+                                    } else {
+                                        $activeA = elem.find('.slds-lookup__list').find('a:last').focus();
+                                    }
+                                }
+                                
+                                $lookupInput.attr('aria-activedescendant', $activeA.attr('id'));
+                            });
+                            
+                            scope.searchLookup = function() {
+                                $timeout.cancel(scope.callbackPromise);
+                                
+                                scope.callbackPromise = $timeout(function() {
+                                    Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.QuotePDF_Email.searchLookup}', scope.object, scope.nameField, scope.model[scope.nameField], 100, function(result, event) {
+                                        if( result.Success) {
+                                            scope.$apply(function() {
+                                                scope.data = result.Data.Records;
+                                                console.log('SearchLookup Called...');
+                                            });
+                                        }
+                                    }, { escape: false });
+                                }, 300);
+                            }
+                            
+                            scope.onItemClick = function(item) {
+                                scope.model = item;
+                                scope.isAriaExpanded = false;
+                            }
+                            
+                            scope.clearLookup = function() {
+                                scope.model = { Id: '', Name: '' };
+                                $timeout(function(){
+                                    $lookupInput.focus();
+                                }, 100);
+                            }
+                            
+                            scope.onKeyup = function(event) {
+                                scope.isAriaExpanded = !(event.keyCode === 27);
+                                if( event.keyCode == 8 || (event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 97 && event.keyCode <= 122)) {
+                                    scope.searchLookup();    
+                                }
+                            }
+                            
+                            scope.onLookupFocus = function() {
+                                if( scope.data.length === 0) {
+                                    scope.searchLookup();
+                                }
+                                scope.isAriaExpanded = !scope.isAriaExpanded;
+                            }
+                        }
+                    }
+                }]);
+            </script>
+        </head>
+        
+        <body class="slds" ng-app="SendEmailApp" ng-controller="SendEmailCtrl">
+            <!-- SLDS Lookup Template Starts -->
+            <script type="text/ng-template" id="lookup.tpl.html">
+                <div class="slds-lookup" data-select="single" data-scope="single" data-typeahead="true">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="{{id}}">{{label}}</label>
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
+                            <svg aria-hidden="true" class="slds-input__icon slds-icon-text-default" ng-class="{'slds-hide': model.Id}">
+                                <use xlink:href="{!URLFOR($Resource.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#search')}"></use>
+                            </svg>
+                            <div class="slds-pill_container slds-hide" ng-class="{'slds-show': model.Id}">
+                                <a href="javascript: void(0)" class="slds-pill">
+                                    <svg aria-hidden="true" class="slds-icon slds-icon-standard-account slds-pill__icon">
+                                        <use xlink:href="{!URLFOR($Resource.SLDS, '/assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+                                    </svg>
+                                    <span class="slds-pill__label">{{model[nameField]}}</span>
+                                    <button class="slds-button slds-button--icon-bare slds-pill__remove" ng-click="clearLookup()">
+                                        <svg ng-hide="readonly" aria-hidden="true" class="slds-button__icon">
+                                            <use xlink:href="{!URLFOR($Resource.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                                        </svg>
+                                        <span class="slds-assistive-text">Remove</span>
+                                    </button>
+                                </a>
+                            </div>
+                            <input id="{{id}}" class="slds-input" ng-class="{'slds-hide': model.Id}" type="text" aria-autocomplete="list" role="combobox" aria-expanded="isAriaExpanded" ng-model="model[nameField]" ng-click="isAriaExpanded=true" ng-focus="onLookupFocus()" ng-keyup="onKeyup($event)" aria-activedescendant="" placeholder="{{placeholder}}" />
+                        </div>
+                    </div>
+                    <div class="slds-lookup__menu slds-hide" ng-class="{'slds-show': isAriaExpanded}" role="listbox">
+                        <ul class="slds-lookup__list" role="presentation">
+                            <li class="slds-lookup__item" ng-repeat="item in data | limitTo: 5">
+                                <a id="s0{{$index}}" href="javascript: void(0)" role="option" ng-click="onItemClick(item)">
+                                    <svg aria-hidden="true" class="slds-icon slds-icon-standard-account slds-icon--small">
+                                        <use xlink:href="{!URLFOR($Resource.SLDS, '/assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+                                    </svg>{{item[nameField]}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </script>
+            <!-- SLDS Lookup Template Ends -->
+            
+            <article class="slds-card slds-m-around--medium">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <svg aria-hidden="true" class="slds-icon slds-icon-standard-contact slds-icon--small">
+                                <use xlink:href="{!URLFOR($Resource.SLDS, '/assets/icons/standard-sprite/svg/symbols.svg#contact')}"></use>
+                            </svg>
+                        </div>
+                        <div class="slds-media__body slds-truncate">
+                            <h2>
+                                <a href="javascript:void(0);" class="slds-text-link--reset">
+                                    <span class="slds-text-heading--small">Send an Email</span>
+                                </a>
+                            </h2>
+                        </div>
+                    </header>
+                    <div class="slds-no-flex" />
+                </div>
+                <div class="slds-card__body slds-p-around--medium">
+                    <div class="slds-form--stacked">
+                        <slds-lookup id="ToTextField" label="To" object="Contact" ng-model="SingleEmailMessage.To" placeholder="To" />
+                        
+                        <slds-lookup id="RelatedToTextField" label="Related To" object="{!$CurrentPage.parameters.sObjName}" ng-model="SingleEmailMessage.RelatedTo" readonly="true" placeholder="Related To" />
+                        
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="AdditionalToTextArea">Additional To</label>
+                            <div class="slds-form-element__control">
+                                <textarea id="AdditionalToTextArea" class="slds-textarea" ng-model="SingleEmailMessage.AdditionalTo"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="CCTextArea">CC</label>
+                            <div class="slds-form-element__control">
+                                <textarea id="CCTextArea" class="slds-textarea" ng-model="SingleEmailMessage.CC"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="BCCTextArea">BCC</label>
+                            <div class="slds-form-element__control">
+                                <textarea id="BCCTextArea" class="slds-textarea" ng-model="SingleEmailMessage.BCC"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="SubjectTextField">Subject</label>
+                            <div class="slds-form-element__control">
+                                <input id="SubjectTextField" class="slds-input" type="text" ng-model="SingleEmailMessage.Subject" placeholder="Subject" />
+                            </div>
+                        </div>
+                        
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="BodyTextArea">Body</label>
+                            <div class="slds-form-element__control">
+                                <textarea id="BodyTextArea" class="slds-textarea" ng-model="SingleEmailMessage.Body" rows="5"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slds-card__footer">
+                    <button type="button" class="slds-button slds-button--neutral" ng-click="cancel()">Cancel</button>
+                    <button type="button" class="slds-button slds-button--brand" ng-click="send()">
+                        <i class="fa fa-spinner fa-spin" ng-show="IsSending" /> Send
+                    </button>
+                </div>
+            </article>
+            
+            <article class="slds-card slds-m-around--medium" ng-show="ContentVersionList.length">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <svg aria-hidden="true" class="slds-icon slds-icon-standard-contact slds-icon--small">
+                                <use xlink:href="{!URLFOR($Resource.SLDS, '/assets/icons/standard-sprite/svg/symbols.svg#contact')}"></use>
+                            </svg>
+                        </div>
+                        <div class="slds-media__body slds-truncate">
+                            <h2>
+                                <a href="javascript:void(0);" class="slds-text-link--reset">
+                                    <span class="slds-text-heading--small">Attachments</span>
+                                </a>
+                            </h2>
+                        </div>
+                    </header>
+                    <div class="slds-no-flex" />
+                </div>
+                <div class="slds-card__body">
+                    <table class="slds-table slds-table--bordered slds-no-row-hover slds-table--cell-buffer">
+                        <thead>
+                            <tr class="slds-text-title--caps">
+                                <th class="slds-cell-shrink" scope="col">
+                                    <label class="slds-checkbox">
+                                        <input type="checkbox" name="SelectAll" ng-model="SelectAllAttachments" ng-change="selectAllAttachments()" />
+                                        <span class="slds-checkbox--faux"></span>
+                                        <span class="slds-assistive-text">Select All</span>
+                                    </label>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Name">Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Size">Size</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Created Date">Created Date</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="slds-hint-parent" ng-repeat="contentVersion in ContentVersionList">
+                                <th role="gridcell" class="slds-cell-shrink" data-label="Action">
+                                    <label class="slds-checkbox">
+                                        <input type="checkbox" name="SelectAction" ng-model="contentVersion.IsChecked" ng-change="onDocumentSelect()" />
+                                        <span class="slds-checkbox--faux"></span>
+                                        <span class="slds-assistive-text"></span>
+                                    </label>
+                                </th>
+                                <td scope="row">
+                                    <div class="slds-truncate" title="{{contentVersion.Name}}">
+                                        <a href="/servlet/servlet.FileDownload?file={{document.Id}}" target="_blank">{{contentVersion.Title}}</a>
+                                    </div>
+                                </td>
+                                <td scope="row">
+                                    <div class="slds-truncate" title="{{contentVersion.VersionData.length | fileSize}}">
+                                        {{contentVersion.VersionData.length | fileSize}}
+                                    </div>
+                                </td>
+                                <td scope="row">
+                                    <div class="slds-truncate" title="{{contentVersion.CreatedDate | date: 'yyyy-MM-dd'}}">
+                                        {{contentVersion.CreatedDate | date: 'yyyy-MM-dd'}}
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+        </body>
+    </html>
+</apex:page>

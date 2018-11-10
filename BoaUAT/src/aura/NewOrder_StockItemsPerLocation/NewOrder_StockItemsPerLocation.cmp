@@ -1,0 +1,66 @@
+<aura:component controller="NewOrder_CreateOrder">
+    
+    <ltng:require styles='/resource/NewOrderAlert/alertify/alertify.css,
+                          /resource/NewOrderAlert/alertify/default.css' 
+                  scripts='/resource/NewOrderAlert/alertify/alertify.js'/>
+    
+    <aura:attribute name="stockCode" type="String"/>
+    <aura:attribute name="stockLocationList" type="Object[]"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner variant="brand" alternativeText="Loading" size="small" />
+    </aura:if>
+    
+    <div class="alignButtonIcon">
+        <lightning:buttonIcon iconName="utility:comments" class="alignItems" onclick="{! c.handleProductQtyDetails }" size=" xx-small" alternativeText="Stock count per location" />
+    </div>
+    <div class="slds-hide" aura:id="stockLocationModal">
+        <section role="dialog" tabindex="-1" aria-labelledby="Stock Location Count" aria-modal="true" aria-describedby="stocklocationcount" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.closeModal}">
+                        <lightning:icon iconName="utility:close" size="small" variant="inverse"></lightning:icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2>Stock Location Count</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">                   
+                    <div class="{!$Browser.isPhone ? '' : 'slds-card__body_inner'}">
+                        <ul class="slds-list_vertical-space-medium">
+                            <lightning:layout class="slds-wrap" multipleRows="true">
+                                <aura:iteration items="{!v.stockLocationList}" var="item">
+                                    <lightning:layoutItem size="{!$Browser.isPhone ? '12' : '6'}" class="slds-m-bottom_medium">                                    
+                                        <li class="slds-item">
+                                            <lightning:tile label="{!item.Stock_Location__r.Name}">
+                                                <aura:set attribute="media">
+                                                    <lightning:icon iconName="action:map" size="{!$Browser.isPhone ? 'x-small' : 'small'}" variant="inverse"/>
+                                                </aura:set>
+                                                <div class="qtyDetails">
+                                                    <dl class="slds-wrap slds-list_horizontal">
+                                                        <dt class="slds-item_label slds-text-color_weak" title="Physical Qty">Physical Qty</dt>
+                                                        <dd class="slds-item_detail slds-truncate alignText" title="{!item.Physical_Quantity__c}">{!item.Physical_Quantity__c}</dd>
+                                                        
+                                                        <!--<dt class="slds-item_label slds-text-color_weak" title="Max Qty">Max Qty</dt>
+                                                        <dd class="slds-item_detail slds-truncate alignText" title="{!item.Maximum_Stock__c}">{!item.Maximum_Stock__c}</dd>
+                                                        
+                                                        <dt class="slds-item_label slds-text-color_weak" title="Min Qty">Min Qty</dt>
+                                                        <dd class="slds-item_detail slds-truncate alignText" title="{!item.Minimum_Stock__c}">{!item.Minimum_Stock__c}</dd>-->                                                   
+                                                    </dl>
+                                                </div>
+                                            </lightning:tile>
+                                        </li>
+                                    </lightning:layoutItem>                                
+                                </aura:iteration>
+                            </lightning:layout>
+                        </ul>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick="{!c.closeModal}">Cancel</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</aura:component>

@@ -1,0 +1,79 @@
+<aura:component controller="NewOrder_SearchAccounts" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+    <aura:attribute name="accountNames" type="Object[]"/>
+    <aura:attribute name="selectedAccountName" type="String"/>
+    <aura:attribute name="selectedAccountId" type="String"/>
+    <aura:attribute name="objectType" type="String" default="Account"/>
+    <aura:attribute name="errorM" type="String" />
+    <aura:attribute name="recId" type="String" />
+    <aura:attribute name="renderDetail" type="Boolean" default="true"/>
+    <aura:attribute name="accountType" type="String"/>
+    <aura:attribute name="oppIdExists" type="Boolean" default="false"/>
+    
+    <aura:registerEvent name="selectedAccount" type="c:SelectedAccount"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>    
+    
+    <ltng:require styles='/resource/NewOrderAlert/alertify/alertify.css,
+                          /resource/NewOrderAlert/alertify/default.css' 
+                  scripts='/resource/NewOrderAlert/alertify/alertify.js'/>
+    
+    
+    <!--
+<aura:if isTrue="{!v.errorM}">
+     <span>Please select an account</span>
+    </aura:if>
+-->
+    <div>
+        <label class="slds-form-element__label" for="combobox-unique-id">Customer: </label>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container slds-has-inline-listbox accountInput" aura:id="accName">
+                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-combobox-lookup" aria-expanded="true" aria-haspopup="listbox" role="combobox" aura:id="combobox">
+                    <div aura:id="boxInput" class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right">                        
+                        <div aura:id="selectedAcc" class="slds-hide">                           
+                            <span class="slds-icon_container slds-icon-standard-account slds-combobox__input-entity-icon" title="account">
+                                <lightning:icon iconName="standard:account" size="xx-small"/> 
+                                <span class="slds-assistive-text">Customer</span>
+                            </span>
+                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick="{!c.removeSelectedItem}" title="Remove selected option">
+                                <span onmouseover="{!c.addBackgroundColor}" onmouseout="{!c.removeBackgroundColor}">
+                                    <lightning:icon iconName="utility:close" size="x-small" class="accountClose"/>
+                                </span>
+                                <span class="slds-assistive-text">Remove selected option</span>
+                            </button> 
+                            <input type="text" onmouseover="{!c.addBackgroundColor}" onmouseout="{!c.removeBackgroundColor}" class="slds-input slds-combobox__input selectedAccount" aura:id="cbox-unique-id" aria-autocomplete="list" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" value="{!v.selectedAccountName}"/>   
+                        </div>
+                        
+                        <div aura:id="selectAcc" class="slds-show">
+                            <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right" title="Search Customers">
+                                <lightning:icon iconName="utility:search" size="x-small"/>                                
+                                <span class="slds-assistive-text">Search Customers</span>
+                            </span>
+                            <input onkeyup="{!c.getAccounts}" onfocusin="{!c.getAcc}" onfocusout="{!c.accF}" type="text" class="slds-input slds-combobox__input" id="combobox-unique-id" aria-autocomplete="list" aria-controls="listbox-unique-id" autocomplete="off" role="textbox" placeholder="Search Customers ..." aria-activedescendant="listbox-option-unique-id-01"/>                  
+                        </div>
+                    </div>
+                    <aura:if isTrue="{!v.accountNames.length > 0}">
+                        <div id="listbox-unique-id" role="listbox">
+                            <ul class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid" role="presentation">
+                                <aura:iteration items="{!v.accountNames}" var="m">
+                                    <li role="presentation" class="slds-listbox__item">
+                                        <span id="listbox-option-unique-id-01" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta slds-has-focus" role="option">
+                                            <span class="slds-media__figure">
+                                                <span class="slds-icon_container slds-icon-standard-account" title="{!m.Name}">
+                                                    <lightning:icon iconName="standard:account" size="small"/>
+                                                    <span class="slds-assistive-text">{!m.Name}</span>
+                                                </span>
+                                            </span>
+                                            <span class="slds-media__body accList">
+                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity" title="{!m.Name}" data-Record="{!m.Id}" onclick="{!c.selectedAcc}">{!m.Name}</span>
+                                            </span>
+                                        </span>
+                                    </li>  
+                                </aura:iteration>
+                            </ul>
+                        </div>                    
+                    </aura:if>                   
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

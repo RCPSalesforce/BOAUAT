@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Account_Record_Type_Customer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Account Record Type - Customer</shortDescription>
+        <value>0120l000000BSDUAA4</value>
+    </labels>
+    <labels>
+        <fullName>Account_Record_Type_Retail_Customers</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Account Record Type - Retail Customers</shortDescription>
+        <value>0120l000000C6Gf</value>
+    </labels>
+    <labels>
+        <fullName>BoaEnterpriseCustomer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BoaEnterpriseCustomer</shortDescription>
+        <value>0120l000000BSDUAA4</value>
+    </labels>
+    <labels>
+        <fullName>BoaPurchaseOrderRecordType</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BoaPurchaseOrderRecordType</shortDescription>
+        <value>0120l000000CH3eAAG</value>
+    </labels>
+    <labels>
+        <fullName>BoaSalesOrderRecordType</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BoaSalesOrderRecordType</shortDescription>
+        <value>0120l000000CH3ZAAW</value>
+    </labels>
+    <labels>
+        <fullName>BoaSupplierCustomer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>BoaSupplierCustomer</shortDescription>
+        <value>0120l000000BSDZAA4</value>
+    </labels>
+    <labels>
+        <fullName>CustomerAutoSelectGStRate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CustomerAutoSelectGStRate</shortDescription>
+        <value>15</value>
+    </labels>
+    <labels>
+        <fullName>ExoPersonAccountNo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ExoPersonAccountNo</shortDescription>
+        <value>20021</value>
+    </labels>
+    <labels>
+        <fullName>InvoiceGeneratepdf</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>InvoiceGeneratepdf</shortDescription>
+        <value>a0Ap0000004wF3TEAU</value>
+    </labels>
+    <labels>
+        <fullName>Operation_Profile_Users</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Operation Profile Users</shortDescription>
+        <value>Operations,System Administrator</value>
+    </labels>
+    <labels>
+        <fullName>Pdf_Doc_Id</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Pdf Doc Id</shortDescription>
+        <value>a0Ap0000004wF3JEAU</value>
+    </labels>
+    <labels>
+        <fullName>Quote_Templatepdf</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Quote_Templatepdf</shortDescription>
+        <value>a0Ap0000004wF3OEAU</value>
+    </labels>
+    <labels>
+        <fullName>Sales_Users</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sales Users</shortDescription>
+        <value>Sales User,Finance User,Marketing User,System Administrator</value>
+    </labels>
+</CustomLabels>

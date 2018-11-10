@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Config_Type__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Config Type</label>
+        <referenceTo>Config_Type__c</referenceTo>
+        <relationshipLabel>Criterias</relationshipLabel>
+        <relationshipName>Criterias</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Criteria_Data_Source__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <inlineHelpText>Data Source that must be of the type Single. Specify the field in the &apos;Criteria Data Source Field/Key&apos;-field</inlineHelpText>
+        <label>Criteria Data Source</label>
+        <lookupFilter>
+            <active>true</active>
+            <errorMessage>Value does not exist or does not match filter criteria. Only Single sObject or KEYVALUE types are allowed.</errorMessage>
+            <filterItems>
+                <field>Data_Source__c.Type__c</field>
+                <operation>equals</operation>
+                <value>Single sObject, KEYVALUE</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Data_Source__c</referenceTo>
+        <relationshipLabel>Criterias</relationshipLabel>
+        <relationshipName>Criterias</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Criteria_Value__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <inlineHelpText>Hardcoded value that will be compared with the Data Source Field</inlineHelpText>
+        <label>Criteria Value</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Data_Source_Field__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <inlineHelpText>The field from the source Data Source on the Config Type that should be used to create a comparison</inlineHelpText>
+        <label>Data Source Field/Key</label>
+        <length>255</length>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Operator__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Operator</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>EQUAL</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>NOT EQUAL TO</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CONTAINS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>DOES NOT CONTAINS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>STARTS WITH</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>LESS THAN</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>GREATER THAN</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>LESS OR EQUAL</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>GREATER OR EQUAL</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Criteria</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>C{0}</displayFormat>
+        <label>Criteria Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Criterias</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Maximum_of_Criterias_for_Config_Type</fullName>
+        <active>true</active>
+        <description>Triggers when the total number of allowed Criterias is fullfilled on the parent Config Type object</description>
+        <errorConditionFormula>Config_Type__r.Number_Of_Criterias__c == 4</errorConditionFormula>
+        <errorMessage>Maximum number of allowed Criterias is reached for this Config Type</errorMessage>
+    </validationRules>
+</CustomObject>

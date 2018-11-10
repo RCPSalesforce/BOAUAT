@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>Do_not_show_on_PDF__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>If checked, this item will not be shown on Quote PDF document.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If checked, this item will not be shown on Quote PDF document.</inlineHelpText>
+        <label>Do not show on PDF</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>PDF_Description__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Display product name and description in single column in Quote PDF</description>
+        <externalId>false</externalId>
+        <formula>Product2.Name &amp; BR() &amp; PricebookEntry.Product2.Description</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Display product name and description in single column in Quote PDF</inlineHelpText>
+        <label>PDF Description</label>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+</CustomObject>

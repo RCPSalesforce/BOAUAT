@@ -1,0 +1,10 @@
+.THIS {
+}
+.THIS .removeProductButton{
+    background-color: red;
+    color: white;
+    margin-top: 20px;
+    width: 24px;
+    height: 25px;
+    border-radius: 13px;
+}

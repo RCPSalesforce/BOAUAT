@@ -1,0 +1,34 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId,lightning:actionOverride">
+        
+    <lightning:navigation aura:id="navService"/> 
+    
+   
+        <aura:attribute name="record" type="Object" 
+                        description="The record object to be displayed"/>
+        <aura:attribute name="simpleRecord" type="Object" 
+                        description="A simplified view record object to be displayed"/>
+        <aura:attribute name="recordError" type="String" 
+                        description="An error message bound to force:recordData"/>
+    	
+        <force:recordData aura:id="record"
+                          recordId="{!v.recordId}"
+                          targetError="{!v.recordError}"
+                          targetRecord="{!v.record}"
+                          layoutType="FULL"
+                          fields="RecordType.Name"
+                          targetFields ="{!v.simpleRecord}"
+                          mode="VIEW"
+                          recordUpdated="{!c.handleRecordUpdated}"/>
+    
+    <!--<aura:handler name="init" value="{! this }" action="{! c.doInit }"/>-->
+    
+    <lightning:card title="BOA Order" iconName="standard:orders">
+           <lightning:button variant="brand" label="Edit Order" class="slds-align_absolute-center" onclick="{!c.editOrderNav}"></lightning:button>
+    </lightning:card>
+    
+    <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.recordError))}">
+        <div class="recordError">
+            {!v.recordError}</div>
+    </aura:if>
+</aura:component>

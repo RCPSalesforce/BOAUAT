@@ -1,0 +1,874 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <customHelpPage>QuotePDF_Documentation</customHelpPage>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>Choose overall Quote PDF formatting</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Can this template be used to create Quote PDF?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Can this template be used to create Quote PDF?</inlineHelpText>
+        <label>Active</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Background_Color__c</fullName>
+        <defaultValue>&quot;FFFFFF&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Background Color</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Date_Format__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Choose format for date fields. Keep it blank to default the format as per user locale</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Choose format for date fields. Keep it blank to default the format as per user locale</inlineHelpText>
+        <label>Date Format</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>d/M/yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>d.M.yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>d-M-yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>dd/MM/yyyy</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>dd.MM.yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>dd-MM-yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>d/MMM/yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>d-MMM-yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>d.MMM.yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>M/d/yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>M.d.yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>M-d-yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MM/dd/yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MM.dd.yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MM-dd-yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MMM/d/yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MMM-d-yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MMM.d.yyyy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>yyyy/M/d</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>yyyy.M.d</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>yyyy-M-d</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>yyyy/MM/dd</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>yyyy.MM.dd</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>yyyy-MM-dd</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>yyyy/MMM/d</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>yyyy-MMM-d</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>yyyy.MMM.d</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Font_Color_Footer__c</fullName>
+        <defaultValue>&quot;000000&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Font Color (Footer)</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Font_Color_Header__c</fullName>
+        <defaultValue>&quot;000000&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Font Color (Header)</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Font_Family__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Font Family</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Arial Unicode MS</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Courier</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Monospace</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sans-serif</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Serif</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Font_Size_Footer__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Font Size (Footer)</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>8px</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>9px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>10px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>11px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>12px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>13px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>14px</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Font_Size_Header__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Font Size (Header)</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>10px</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>11px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>12px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>13px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>14px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>15px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>16px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>17px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>18px</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Font_Size__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Font Size</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>10px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>11px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>12px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>13px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>14px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>15px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>16px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>17px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>18px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>19px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>20px</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Font_Style__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Font Style</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Italic</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Normal</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Oblique</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Footer_Text__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Text to display in PDF footer, like company address and contact info. To include page number, include Page# tag.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Text to display in PDF footer, like company address and contact info. To include page number, include Page# tag.</inlineHelpText>
+        <label>Footer</label>
+        <length>25000</length>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Header__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Text to display in PDF header, like company logo, quote #, quote name, etc.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Text to display in PDF header, like company logo, quote #, quote name, etc.</inlineHelpText>
+        <label>Header</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Margin_Footer__c</fullName>
+        <defaultValue>80</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Edit margin to adjust footer</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Edit margin to adjust footer</inlineHelpText>
+        <label>Margin (Footer)</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Margin_Header__c</fullName>
+        <defaultValue>150</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Edit margin to adjust company logo on header.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Edit margin to adjust company logo on header</inlineHelpText>
+        <label>Margin (Header)</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Object__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Salesforce object this template is applicable for</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Salesforce object this template is applicable for</inlineHelpText>
+        <label>Object</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Quote</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Opportunity</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Lead</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Order</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Contract</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Case</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>My_Object__c</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>sfcloud2__Test_Object__c</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Credit_Application_Form__c</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Page_Size__c</fullName>
+        <deprecated>false</deprecated>
+        <description>http://www.w3.org/TR/css3-page/#size</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Use Google Chrome for best results.
+
+A3: 297 x 420 mm
+A4: 210 x 297 mm
+A5: 148 x 210 mm
+B4: 250 x 353 mm
+B5: 176 x 250 mm
+letter: 8.5 x 11 inches
+legal: 8.5 x 14 inches
+ledger: 11 x 17 inches
+custom: (x)in (y)in OR (x)mm (y)mm</inlineHelpText>
+        <label>Page Size</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>8.5in 11in</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>A3</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>A4</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>A5</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>B4</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>B5</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>landscape</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ledger</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>legal</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>letter</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Row_Color_Bundle_Item_even__c</fullName>
+        <defaultValue>&quot;FFFFFF&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Table Row Color Bundle Item (even)</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Row_Color_Bundle_Item_odd__c</fullName>
+        <defaultValue>&quot;FFFFFF&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Table Row Color Bundle Item (odd)</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Row_Color_even__c</fullName>
+        <defaultValue>&quot;CFCFCF&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Table Row Color (even)</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Row_Color_odd__c</fullName>
+        <defaultValue>&quot;FFFFFF&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Table Row Color (odd)</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Section_Cell_Padding__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Cell padding for table/related list</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Cell padding for table/related list</inlineHelpText>
+        <label>Table Cell Padding</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>1px</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>2px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>3px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>4px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>5px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>6px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>8px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>9px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>10px</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Show_Header_and_Footer_on_Title_page__c</fullName>
+        <defaultValue>true</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Do you want to display header and footer on first or the title page?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Do you want to display header and footer on first or the title page?</inlineHelpText>
+        <label>Show Header and Footer on Title page</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>T_C_2__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Additional Terms and Condition</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Additional Terms and Condition</inlineHelpText>
+        <label>T&amp;C</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>T_C_3__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Additional Terms and Condition</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Additional Terms and Condition</inlineHelpText>
+        <label>T&amp;C</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>T_C__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Terms and Condition</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Terms and Condition</inlineHelpText>
+        <label>T&amp;C</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Table_Border_Color__c</fullName>
+        <defaultValue>&quot;000000&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Table Border Color</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Title1__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Title</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Title2__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Title</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <label>PDF Template</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Active__c</columns>
+        <columns>Object__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Template Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>PDF Templates</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Active__c</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>Active__c</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Active__c</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>Active__c</searchFilterFields>
+        <searchResultsAdditionalFields>Active__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <webLinks>
+        <fullName>Preview</fullName>
+        <availability>online</availability>
+        <description>Preview the template</description>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <linkType>url</linkType>
+        <masterLabel>Preview</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <url>/apex/sfcloud2__QuotePDF_Save?templateId={!PDF_Template__c.Id}&amp;action=preview&amp;sObj={!PDF_Template__c.Object__c}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>iClone</fullName>
+        <availability>online</availability>
+        <description>Clone a template along with table, columns and other info</description>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <height>600</height>
+        <linkType>url</linkType>
+        <masterLabel>iClone</masterLabel>
+        <openType>sidebar</openType>
+        <protected>false</protected>
+        <url>/apex/sfcloud2__QuotePDF_Clone?id={!PDF_Template__c.Id}&amp;sObj=template</url>
+    </webLinks>
+</CustomObject>

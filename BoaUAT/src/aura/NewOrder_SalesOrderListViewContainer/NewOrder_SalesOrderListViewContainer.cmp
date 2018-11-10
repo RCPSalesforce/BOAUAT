@@ -1,0 +1,70 @@
+<aura:component implements="force:appHostable" >
+    
+    <lightning:navigation aura:id="navService"/>
+    
+    <!-- Header -->
+    <div>
+        <!--<lightning:button label="New Order" onclick="{!c.navigateToSalesOrderComponent}"/>
+        
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <div class="slds-media slds-no-space slds-grow">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed">
+                                <lightning:icon iconName="standard:opportunity"/>
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <nav>
+                                <ol class="slds-breadcrumb slds-line-height_reset">
+                                    <li class="slds-breadcrumb__item">
+                                        <span>Boa Sales Order</span>
+                                    </li>
+                                </ol>
+                            </nav>                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+       
+        <div class="slds-page-header headerPanel">
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed">
+                        <lightning:icon iconName="standard:opportunity" class="oppIcon"/>	
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <div class="slds-media__body">
+                        <nav>
+                            <ol class="slds-breadcrumb slds-line-height_reset">
+                                <li class="slds-breadcrumb__item">
+                                    <span>BOA Orders</span>
+                                </li>
+                            </ol>
+                        </nav>
+                        <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate">New Sales Order</h1>
+                    </div>
+                	<lightning:button label="Create Order" onclick="{!c.navigateToSalesOrderComponent}" class="newOrderButton"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- list view -->
+    <div>
+        <lightning:listView aura:id="salesOrderlistView"
+                            objectApiName="Opportunity"
+                            listName="Boa_Sales_Order"
+                            rows="20"
+                            showActionBar="false"
+                            enableInlineEdit="true"
+                            showRowLevelActions="false"
+                            />
+    </div>
+    
+    
+</aura:component>

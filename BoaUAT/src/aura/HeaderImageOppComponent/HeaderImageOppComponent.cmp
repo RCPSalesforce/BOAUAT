@@ -1,0 +1,23 @@
+<aura:component controller="getOpportunityRecordType" implements="flexipage:availableForAllPageTypes,force:hasSObjectName,lightning:hasPageReference,force:hasRecordId">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="recordId" type = "Id"/>
+    <aura:attribute name="showsalesorder" type="boolean" default="false"/>
+    <aura:attribute name="showpurchaseorder" type="boolean" default="false"/>
+    
+    <aura:if isTrue="{!v.showsalesorder}">
+        <div>
+            <img src="{!$Resource.salesorder}" class="imageStyle"/>
+            
+        </div>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.showpurchaseorder}">
+        <div>
+            <img src="{!$Resource.purchaseorder}" class ="imageStyle"/>
+         </div>
+        
+        
+    </aura:if>
+    
+    
+</aura:component>

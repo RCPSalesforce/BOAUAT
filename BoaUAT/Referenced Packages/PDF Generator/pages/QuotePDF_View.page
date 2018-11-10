@@ -1,0 +1,412 @@
+<apex:page showHeader="false" controller="sfcloud2.QuotePDF_View" title="PDF Generator" cache="true" renderAs="{!renderAs}" applyHtmlTag="false">
+ 
+    <!-- Help links
+    Format Number/Currency in Visual Force: https://success.salesforce.com/ideaView?id=08730000000Bqq9
+    Avoiding cutting divs/tables between pages: http://stackoverflow.com/questions/907680/css-printing-avoiding-cut-in-half-divs-between-pages
+    Do not repeat footer on each page: http://www.sundoginteractive.com/sunblog/posts/different-headers-and-footers-by-page-in-pdf-salesforce
+    -->
+     
+    <head>
+        <style type="text/css" media="print">
+            @page {  
+                margin-top: {!template.Margin_Header__c}px; 
+                margin-bottom: {!template.Margin_Footer__c}px; 
+                size: {!template.Page_Size__c};
+                @top-center { content: element(header); }               
+                @bottom-left { content: element(footer); }
+                @media print {
+                   div,table {
+                        page-break-inside:avoid;
+                    }
+                } 
+            }        
+            body { padding:5px; }      
+            div.header { display: block; padding: 5px; position: running(header); }
+            div.footer { display: block; padding: 5px; position: running(footer); }
+            .pagenumber:before { content: counter(page); }
+            .pagecount:before { content: counter(pages); }          
+            .left { text-align:left; vertical-align:top; }           
+            .right { text-align:right; vertical-align:top; }          
+            .line { background-image: url(/s.gif); background-color:black; height:4px; margin:10px 3px; }           
+            .lineSmall { background-image: url(/s.gif); background-color:black; height:2px; margin:10px 3px; }   
+            .error { color: red; font-weight: strong; font-size: 1.3em; }  
+            .section {width:100%; -fs-table-paginate:paginate; background-color:#{!template.Table_Border_Color__c};}
+            .section td, .section th {padding: {!template.Section_Cell_Padding__c}; }
+        </style>
+    </head>   
+    
+    
+    <!-- Watermark -->
+    <img src="{!waterMark}" width="100%" height="100%" style="position:fixed; background-repeat:repeat; left:0cm; top:0cm; z-index:0; display:{!IF(waterMark==null, 'none', '')}"/>
+    
+    <div class="error">
+        <apex:pageMessages id="messages" escape="false" />
+    </div>
+    
+    <apex:form style="font-family:{!template.Font_Family__c}; font-style:{!template.Font_Style__c}; font-size:{!template.Font_Size__c}; background-color:#{!template.Background_Color__c}">
+
+        <!-- Title without header and footer -->        
+        <div style="display:{!IF(template.Show_Header_and_Footer_on_Title_page__c, 'none', '')};">
+            <div class="header" ></div>
+            <div class="footer" ></div>   
+            <apex:outputText value="{!template.sfcloud2__Title1__c}" style="font-family:{!template.sfcloud2__Font_Family__c}; width:100%;" escape="false"/> 
+            
+            <!--  This page break tells the browser to look for a new DIV with the desired CSS class for this page.  
+            If there is not a new DIV with that class name, then the DIV found previously will be used -->
+            <div style="page-break-before:always"> </div>
+        </div>
+         
+        <!-- Header -->
+        <div class="header" style="color:#{!template.Font_Color_Header__c}; font-size:{!template.Font_Size_Header__c};">
+            <apex:outputText value="{!template.sfcloud2__Header__c}" escape="false"/>
+        </div>
+                
+        <!-- Footer -->
+        <div class="footer" style="color:#{!template.Font_Color_Footer__c}; font-size:{!template.Font_Size_Footer__c};">
+            <apex:outputText value="{!template.sfcloud2__Footer_Text__c}" escape="false"/> 
+        </div>        
+        
+        <!-- Title with header and footer -->  
+        <div style="display:{!IF(template.Show_Header_and_Footer_on_Title_page__c, '', 'none')};">                        
+            <apex:outputText value="{!template.sfcloud2__Title1__c}" style="font-family:{!template.sfcloud2__Font_Family__c}; width:100%;" escape="false"/> 
+        </div>              
+                
+        <!-- Section -->
+        <apex:repeat value="{!sectionNames}" var="section">   
+            
+            <!-- Bundles -->
+            <apex:outputPanel rendered="{!mapName_Section[section].Bundle_View__c}">
+                
+                <!-------------------------------------- Bundles - Tabular View (previously Vertical) ---------------------------------->
+                
+                <apex:outputPanel rendered="{!groupBundles=='Tabular'}">
+                
+                    <apex:variable var="bv" value="{!bundleView.Name}" />
+                    <table class="section"> 
+                        <!-- Column Headers -->
+                        <thead>
+                            <tr style="display:{!IF(mapName_Section[bv].Hide_Section_Title__c, 'none', '')}">
+                                <th style="font-size:{!mapName_Section[bv].Font_Size__c}; text-align:{!mapName_Section[bv].Title_Align__c}; color:#{!mapName_Section[bv].Font_Color__c}; background-color:#{!mapName_Section[bv].Background_Color__c};" colspan="{!mapSection_NumberOfColumns[bv]}">
+                                    <apex:outputText value="{!bv}" escape="false"/>
+                                </th>
+                            </tr>
+                            <tr>
+                                <apex:repeat value="{!mapSection_Columns[bv]}" var="c">
+                                    <th style="display:{!IF(c.Group_By__c, 'none', '')}; width:{!c.Width__c}%; color:#{!c.Font_Color_Header__c}; text-align:{!c.Text_Align_Header__c}; vertical-align:top; font-weight:{!c.Font_Weight_Header__c}; background-color:#{!c.Background_Color_Header__c}">{!c.Name}</th>                          
+                                </apex:repeat>
+                            </tr> 
+                        </thead> 
+                        
+                        <apex:repeat value="{!bundleNames}" var="bundleSection">                  
+                            <tr style="display:{!IF(mapName_Section[bundleSection].Bundle_View__c, '', 'none')}"> 
+                                <apex:repeat value="{!mapSection_Columns[bv]}" var="c">
+                                    <td style="display:{!IF(c.Group_By__c, 'none', '')}; width:{!c.Width__c}%; color:#{!c.Font_Color_Aggregate__c}; text-align:{!c.Text_Align_Aggregate__c}; vertical-align:top; font-weight:{!c.Font_Weight_Aggregate__c}; background-color:#{!IF(c.Aggregate_Label__c!='', c.Background_Color_Aggregate__c, 'FFFFFF')}">                        
+                                        <apex:outputText value="{!mapSection_AggregateFields[bundleSection][c]}" rendered="{!AND(c.Aggregate_Label__c!='', mapName_Section[bundleSection].Bundle_View__c, mapSection_AggregateFields[bundleSection][c]!='hideValue')}" escape="false" />                    
+                                    </td>
+                                </apex:repeat>                            
+                            </tr>                
+                        </apex:repeat>     
+                        
+                    </table>          
+                    <br/>
+        
+                </apex:outputPanel>        
+                
+                
+                <!-------------------------------------- Bundles - Compare View (previously Horizontal) ---------------------------------->
+                
+                <apex:outputPanel rendered="{!groupBundles=='Compare'}">
+                
+                    <apex:variable var="bv" value="{!bundleView.Name}" />
+                    <table class="section"> 
+                        <!-- Column Headers -->
+                        <thead>
+                            <tr style="display:{!IF(mapName_Section[bv].Hide_Section_Title__c, 'none', '')}">
+                                <th style="font-size:{!mapName_Section[bv].Font_Size__c}; text-align:{!mapName_Section[bv].Title_Align__c}; color:#{!mapName_Section[bv].Font_Color__c}; background-color:#{!mapName_Section[bv].Background_Color__c};" colspan="{!bundleNames.size}">
+                                    <apex:outputText value="{!bv}" escape="false"/>
+                                </th>
+                            </tr>
+                        </thead>
+                        
+                        <apex:repeat value="{!mapSection_Columns[bv]}" var="c">
+                            <tr>
+                                <apex:repeat value="{!bundleNames}" var="bundleSection">  
+                                    <td style="display:{!IF(c.Group_By__c, 'none', '')}; width:{!c.Width__c}%; color:#{!c.Font_Color_Aggregate__c}; text-align:{!c.Text_Align_Aggregate__c}; vertical-align:top; font-weight:{!c.Font_Weight_Aggregate__c}; background-color:#{!IF(c.Aggregate_Label__c!='', c.Background_Color_Aggregate__c, 'FFFFFF')}">                        
+                                        <apex:outputText value="{!mapSection_AggregateFields[bundleSection][c]}" rendered="{!AND(c.Aggregate_Label__c!='', mapName_Section[bundleSection].Bundle_View__c, mapSection_AggregateFields[bundleSection][c]!='hideValue')}" escape="false" />                    
+                                    </td>
+                                </apex:repeat>
+                            </tr> 
+                        </apex:repeat>     
+                                                   
+                    </table>          
+                    <br/>
+                    
+                </apex:outputPanel>
+                
+            </apex:outputPanel>
+            
+                                         
+            <!-------------------------------------- Stand alone products or other related lists --------------------------------------------> 
+            
+            <div style="display: {!IF(mapName_Section[section].Group_Bundles__c='', '', 'none')}; page-break-before:{!IF(mapName_Section[section].Display_on_new_page__c, 'always', '')};" >
+
+                <table class="section"> 
+                    
+                    <!-- Column Headers -->
+                    <thead>
+                        <tr style="display:{!IF(mapName_Section[section].Hide_Section_Title__c, 'none', '')}">
+                            <th style="font-weight:bold; font-size:{!mapName_Section[section].Font_Size__c}; text-align:{!mapName_Section[section].Title_Align__c}; color:#{!mapName_Section[section].Font_Color__c}; background-color:#{!mapName_Section[section].Background_Color__c};" colspan="{!mapSection_NumberOfColumns[section]}">
+                                <apex:outputText value="{!section}" escape="false"/> 
+                            </th>
+                        </tr>
+                        <!-- Do not show column Headers for "bundle" sections with "Aggregate fields as separate section?" flag set to true-->
+                        <tr style="display:{!IF(AND(mapName_Section[section].Bundle_View__c, mapName_Section[section].Show_Aggregate_field_as_separate_section__c), 'none', '')};">    
+                            <apex:repeat value="{!mapSection_Columns[section]}" var="c">
+                                <th style="display:{!IF(c.Group_By__c, 'none', '')}; width:{!c.Width__c}%; color:#{!c.Font_Color_Header__c}; text-align:{!c.Text_Align_Header__c}; vertical-align:top; font-weight:{!c.Font_Weight_Header__c}; background-color:#{!c.Background_Color_Header__c}">{!c.Name}</th>                          
+                            </apex:repeat>
+                        </tr> 
+                    </thead>
+     
+                    <!-- Rows -->
+                    <apex:repeat value="{!mapSection_Items[section]}" var="i">
+
+                        <tr style="background-color:#{!IF(mod(i.lineNumber,2)==0, template.Row_Color_even__c, template.Row_Color_odd__c)}; page-break-inside:avoid;">
+                              
+                            <apex:repeat value="{!mapSection_Columns[section]}" var="c">     
+                                                        
+                                <!-- Individual Item and Bundle Header -->                                           
+                                <td style="display:{!IF(OR(i.type=='subSection', c.Group_By__c), 'none', '')}; width:{!c.Width__c}%; color:#{!c.Font_Color_Rows__c}; text-align:{!c.Text_Align_Rows__c}; vertical-align:top; font-weight:{!c.Font_Weight_Rows__c}; background-color:#{!c.Background_Color_Rows__c}">    
+                                    <apex:outputPanel layout="block" rendered="{!OR(i.type=='individualItem', i.type=='bundleHeader')}"> 
+                                        
+                                        <!-- Item # field -->
+                                        <apex:outputText value="{!i.lineNumber}" rendered="{!c.Quote_line_item_API_name__c='SortOrder'}"/>  
+                                        
+                                        <!-- Formatted fields -->
+                                        <apex:outputText value="{!i.formattedFields[c]}" rendered="{!AND(c.Quote_line_item_API_name__c!='SortOrder', c.Field_Type__c!='', c.Field_Type__c!='String')}" />
+                                                                                
+                                        <!-- All other fields -->
+                                        <apex:outputField value="{!i.sObj[c.Quote_line_item_API_name__c]}" rendered="{!AND(c.Quote_line_item_API_name__c!='SortOrder', c.Field_Type__c!='Currency', c.Field_Type__c!='Date', c.Field_Type__c!='Number', c.Field_Type__c!='Percent')}" />   
+          
+                                    </apex:outputPanel>                                   
+                                </td> 
+                                
+                                <!-- Sub Section -->                                 
+                                 
+                                <td style="display:{!IF(AND(i.type='subSection', c.Group_By__c), '', 'none')}; color:#{!c.Font_Color_Header__c}; text-align:{!c.Text_Align_Header__c}; vertical-align:top; background-color:#{!c.Background_Color_Header__c}" colspan="{!mapSection_NumberOfColumns[section]}">
+                                    <apex:repeat value="{!mapSection_GroupBy}" var="grpBySection" rendered="{!AND(i.type='subSection', c.Group_By__c)}">
+                                        <apex:outputText value="{!i.formattedFields[c]}" rendered="{!AND(c.Quote_line_item_API_name__c!='SortOrder', c.Field_Type__c!='')}" />
+                                    </apex:repeat> 
+                                </td> 
+                                             
+                            </apex:repeat>   
+                        </tr>
+                    </apex:repeat>
+                   
+                    <!-- Display aggregate fields within table -->
+                    <!-- Not adding "table-row-group" was causing couple of issues:
+                        1. It was showing aggregate info on each page
+                        2. Bundle View was messed up if bundle items exceeded 1 page. This was complained by Eric Cottone
+                    -->
+                    <tfoot style="display: {!IF(mapName_Section[section].Show_Aggregate_field_as_separate_section__c, 'none', 'table-row-group')};"> 
+                        <tr> 
+                            <apex:repeat value="{!mapSection_Columns[section]}" var="c">
+                                <td style="display:{!IF(c.Group_By__c, 'none', '')}; width:{!c.Width__c}%; color:#{!c.Font_Color_Aggregate__c}; text-align:{!c.Text_Align_Aggregate__c}; vertical-align:top; font-weight:{!c.Font_Weight_Aggregate__c}; background-color:#{!IF(c.Aggregate_Label__c!='', c.Background_Color_Aggregate__c, 'FFFFFF')}">                                                  
+                                    <apex:outputText value="{!mapSection_AggregateFields[section][c]}" rendered="{!c.Aggregate_Label__c!=''}" escape="false" /> 
+                                </td>
+                            </apex:repeat>                            
+                        </tr>
+                    </tfoot>                    
+                </table>  
+            </div>                
+                                
+            
+            <!-- Display aggregate fields outside table -->          
+            <table width="100%" style="page-break-inside:avoid;">   
+                <apex:repeat value="{!mapSection_AggregateFields[section]}" var="c" rendered="{!AND(mapName_Section[section].Show_Aggregate_field_as_separate_section__c, mapName_Section[section].Group_Bundles__c='')}">                         
+
+                    <!-- Display each aggregate field along with corresponding value -->
+                    <tr style="display:{!IF(c.Aggregate_Label__c='', 'none', '')};">
+                        <td style="text-align:{!c.Text_Align_Aggregate__c}; width:{!IF(c.Text_Align_Aggregate__c='left', c.Width__c, 100-c.Width__c)}%; background-color:#{!c.Background_Color_Aggregate__c}; color:#{!c.Font_Color_Aggregate__c}; vertical-align:top; font-weight:{!c.Font_Weight_Aggregate__c}; padding-left:5px; padding-right:5px;"> 
+                            <apex:outputText value="{!c.Aggregate_Label__c}" /> 
+                        </td> 
+                        <!-- Sometime the text can be long and additional text was hidden. Please see post http://stackoverflow.com/questions/14135962/split-text-into-the-next-line-if-content-exceeds-the-fixed-width-for-html-table -->
+                        <td style="text-align:{!c.Text_Align_Aggregate__c}; background-color:#{!c.Background_Color_Aggregate__c}; color:#{!c.Font_Color_Aggregate__c}; vertical-align:top; font-weight:{!c.Font_Weight_Aggregate__c}; padding-left:5px; padding-right:5px; white-space: -moz-pre-wrap !important; white-space: -pre-wrap; white-space: -o-pre-wrap; white-space: pre-wrap; word-wrap: break-word; word-break: break-all; white-space: normal;">
+                            <apex:outputText value="{!mapSection_AggregateFields[section][c]}" escape="false" /> 
+                        </td> 
+                    </tr>
+                </apex:repeat>
+            </table>        
+            
+            
+            <br/>          
+                        
+            <!-- Additional info for section -->
+            <apex:outputText value="{!mapName_Section[section].Additional_Info__c}" rendered="{!mapName_Section[section].Additional_Info__c!=null}" escape="false" /> 
+        </apex:repeat>       
+            
+        <br/>
+        
+                
+        <!-- Overall aggregate fields -->        
+        
+        <table width="100%" style="page-break-inside:avoid;">
+
+            <apex:repeat value="{!aggFields}" var="a">   
+                <!-- Do not show blank/null aggregate fields -->
+                <tr style="display:{!IF(OR(sObj[a.Name]=='', sObj[a.Name]==null), 'none', '')}; font-size:{!a.Font_Size__c};">
+                   <td style="text-align:{!a.Text_Align__c}; width:{!IF(a.Text_Align__c='left', a.Width__c, 100-a.Width__c)}%; background-color:#{!a.Background_Color__c}; color:#{!a.Font_Color__c}; font-weight:{!a.Font_Weight__c}; padding-left:5px; padding-right:5px;">
+                       <apex:outputText value="{!a.sfcloud2__Label__c} " />
+                   </td>
+                   <td style="white-space:nowrap; text-align:{!a.Text_Align__c}; background-color:#{!a.Background_Color__c}; color:#{!a.Font_Color__c}; font-weight:{!a.Font_Weight__c}; padding-left:5px; padding-right:5px;">                               
+                       <apex:outputText value="{!aggFieldsFormatted[a.Name]}" /> 
+                   </td>
+                </tr>
+            </apex:repeat>   
+        </table>  
+                              
+       
+        <!-- Terms and Conditions -->       
+        
+        <apex:outputText value="{!template.sfcloud2__T_C__c}" style="font-family:{!template.sfcloud2__Font_Family__c}; width:100%;" escape="false"/> 
+        
+    </apex:form>
+</apex:page>
+
+                                <!-- Individual Item and Bundle Header -- >                                           
+                                <td style="display:{!IF(OR(i.type=='subSection', c.sfcloud2__Group_By__c), 'none', '')}; width:{!c.Width__c}%; color:#{!c.Font_Color_Rows__c}; text-align:{!c.Text_Align_Rows__c}; vertical-align:top; font-weight:{!c.Font_Weight_Rows__c}; background-color:#{!c.Background_Color_Rows__c}">    
+                                    <apex:outputPanel layout="block" rendered="{!OR(i.type=='individualItem', i.type=='bundleHeader')}"> 
+                                        
+                                        <!-- Item # field -- >
+                                        <apex:outputText value="{!i.lineNumber}" rendered="{!c.Quote_line_item_API_name__c='SortOrder'}"/>  
+                                                                                                                         
+                                        <!-- Currency fields -- >
+                                        <apex:outputText value="{!i.formatedCurrencyFields[c]}" rendered="{!AND(NOT(CONTAINS(c.Quote_line_item_API_name__c, '::')), c.Quote_line_item_API_name__c!='SortOrder', c.Field_Type__c='Currency')}" />
+                                        
+                                        <!-- Date fields -- >
+                                        <apex:outputText value="{0, date, {!dateFormat}}" rendered="{!AND(NOT(CONTAINS(c.Quote_line_item_API_name__c, '::')), c.Quote_line_item_API_name__c!='SortOrder', c.Field_Type__c='Date')}">
+                                            <apex:param value="{!i.sObj[c.Quote_line_item_API_name__c]}"/>
+                                        </apex:outputText> -->    
+                                        
+                                        <!-- All other fields -- >
+                                        <apex:outputField value="{!i.sObj[c.Quote_line_item_API_name__c]}" rendered="{!AND(NOT(CONTAINS(c.Quote_line_item_API_name__c, '::')), c.Quote_line_item_API_name__c!='SortOrder', c.Field_Type__c!='Currency', c.Field_Type__c!='Date', c.Field_Type__c!='Number', c.Field_Type__c!='Percent')}" />   
+          
+                                        <apex:outputText value="{!SUBSTITUTE(c.Quote_line_item_API_name__c,'::','')}" rendered="{!CONTAINS(c.Quote_line_item_API_name__c, '::')}" escape="false" />                                                                                
+                                   
+                                    </apex:outputPanel>                                   
+                                </td> -->
+
+
+                                <!-- Sub Section -- >                                 
+                                 
+                                <td style="display:{!IF(AND(i.type='subSection', c.Group_By__c), '', 'none')}; color:#{!c.Font_Color_Header__c}; text-align:{!c.Text_Align_Header__c}; vertical-align:top; background-color:#{!c.Background_Color_Header__c}" colspan="{!mapSection_NumberOfColumns[section]}">
+                                    <apex:repeat value="{!mapSection_GroupBy}" var="grpBySection" rendered="{!AND(i.type='subSection', c.Group_By__c)}">
+                                        
+                                        <apex:outputField value="{!i.sObj[mapSection_GroupBy[section]]}" rendered="{!AND(grpBySection==section, c.Field_Type__c!='Date')}" />
+                                        <apex:outputText value="{0, date, {!dateFormat}}" rendered="{!AND(grpBySection==section, c.Field_Type__c=='Date')}">
+                                            <apex:param value="{!i.sObj[mapSection_GroupBy[section]]}"/>
+                                        </apex:outputText>                       
+                                    </apex:repeat> 
+                                </td> -->
+
+
+        
+            <!-- Display aggregate fields outside table -- >  
+
+            <apex:repeat value="{!mapSection_AggregateFields}" var="aggSection" rendered="{!AND(mapName_Section[section].Show_Aggregate_field_as_separate_section__c, NOT(mapName_Section[section].Bundle_View__c))}">                         
+                <apex:outputPanel rendered="{!aggSection==section}">                      
+                    <table width="100%" style="page-break-inside:avoid;">   
+                        
+                        <!-- Get aggregate field value for each section -- >              
+                        <apex:repeat value="{!mapSection_AggregateFields[section]}" var="aggCols">  
+
+                            <!-- Display each aggregate field along with corresponding value -- >
+                            <apex:repeat value="{!aggCols}" var="c">      
+                                <tr>
+                                    <td style="text-align:{!c.Text_Align_Aggregate__c}; width:{!IF(c.Text_Align_Aggregate__c='left', c.Width__c, 100-c.Width__c)}%; background-color:#{!c.Background_Color_Aggregate__c}; color:#{!c.Font_Color_Aggregate__c}; vertical-align:top; font-weight:{!c.Font_Weight_Aggregate__c}; padding-left:5px; padding-right:5px;"> 
+                                        <apex:outputPanel rendered="{!c.Aggregate_Label__c!=''}">  
+                                            {!c.Aggregate_Label__c}
+                                        </apex:outputPanel>
+                                    </td> 
+                                    <!-- Sometime the text can be long and additional text was hidden. Please see post http://stackoverflow.com/questions/14135962/split-text-into-the-next-line-if-content-exceeds-the-fixed-width-for-html-table -- >
+                                    <td style="text-align:{!c.Text_Align_Aggregate__c}; background-color:#{!c.Background_Color_Aggregate__c}; color:#{!c.Font_Color_Aggregate__c}; vertical-align:top; font-weight:{!c.Font_Weight_Aggregate__c}; padding-left:5px; padding-right:5px; white-space: -moz-pre-wrap !important; white-space: -pre-wrap; white-space: -o-pre-wrap; white-space: pre-wrap; word-wrap: break-word; word-break: break-all; white-space: normal;">
+                                        <apex:outputText value="{!mapSection_AggregateFields[section][c]}" rendered="{!c.Aggregate_Label__c!=''}" escape="false" /> 
+                                    </td> 
+                                </tr>
+                            </apex:repeat>
+                        </apex:repeat> 
+                    </table>          
+                </apex:outputPanel> 
+            </apex:repeat> -->
+
+       <!-------------------------------------- Tabular View of Bundles (previously Vertical) ---------------------------------- >
+       
+        
+        <apex:outputPanel rendered="{!groupBundles=='Tabular'}">
+                
+            <apex:variable var="bv" value="{!bundleView.Name}" />
+            <table class="section"> 
+                <!-- Column Headers -- >
+                <thead>
+                    <tr style="display:{!IF(mapName_Section[bv].Hide_Section_Title__c, 'none', '')}">
+                        <th style="font-size:{!mapName_Section[bv].Font_Size__c}; text-align:{!mapName_Section[bv].Title_Align__c}; color:#{!mapName_Section[bv].Font_Color__c}; background-color:#{!mapName_Section[bv].Background_Color__c};" colspan="{!mapSection_NumberOfColumns[bv]}">
+                            <apex:outputText value="{!bv}" escape="false"/>
+                        </th>
+                    </tr>
+                    <tr>
+                        <apex:repeat value="{!mapSection_Columns[bv]}" var="c">
+                            <th style="display:{!IF(c.sfcloud2__Group_By__c, 'none', '')}; width:{!c.Width__c}%; color:#{!c.Font_Color_Header__c}; text-align:{!c.Text_Align_Header__c}; vertical-align:top; font-weight:{!c.Font_Weight_Header__c}; background-color:#{!c.Background_Color_Header__c}">{!c.Name}</th>                          
+                        </apex:repeat>
+                    </tr> 
+                </thead>
+                
+                <apex:repeat value="{!bundleNames}" var="section">                  
+                    <tr style="display:{!IF(mapName_Section[section].Bundle_View__c, '', 'none')}"> 
+                        <apex:repeat value="{!mapSection_Columns[bv]}" var="c">
+                            <td style="display:{!IF(c.sfcloud2__Group_By__c, 'none', '')}; width:{!c.Width__c}%; color:#{!c.Font_Color_Aggregate__c}; text-align:{!c.Text_Align_Aggregate__c}; vertical-align:top; font-weight:{!c.Font_Weight_Aggregate__c}; background-color:#{!IF(c.Aggregate_Label__c!='', c.Background_Color_Aggregate__c, 'FFFFFF')}">                        
+                                <apex:outputText value="{!mapSection_AggregateFields[section][c]}" rendered="{!AND(c.Aggregate_Label__c!='', mapName_Section[section].Bundle_View__c, mapSection_AggregateFields[section][c]!='hideValue')}" escape="false" />                    
+                            </td>
+                        </apex:repeat>                            
+                    </tr>                
+                </apex:repeat>     
+                
+            </table>          
+            <br/>
+            
+            <!-- Additional info for section -- >
+            <apex:outputText value="{!mapName_Section[bv].Additional_Info__c}" rendered="{!mapName_Section[bv].Additional_Info__c!=null}" escape="false" /> 
+        </apex:outputPanel>        
+        
+        
+        <!-------------------------------------- Compare View of Bundles (previously Horizontal) ---------------------------------- >
+        
+        
+        <apex:outputPanel rendered="{!groupBundles=='Compare'}">
+        
+            <apex:variable var="bv" value="{!bundleView.Name}" />
+            <table class="section"> 
+                <!-- Column Headers -- >
+                <thead>
+                    <tr style="display:{!IF(mapName_Section[bv].Hide_Section_Title__c, 'none', '')}">
+                        <th style="font-size:{!mapName_Section[bv].Font_Size__c}; text-align:{!mapName_Section[bv].Title_Align__c}; color:#{!mapName_Section[bv].Font_Color__c}; background-color:#{!mapName_Section[bv].Background_Color__c};" colspan="{!bundleNames.size}">
+                            <apex:outputText value="{!bv}" escape="false"/>
+                        </th>
+                    </tr>
+                </thead>
+                
+                <apex:repeat value="{!mapSection_Columns[bv]}" var="c">
+                    <tr>
+                        <apex:repeat value="{!bundleNames}" var="section">  
+                            <td style="display:{!IF(c.sfcloud2__Group_By__c, 'none', '')}; width:{!c.Width__c}%; color:#{!c.Font_Color_Aggregate__c}; text-align:{!c.Text_Align_Aggregate__c}; vertical-align:top; font-weight:{!c.Font_Weight_Aggregate__c}; background-color:#{!IF(c.Aggregate_Label__c!='', c.Background_Color_Aggregate__c, 'FFFFFF')}">                        
+                                <apex:outputText value="{!mapSection_AggregateFields[section][c]}" rendered="{!AND(c.Aggregate_Label__c!='', mapName_Section[section].Bundle_View__c, mapSection_AggregateFields[section][c]!='hideValue')}" escape="false" />                    
+                            </td>
+                        </apex:repeat>
+                    </tr> 
+                </apex:repeat>     
+                                           
+            </table>          
+            <br/>
+            
+            <!-- Additional info for section -- >
+            <apex:outputText value="{!mapName_Section[bv].Additional_Info__c}" rendered="{!mapName_Section[bv].Additional_Info__c!=null}" escape="false" />
+        </apex:outputPanel>
+        -->

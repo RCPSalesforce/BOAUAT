@@ -1,0 +1,14 @@
+.THIS{
+}
+.THIS .noPermission{
+    background-color: white;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.THIS.scrollerSize {
+    height: 100%;
+}

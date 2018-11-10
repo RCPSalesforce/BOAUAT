@@ -1,0 +1,112 @@
+<aura:component controller="NewOrder_CreatePurchaseOrder">
+    
+    <ltng:require styles='/resource/NewOrderAlert/alertify/alertify.css,
+                          /resource/NewOrderAlert/alertify/default.css' 
+                  scripts='/resource/NewOrderAlert/alertify/alertify.js'/>
+    
+    <aura:attribute name="selectedProducts" type="Object[]" />
+    <aura:attribute name="allSelectedProducts" type="Object[]" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="currentProdId" type="String" default=""/>
+    <!--<aura:attribute name="updateTotal" type="Boolean" default="false" />-->
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.selectedProducts}" action="{!c.handleSelectedProducts}"/>
+    <aura:handler event="c:NewOrder_SendCustomerDetails" action="{!c.handleCreateOrder}"/>
+    
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner variant="brand" alternativeText="Loading" size="medium" />
+    </aura:if>
+    
+    <aura:if isTrue="{!v.allSelectedProducts.length > 0}">
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col">
+                        <div class="slds-truncate" title="Remove Product"></div>
+                    </th>    
+                    <th scope="col">
+                        <div class="slds-truncate" title="Stock Code Name">Stock Code</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Description">Description</div>
+                    </th> 
+                    <th scope="col">
+                        <div class="slds-truncate" title=">Qty Ord">Qty Ord</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Qty">Qty</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Pack Price">Pack Price</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Discount">Discount</div>
+                    </th>  
+                    <th scope="col">
+                        <div class="slds-truncate" title="Supplier Code">Supplier Code</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Total">Total</div>
+                    </th>                    
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.allSelectedProducts}" var="sp" indexVar="index">
+                    <tr>
+                        <td data-label="Remove Product" style="width:70px;max-width:80px;">
+                            <lightning:buttonIcon value="{!sp.Id}" iconName="utility:close" class="removeProductButton" onclick="{! c.handleRemoveProduct }" size=" xx-small" alternativeText="{! 'Remove ' + sp.Name}" />
+                        </td> 
+                        <td data-label="Stock Code Name">
+                            <!--<div class="slds-truncate alignItems" title="{!sp.stockCode}">{!sp.stockCode}</div>-->
+                            <div class="slds-truncate alignItems">
+                                <a href="{!'/lightning/r/Product2/'+ sp.productId + '/view'}" target="_blank" >{!sp.stockCode}</a>                            
+                            </div>                            
+                        </td>
+                        <td data-label="Stock Code Description">
+                            <lightning:input class="slds-truncate" name="stockDescription" value="{!sp.stockDescription}"/>
+                        </td>
+                        <td data-label="Qty Ord">
+                            <lightning:input required="true" value="{!sp.orderedQuantity}" type="number" name="ordQuantity" min="1" messageWhenRangeUnderflow="Please enter a min value of 1"/>
+                        </td> 
+                        <td data-label="Qty">
+                            <lightning:input required="true" value="{!sp.quantity}" type="number" name="quantity" min="1" messageWhenRangeUnderflow="Please enter a min value of 1" disabled="true"/>
+                        </td>
+                        <td data-label="Pack Price">
+                            <!--<aura:if isTrue="{!sp.packPrice == 0.00}">
+                                <lightning:input type="number" name="packPrice" value="{!sp.UnitPrice}" formatter="currency" disabled="true"/>
+                                <aura:set attribute="else">
+                                    <lightning:input type="number" name="packPrice" value="{!sp.packPrice}" formatter="currency" disabled="true"/>
+                                </aura:set>
+                            </aura:if>-->
+                            <lightning:input type="number" name="packPrice" value="{!sp.packPrice}" formatter="currency" disabled="false" required="true" min="0" messageWhenRangeUnderflow="Please enter price greater than Zero"/>
+                        </td>
+                        <td data-label="Discount">                           
+                            <lightning:input type="number" name="discount" value="{!sp.discount}" formatter="percent-fixed" step="0.01" min="0" max="100" default="0" 
+                                             messageWhenRangeOverflow="Please select a discount between 0 to 100" messageWhenStepMismatch="Cannot have more than two decimal places"
+                                             messageWhenRangeUnderflow="Please enter a discount greater than Zero" />                            
+                        </td> 
+                        <td data-label="Supplier Code" class="suppliercode">
+                            <aura:if isTrue="{!sp.supplierCode == '' || sp.supplierCode == null}">
+                                <div class="alignItems">NA</div>
+                                <aura:set attribute="else">
+                                    <div class="alignItems">{!sp.supplierCode}</div>
+                                </aura:set>
+                            </aura:if>                              
+                        </td>
+                        <td data-label="Total">
+                            <div class="alignItems" >
+                                <ui:outputCurrency value="{!(sp.packPrice * sp.orderedQuantity) - ((sp.packPrice * sp.orderedQuantity) * (sp.discount/100))}"/>
+                            </div>
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+        <!--<lightning:button variant="brand" label="Save Products" onclick="{!c.saveprod}"/>-->
+        <aura:set attribute="else">
+            Please select some stock items...
+        </aura:set>
+    </aura:if>
+</aura:component>

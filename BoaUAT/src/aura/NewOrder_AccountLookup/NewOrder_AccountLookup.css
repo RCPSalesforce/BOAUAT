@@ -1,0 +1,24 @@
+.THIS .accList{
+    margin-top:0.5rem;
+}
+.THIS .accountInput{
+    max-width: 23.3rem;
+}
+.THIS .selectedAcc{
+    margin: .2rem;
+    border: .05rem solid #d9dbdd;
+    max-width: 23rem;
+    border-radius: 0.3rem;
+    margin: .4rem;
+    padding: 0.2rem;
+}
+.THIS .selectedAccount{
+    padding-left:2rem;
+}
+.THIS .selectedAccBackgroundC{
+    background-color:rgba(211, 211, 211, 0.37);
+}
+.THIS .accountClose svg{
+    width:0.975rem;
+    fill:#aeaeae;
+}

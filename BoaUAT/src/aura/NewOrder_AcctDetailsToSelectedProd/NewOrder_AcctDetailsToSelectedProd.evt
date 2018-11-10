@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="Account Details To Selected Product">
+    <aura:attribute name="oppDefaultLocation" type="String"/>
+</aura:event>

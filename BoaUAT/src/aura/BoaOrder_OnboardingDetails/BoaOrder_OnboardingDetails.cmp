@@ -1,0 +1,89 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global" >
+    
+    <ltng:require styles='/resource/NewOrderAlert/alertify/alertify.css,
+                          /resource/NewOrderAlert/alertify/default.css' 
+                  scripts='/resource/NewOrderAlert/alertify/alertify.js'/>
+    
+    <aura:attribute name="disabled" type="Boolean" default="false" />
+    <aura:attribute name="saved" type="Boolean" default="false" />
+    <aura:attribute name="showSpinner" type="Boolean" default="true" />
+    
+    <aura:attribute name="record" type="Object" 
+                    description="The record object to be displayed"/>
+    <aura:attribute name="simpleRecord" type="Object" 
+                    description="A simplified view record object to be displayed"/>
+    <aura:attribute name="recordError" type="String" 
+                    description="An error message bound to force:recordData"/>
+    
+    <force:recordData aura:id="record"
+                      recordId="{!v.recordId}"
+                      targetError="{!v.recordError}"
+                      targetRecord="{!v.record}"
+                      targetFields ="{!v.simpleRecord}"
+                      fields="StageName,RecordTypeId,Onboarding_Point_of_Contact__r.Name"
+                      mode="VIEW"/>
+
+        <lightning:card title="Onboarding Details" iconName="custom:custom14">
+            <aura:if isTrue="{!v.showSpinner}">
+                <lightning:spinner alternateText="Please wait" variant="brand" size="medium"/>
+            </aura:if>
+            
+            <aura:if isTrue="{!!v.saved}">
+                <lightning:recordEditForm
+                                          onload="{!c.handleLoad}"
+                                          onsubmit="{!c.handleSubmit}"
+                                          onsuccess="{!c.handleSuccess}"
+                                          recordId="{!v.recordId}"
+                                          objectApiName="Opportunity"
+                                          recordTypeId="{!$Label.c.BoaSalesOrderRecordType}">
+                    <!-- the messages component is for error messages -->
+                    <lightning:messages />
+                    
+                    <!-- Onboarding Inputs -->
+                    <lightning:layout class="slds-wrap slds-m-around_small" multipleRows="true">
+                        <lightning:layoutItem size="12" class="slds-p-around_xx-small">
+                            <lightning:inputField fieldName="StageName" disabled="{!v.simpleRecord.StageName == 'Closed Won' ? true : false}" />
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="6" class="slds-p-around_xx-small">
+                            <lightning:inputField fieldName="Onboarding_Target_Start_Date__c" aura:id="onboardingStartDate"/>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="6" class="slds-p-around_xx-small">
+                            <lightning:inputField fieldName="Onboarding_Target_Closure_Date__c" aura:id="onboardingCloseDate"/>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="6" class="slds-p-around_xx-small">
+                            <lightning:inputField fieldName="Type" aura:id="buisnessType"/>
+                        </lightning:layoutItem>                       
+                        <lightning:layoutItem size="6" class="slds-p-around_xx-small">
+                            <lightning:inputField fieldName="Onboarding_Point_of_Contact__c" aura:id="onboardingContact"/>
+                            <!--<aura:if isTrue="{!v.simpleRecord.StageName == 'Closed Won' ? true : false}">                               
+                                <div class="pointOfContact">
+                                    <label class="slds-form-element__label">Onboarding Point of Contact</label>
+                                    <lightning:icon iconName="standard:user" class="slds-avatar slds-avatar_circle slds-avatar_x-small"/>
+                                    <span class="pointOfContactName">{!v.simpleRecord.Onboarding_Point_of_Contact__r.Name}</span>
+                                </div>
+                                <aura:set attribute="else">
+                                    <lightning:inputField fieldName="Onboarding_Point_of_Contact__c" aura:id="onboardingContact"/>
+                                </aura:set>
+                            </aura:if>-->                                                 	
+                        </lightning:layoutItem>
+                    </lightning:layout>      
+                    
+                    <div class="slds-m-top_medium slds-align_absolute-center">
+                        <lightning:button variant="brand" type="submit" name="save" label="Save"/>
+                    </div>
+                    
+                </lightning:recordEditForm>
+                
+                <aura:set attribute="else">
+                    <p class="slds-p-left_medium">Saved!</p>
+                </aura:set>
+                
+                <!-- Display Lightning Data Service errors, if any -->
+                <aura:if isTrue="{!not(empty(v.recordError))}">
+                    <div class="recordError">
+                        {!v.recordError}</div>
+                </aura:if>
+                
+            </aura:if>
+        </lightning:card>
+</aura:component>

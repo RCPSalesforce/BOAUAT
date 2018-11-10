@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <customHelpPage>QuotePDF_Documentation</customHelpPage>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>Group line items into logical table/sections</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Additional_Info__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Additional information to be displayed at the end of this table</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Additional information to be displayed at the end of this table</inlineHelpText>
+        <label>Additional Info</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Background_Color__c</fullName>
+        <defaultValue>&quot;CFCFCF&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Background Color</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Bundle_View__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Aggregate bundle items to show bundle pricing on the PDF. Applicable only if you are using Product Bundle app</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Aggregate bundle items to show bundle pricing on the PDF. Applicable only if you are using Product Bundle app</inlineHelpText>
+        <label>Aggregate Bundle Items</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Display_on_new_page__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Should this table be displayed on new page?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Should this table be displayed on new page?</inlineHelpText>
+        <label>Display on new page</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Field_Name__c</fullName>
+        <defaultValue>&quot;QuoteId&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Lookup or Master-Detail field that points to parent object. For example QuoteId on &quot;Quote Line Item&quot; object that points to parent Quote object</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Lookup or Master-Detail field that points to parent object. For example QuoteId on &quot;Quote Line Item&quot; object that points to parent Quote object</inlineHelpText>
+        <label>Field Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Font_Color__c</fullName>
+        <defaultValue>&quot;000000&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Font Color</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Font_Size__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Font Size</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>15px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>16px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>17px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>18px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>19px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>20px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>21px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>22px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>23px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>24px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>25px</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Formula__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Enter the formula as to which line items should be displayed in this table</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter the formula as to which line items should be displayed in this table</inlineHelpText>
+        <label>Formula</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Group_Bundles__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Display options for bundles on PDF. Applicable only if you are using Product Bundle app</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Blank: bundles in different tables
+
+Compare: bundles in comparison view, one table
+
+Tabular: bundles one after other, one table</inlineHelpText>
+        <label>Bundle Format</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Compare</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Tabular</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Hide_Section_Title__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Hide Title</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Object__c</fullName>
+        <defaultValue>&quot;QuoteLineItem&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Related object name. For example QuoteLineItem</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Related object name. For example QuoteLineItem</inlineHelpText>
+        <label>Object Name</label>
+        <length>200</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Order__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Order</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PDF_Template__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Template Name</label>
+        <referenceTo>PDF_Template__c</referenceTo>
+        <relationshipName>PDF_Sections</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Show_Aggregate_field_as_separate_section__c</fullName>
+        <defaultValue>true</defaultValue>
+        <deprecated>false</deprecated>
+        <description>If selected, aggregate fields are displayed outside this table.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If selected, aggregate fields are displayed outside this table.</inlineHelpText>
+        <label>Show aggregate fields outside the table</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Title_Align__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Title Align</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>center</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>left</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>right</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>PDF Table</label>
+    <nameField>
+        <label>Title</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>PDF Tables</pluralLabel>
+    <searchLayouts>
+        <lookupDialogsAdditionalFields>PDF_Template__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Order__c</lookupDialogsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <webLinks>
+        <fullName>iClone</fullName>
+        <availability>online</availability>
+        <description>Clone a table along with columns</description>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <height>600</height>
+        <linkType>url</linkType>
+        <masterLabel>iClone</masterLabel>
+        <openType>sidebar</openType>
+        <protected>false</protected>
+        <url>/apex/sfcloud2__QuotePDF_Clone?id={!PDF_Section__c.Id}&amp;sObj=section</url>
+    </webLinks>
+</CustomObject>

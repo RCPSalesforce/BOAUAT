@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AuraDefinitionBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>38.0</apiVersion>
+    <description>Criteria Builder can be used on a Config Type record details page. This contains an easy UI to create criteria&apos;s for a specific Config Type.</description>
+</AuraDefinitionBundle>

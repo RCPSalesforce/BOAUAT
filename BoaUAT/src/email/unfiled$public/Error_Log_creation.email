@@ -1,0 +1,9 @@
+Hi Team, 
+
+PFB Error Message - 
+
+Method Name - {!Error_Log__c.Method_Name__c}
+Error Line - {!Error_Log__c.Error_Line_Number__c}
+Error Message - {!Error_Logs__c.Error_Message__c}
+
+Thanks.

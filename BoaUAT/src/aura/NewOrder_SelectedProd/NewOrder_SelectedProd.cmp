@@ -1,0 +1,401 @@
+<aura:component controller="NewOrder_CreateOrder">
+    
+    <ltng:require styles='/resource/NewOrderAlert/alertify/alertify.css,
+                          /resource/NewOrderAlert/alertify/default.css' 
+                  scripts='/resource/NewOrderAlert/alertify/alertify.js'/>
+    
+    <ltng:require styles="{!$Resource.ResponsiveTable}"/>
+    
+    <aura:attribute name="selectedProducts" type="Map" />
+    <aura:attribute name="allSelectedProducts" type="Map" />
+    <aura:attribute name="showCreateHose" type="Boolean" default="false" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="currentProdId" type="String" default=""/>
+    <aura:attribute name="accountIdProductList" type="String"/>
+    <aura:attribute name="stockItemList" type="Object[]"/> 
+    <aura:attribute name="searchedstockItemList" type="Object[]"/>
+    <aura:attribute name="section1Icon" type="String" default="utility:chevronright"/>
+	
+   
+    <aura:registerEvent name="SelectedProdToacc" type="c:NewOrder_SelectedProdToAcctDetails"/>
+    <aura:handler event="c:NewOrder_AcctDetailsToSelectedProd" action="{!c.handleAcctToSelectedProd}"/>
+     
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.selectedProducts}" action="{!c.handleSelectedProducts}"/>
+    <aura:handler event="c:NewOrder_SendCustomerDetails" action="{!c.handleCreateOrder}"/>
+
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner variant="brand" alternativeText="Loading" size="medium" />
+    </aura:if>
+    
+    <table class="{!$Browser.isPhone ? 'slds-table slds-table_cell-buffer' : 'slds-table slds-table_bordered slds-table_cell-buffer'}"> 
+        <thead>
+            <tr class="slds-text-title_caps">  
+                <th scope="col" class="selectedProdTableHeader"></th>
+                <th scope="col" class="selectedProdTableHeader">
+                    <div class="slds-truncate" title="Stock Code Name">Name</div>
+                </th>
+                <th scope="col" class="colwidth2 selectedProdTableHeader">
+                    <div class="slds-truncate" title="Quantity">Quantity</div>
+                </th> 
+                <th scope="col" class="selectedProdTableHeader">
+                    <div class="slds-truncate" title="Stock Code Description">Description</div>
+                </th>
+                <th scope="col" class="colwidth selectedProdTableHeader">
+                    <div class="slds-truncate" title="Unit Price">Unit Price</div>
+                </th>
+                <th scope="col" class="colwidth selectedProdTableHeader">
+                    <div class="slds-truncate" title="Sales Price">Sales Price</div>
+                </th>                    
+                <th scope="col" class="colwidth2 selectedProdTableHeader">
+                    <div class="slds-truncate" title="Full Box/Coil">Full Box/Coil</div>
+                </th>
+                <th scope="col" class="colwidth2 selectedProdTableHeader">
+                    <div class="slds-truncate" title="Discount">Discount</div>
+                </th> 
+                <th scope="col" class="selectedProdTableHeader">
+                    <div class="slds-truncate" title="Total">Total</div>
+                </th>
+                <th scope="col" class="selectedProdTableHeader">
+                    <div class="slds-truncate" title="Total">Loc Cnt</div>
+                </th>
+                <th scope="col" class="selectedProdTableHeader"></th>
+            </tr>
+        </thead>  
+        <tbody>      
+            <aura:iteration items="{!v.stockItemList}" var="item" indexVar="index">
+                <tr class="slds-text-title_caps">
+                    <td>
+                        <aura:if isTrue="{!(index != 0 || v.stockItemList.length > 1) &amp;&amp; $Browser.formFactor == 'DESKTOP'}">
+                            <lightning:buttonIcon  iconName="utility:close" class="removeProductButton" 
+                                                  onclick="{!c.removeDeletedRow}" size=" xx-small" 
+                                                  alternativeText="Remove Stock Item" ariaLabel="{!item.stockCode}"
+                                                  />
+                        </aura:if>
+                        <aura:if isTrue="{!(index != 0 || v.stockItemList.length > 1) &amp;&amp; $Browser.isPhone}">
+                            <lightning:button class="phoneRemoveRow" label="Remove Item" onclick="{!c.removeDeletedRow}" ariaLabel="{!item.stockCode}" />
+                        </aura:if>
+                    </td>
+                    <td>
+                        <lightning:input value="{!item.stockCode}"
+                                         placeholder="Search Stock Item.."
+                                         onkeyup="{!c.searchProducts}" ariaLabel="{!index}"/>
+                        <div id="{!index}">
+                            <aura:if isTrue="{!v.searchedstockItemList.length > 0}">
+                                <div  role="listbox">           
+                                    <!--<lightning:select name="stockList">
+                                        <aura:iteration items="{!v.searchedstockItemList}" var="m">
+                                            <option text="{!m.Name}" value="{!m.Name}"/>
+                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity contactName" title="{!m.Name}" data-Record="{!m.Id}" data-index="{!index}" data-productId="{!m.Product2.Id}" onclick="{!c.selectedStock}">{!m.Name}</span>
+                                        </aura:iteration>
+                                    </lightning:select>-->
+                                    <ul class="{!$Browser.isPhone ? 'slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid phoneStockList' : 'slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid'}" role="presentation" id="stockList">                               
+                                        <aura:iteration items="{!v.searchedstockItemList}" var="m">
+                                            <li role="presentation" class="slds-listbox__item" tabIndex="-1">
+                                                <span id="listbox-option-unique-id-01" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta slds-has-focus" role="option" title="{!m.Name}"
+                                                      data-Record="{!m.Id}" data-index="{!index}" data-productId="{!m.Product2.Id}" 
+                                                      data-isBOM="{!m.Product2.Bill_of_Material__c}" onclick="{!c.selectedStock}">                                                   
+                                                    <span class="slds-media__figure stockItemImage">
+                                                        <span class="slds-icon_container slds-icon-standard-product" title="{!m.Name}">
+                                                            <lightning:icon iconName="standard:product" size="small"/>
+                                                            <span class="slds-assistive-text">{!m.Name}</span>
+                                                        </span>
+                                                    </span>                                   
+                                                    <span class="slds-listbox__option-text slds-listbox__option-text_entity contactName">
+                                                        <span class="slds-truncate stockName">{!m.Name}</span>
+                                                         <aura:if isTrue="{!m.Product2.Bill_of_Material__c}">
+                                                        <span class="bomProdIdentifer">                                                            
+                                                            <span>B</span>
+                                                        </span>
+                                                    </aura:if>
+                                                    </span>
+                                                </span>
+                                            </li>  
+                                        </aura:iteration>
+                                    </ul>
+                                </div>                    
+                            </aura:if>
+                        </div>                                               
+                    </td>
+                    <td data-label="Quantity">																																											
+                        <lightning:input required="true" value="{!item.quantity}" type="number" name="quantity" min="1" messageWhenRangeUnderflow="Please enter a min value of 1" onkeyup="{!c.calculateDiscount}" ariaLabel="{!index}" />
+                    </td>
+                    <td data-label="Stock Code Description">
+                        <lightning:input class="slds-truncate" name="stockDescription" value="{!item.stockDescription}"/>
+                    </td>
+                    <td data-label="Unit Price">
+                        <div class="slds-truncate" title="{!item.UnitPrice}">
+                            <lightning:input type="number" name="UnitPrice" value="{!item.UnitPrice}" formatter="currency" step="0.000001" min="1" disabled="true"
+                                             messageWhenStepMismatch="Cannot have more than six decimal places" messageWhenRangeUnderflow="Please enter a unit price greater than Zero" />                            
+                        </div>                         
+                    </td>
+                    <td data-label="Sales Price">
+                        <aura:if isTrue="{!item.pricingPolicyRuleId != '' &amp;&amp; (item.quantity != item.pricingPolicyquantity)}">
+                            <div class="slds-truncate" title="{!item.UnitPrice}"> 
+                                <lightning:input type="number" name="SalesPrice" value="{!item.UnitPrice}" formatter="currency" step="0.000001" min="1" required="true"
+                                                 messageWhenStepMismatch="Cannot have more than six decimal places" messageWhenRangeUnderflow="Please enter sales price greater than Zero" />
+                            </div> 
+                        </aura:if>
+                        <aura:if isTrue="{!item.pricingPolicyRuleId != '' &amp;&amp; (item.quantity == item.pricingPolicyquantity)}">
+                            <div class="slds-truncate" title="{!item.BasePrice}">                              
+                                <lightning:input type="number" name="SalesPrice" value="{!item.BasePrice}" formatter="currency" step="0.000001" min="1" required="true"
+                                                 messageWhenStepMismatch="Cannot have more than six decimal places" messageWhenRangeUnderflow="Please enter sales price greater than Zero" />
+                            </div> 
+                        </aura:if>
+                        <aura:if isTrue="{!item.pricingPolicyRuleId == ''}">
+                            <div class="slds-truncate" title="{!item.BasePrice}">                              
+                                <lightning:input type="number" name="SalesPrice" value="{!item.BasePrice}" formatter="currency" step="0.000001" min="1" required="true"
+                                                 messageWhenStepMismatch="Cannot have more than six decimal places" messageWhenRangeUnderflow="Please enter sales price greater than Zero" />
+                            </div> 
+                        </aura:if>                         
+                    </td>
+                    <td data-label="FullBox/Coil">
+                        <lightning:input value="{!item.fullCoilSize == undefined ? 'NA' : item.fullCoilSize}" name="fullCoilSize" disabled="true"/>
+                    </td>
+                    <td data-label="Discount">                         
+                        <aura:if isTrue="{!item.pricingPolicyRuleId != '' &amp;&amp; (item.quantity != item.pricingPolicyquantity)}">
+                            <div class="slds-truncate" title="{!item.discount}"> 
+                                <lightning:input type="number" name="discount" value="0" formatter="percent-fixed" step="0.01" min="0" max="100" 
+                                                 messageWhenRangeOverflow="Please select a number between 0 to 100" messageWhenStepMismatch="Cannot have more than two decimal places"
+                                                 messageWhenRangeUnderflow="Please enter a discount greater than Zero" />
+                            </div> 
+                        </aura:if>
+                        <aura:if isTrue="{!item.pricingPolicyRuleId != '' &amp;&amp; (item.quantity == item.pricingPolicyquantity)}">
+                            <div class="slds-truncate" title="{!item.discount}">                              
+                                <lightning:input type="number" name="discount" value="{!item.discount}" formatter="percent-fixed" step="0.01" min="0" max="100" 
+                                                 messageWhenRangeOverflow="Please select a number between 0 to 100" messageWhenStepMismatch="Cannot have more than two decimal places"
+                                                 messageWhenRangeUnderflow="Please enter a discount greater than Zero" />
+                            </div> 
+                        </aura:if>
+                        <aura:if isTrue="{!item.pricingPolicyRuleId == ''}">
+                            <div class="slds-truncate" title="{!item.discount}">                              
+                                <lightning:input type="number" name="discount" value="{!item.discount}" formatter="percent-fixed" step="0.01" min="0" max="100" 
+                                                 messageWhenRangeOverflow="Please select a number between 0 to 100" messageWhenStepMismatch="Cannot have more than two decimal places"
+                                                 messageWhenRangeUnderflow="Please enter a discount greater than Zero" />
+                            </div> 
+                        </aura:if> 
+                        
+                    </td>
+                    <!--<td data-label="Discount">                           
+                        <lightning:input type="number" name="discount" value="{!item.discount}" formatter="percent-fixed" step="0.01" min="0" max="100" 
+                                         messageWhenRangeOverflow="Please select a number between 0 to 100" messageWhenStepMismatch="Cannot have more than two decimal places"
+                                         messageWhenRangeUnderflow="Please enter a discount greater than Zero" />                            
+                    </td>--> 
+                    <td data-label="Total" class="{!$Browser.isPhone ? '' : 'centerAlignItems'}">
+                        <div class="{!$Browser.isPhone ? 'phoneTotal' : 'alignItems'}">
+                            <ui:outputCurrency value="{!(item.BasePrice * item.quantity) - ((item.BasePrice * item.quantity) * (item.discount/100))}"/>
+                        </div>
+                    </td> 
+                    <aura:if isTrue="{!item.productId != ''}">
+                        <!--<td data-label="SeeDetails" class="centerAlignItems">																		
+                            <lightning:buttonIcon  value="{!item.productId}" iconName="utility:comments" class="alignItems" onclick="{! c.handleProductQtyDetails }" size=" xx-small" alternativeText="{! 'See ' + item.Name + ' Details'}" />
+                            <div class="slds-hide" id="{!item.productId}">
+                                <c:NewOrder_StockItemsPerLocation stockCode="{!item.productId}"/>
+                            </div>
+                        </td>-->
+                        <td data-label="SeeDetails">																		
+                           <c:NewOrder_StockItemsPerLocation stockCode="{!item.productId}"/>
+                        </td>
+                        <aura:set attribute="else">
+                            <td></td>
+                        </aura:set>
+                    </aura:if>
+                    
+                    <td class="addRowButton">
+                        <aura:if isTrue="{!index == v.stockItemList.length - 1 &amp;&amp; $Browser.formFactor == 'DESKTOP'}">
+                            <a onclick="{!c.addNewRow}">
+                                <lightning:icon iconName="utility:add" class="slds-icon slds-icon_small addRowIcon" size="small" alternativeText="add"/>
+                                <span class="slds-assistive-text">Add Stock Item</span>
+                            </a> 
+                        </aura:if>
+                        <aura:if isTrue="{!index == v.stockItemList.length - 1 &amp;&amp; $Browser.isPhone}">
+                            <button class="phoneAddRow" onclick="{!c.addNewRow}">Add Stock Item</button>
+                        </aura:if>
+                    </td>
+                </tr> 
+                <tr>
+                    <td style="visibility:hidden"></td>
+                    <aura:if isTrue="{!item.sbom.length > 0 &amp;&amp; item.hideBOMItems == 'false'}">                            
+                        <ul class="slds-accordion">
+                            <li class="slds-accordion__list-item">
+                                <section class="slds-accordion__section accordianSection" id="{!'bomitem-' + index}">
+                                    <div class="slds-accordion__summary">
+                                        <h3 class="slds-text-heading_small slds-accordion__summary-heading">
+                                            <button id="{!'bomitem-' + index}" label="Bom Items" onclick="{!c.toggleContent}" aria-controls="accordion-details-01" aria-expanded="true" class="slds-button slds-button_reset slds-accordion__summary-action accordianButton">
+                                                <!--<lightning:icon iconName="utility:chevronright" size="xx-small"/>-->
+                                                BOM Items
+                                            </button>
+                                        </h3>
+                                    </div>
+                                    <div aria-hidden="false" class="slds-accordion__content">
+                                        <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+                                            <thead>
+                                                <tr class="slds-text-title_caps">  
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">
+                                                        <div class="slds-truncate" title="Description">Description</div>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <div class="slds-truncate" title="Quantity">Quantity</div>
+                                                    </th>                                           
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <aura:iteration items="{!item.sbom}" var="sb">
+                                                    <tr>
+                                                        <td class="centerAlignItems">{!sb.bName}</td>
+                                                        <td class="centerAlignItems">{!sb.bDescription}</td>
+                                                        <td class="centerAlignItems">{!sb.bQuantity}</td>                                               
+                                                    </tr>
+                                                </aura:iteration>
+                                            </tbody>
+                                        </table>                         
+                                    </div>
+                                </section>
+                            </li>
+                        </ul>
+                        
+                        
+                            <!--<lightning:accordion>
+                            <lightning:accordionSection label="Bom Items" name="Bom Items">
+                                <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+                                    <thead>
+                                        <tr class="slds-text-title_caps">  
+                                            <th scope="col">BOM Name</th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Description">Description</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="Quantity">Quantity</div>
+                                            </th>                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <aura:iteration items="{!item.sbom}" var="sb">
+                                            <tr>
+                                                <td>{!sb.bName}</td>
+                                                <td>{!sb.bDescription}</td>
+                                                <td>{!sb.bQuantity}</td>                                               
+                                            </tr>
+                                        </aura:iteration>
+                                    </tbody>
+                                </table>  
+                            </lightning:accordionSection>
+                        </lightning:accordion>-->                   
+                        </aura:if> 
+                </tr>
+            </aura:iteration>
+        </tbody>
+    </table>
+    
+    <!--<div class="addProductButton">
+        <lightning:button variant="brand" label="Add Stock Items" onclick="{!c.addNewRow}"/>           
+    </div>-->
+    
+    <!--<table class="slds-table slds-table_bordered slds-table_cell-buffer">
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col">
+                        <div class="slds-truncate" title="Remove Product"></div>
+                    </th>    
+                    <th scope="col">
+                        <div class="slds-truncate" title="Stock Code Name">Name</div>
+                    </th>
+                    <th scope="col" class="colwidth2">
+                        <div class="slds-truncate" title="Quantity">Quantity</div>
+                    </th> 
+                    <th scope="col">
+                        <div class="slds-truncate" title="Stock Code Description">Description</div>
+                    </th>
+                    <th scope="col" class="colwidth">
+                        <div class="slds-truncate" title="Unit Price">Unit Price</div>
+                    </th>
+                    <th scope="col" class="colwidth">
+                        <div class="slds-truncate" title="Sales Price">Sales Price</div>
+                    </th>                    
+                    <th scope="col" class="colwidth2">
+                        <div class="slds-truncate" title="Full Box/Coil">Full Box/Coil</div>
+                    </th>
+                    <th scope="col" class="colwidth2">
+                        <div class="slds-truncate" title="Discount">Discount</div>
+                    </th> 
+                    <th scope="col">
+                        <div class="slds-truncate" title="Total">Total</div>
+                    </th> 
+                </tr>
+            </thead>
+            <tbody>
+ 
+                <aura:iteration items="{!v.allSelectedProducts}" var="sp" indexVar="index">
+                    <tr>
+                        
+                        <td data-label="Remove Product" style="width:70px;max-width:80px;">
+                            <lightning:buttonIcon value="{!sp.Id}" iconName="utility:close" class="removeProductButton" onclick="{! c.handleRemoveProduct }" size=" xx-small" alternativeText="{! 'Remove ' + sp.Name}" />
+                        </td> 
+                        
+                        <td data-label="Stock Code Name">
+                            <div class="slds-truncate alignItems">
+                                <a href="{!'/lightning/r/Product2/'+ sp.productId + '/view'}" target="_blank" >{!sp.stockCode}</a>                            
+                            </div>                            
+                        </td>
+                        
+                        <td data-label="Quantity">
+                            <lightning:input required="true" value="{!sp.quantity}" type="number" name="quantity" min="1" messageWhenRangeUnderflow="Please enter a min value of 1" ariaLabel="{!index}" onkeyup="{!c.calculateDiscount}"/>
+                        </td> 
+                        
+                        <td data-label="Stock Code Description">
+                            <lightning:input class="slds-truncate" name="stockDescription" value="{!sp.stockDescription}"/>
+                        </td>
+                        
+                        <td data-label="Unit Price">
+                            <div class="slds-truncate" title="{!sp.pricingPolicyPrice}">
+                                <lightning:input type="number" name="UnitPrice" value="{!sp.pricingPolicyPrice}" formatter="currency" step="0.0001" min="1" disabled="true"
+                                                 messageWhenStepMismatch="Cannot have more than two decimal places" messageWhenRangeUnderflow="Please enter a unit price greater than Zero" />                            </div>                         
+                        </td>
+                        
+                        
+                        <td data-label="Sales Price">
+                            <aura:if isTrue="{!sp.pricingPolicyRuleId != '' &amp;&amp; (sp.quantity != sp.pricingPolicyquantity)}">
+                                <div class="slds-truncate" title="{!sp.pricingPolicyPrice}"> 
+                                    <lightning:input type="number" name="SalesPrice" value="{!sp.pricingPolicyPrice}" formatter="currency" step="0.0001" min="1" required="true"
+                                                     messageWhenStepMismatch="Cannot have more than two decimal places" messageWhenRangeUnderflow="Please enter sales price greater than Zero" />
+                                </div> 
+                            </aura:if>
+                            <aura:if isTrue="{!sp.pricingPolicyRuleId != '' &amp;&amp; (sp.quantity == sp.pricingPolicyquantity)}">
+                                <div class="slds-truncate" title="{!sp.BasePrice}">                              
+                                    <lightning:input type="number" name="SalesPrice" value="{!sp.BasePrice}" formatter="currency" step="0.0001" min="1" required="true"
+                                                     messageWhenStepMismatch="Cannot have more than two decimal places" messageWhenRangeUnderflow="Please enter sales price greater than Zero" />
+                                </div> 
+                            </aura:if>
+                            <aura:if isTrue="{!sp.pricingPolicyRuleId == ''}">
+                                <div class="slds-truncate" title="{!sp.BasePrice}">                              
+                                    <lightning:input type="number" name="SalesPrice" value="{!sp.BasePrice}" formatter="currency" step="0.0001" min="1" required="true"
+                                                     messageWhenStepMismatch="Cannot have more than two decimal places" messageWhenRangeUnderflow="Please enter sales price greater than Zero" />
+                                </div> 
+                            </aura:if>                         
+                        </td>
+
+                        Full Box/Coil
+                        <td data-label="FullBox/Coil">
+                            <lightning:input value="{!sp.fullCoilSize == undefined ? 'NA' : sp.fullCoilSize}" name="fullCoilSize" disabled="true"/>
+                        </td>
+
+                        <td data-label="Discount">                           
+                            <lightning:input type="number" name="discount" value="{!sp.discount}" formatter="percent-fixed" step="0.01" min="0" max="100" 
+                                             messageWhenRangeOverflow="Please select a number between 0 to 100" messageWhenStepMismatch="Cannot have more than two decimal places"
+                                             messageWhenRangeUnderflow="Please enter a discount greater than Zero" />                            
+                        </td>  
+                        <td data-label="Total">
+                            <div class="alignItems" >
+                                <ui:outputCurrency value="{!(sp.BasePrice * sp.quantity) - ((sp.BasePrice * sp.quantity) * (sp.discount/100))}"/>
+                            </div>
+                        </td>
+                        <td data-label="SeeDetails">
+                            <lightning:buttonIcon  value="{!sp.productId}" iconName="utility:comments" class="alignItems" onclick="{! c.handleProductQtyDetails }" size=" xx-small" alternativeText="{! 'See ' + sp.Name + ' Details'}" />
+                        </td>  
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>-->
+</aura:component>

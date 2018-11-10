@@ -1,0 +1,1 @@
+<aura:event type="APPLICATION" description="Selected Product To Account Details" />

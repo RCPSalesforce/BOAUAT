@@ -1,0 +1,3 @@
+<apex:page standardController="cadmus__Doc_Config__c" extensions="cadmus.CadmusInterfaceController" showHeader="false" sidebar="false">
+    <apex:canvasApp developerName="PDF_Butler" namespacePrefix="cadmus" height="800px" maxWidth="infinite" width="100%" parameters="{'cadmus_version':'{!cadmusVersion}','cadmus_username':'{!cadmusSettingsWrapper.settings.cadmus__Username__c}','cadmus_password':'{!cadmusSettingsWrapper.password}', 'docConfig':{'id':'{!cadmus__Doc_Config__c.Id}','customerDocumentConfigId':'{!cadmus__Doc_Config__c.cadmus__CustomerDocumentConfigId__c}','docConfigName':'{!cadmus__Doc_Config__c.Name}','stage':'{!stage}','type':'{!cadmus__Doc_Config__c.RecordType.DeveloperName}'}}" scrolling="yes"/>
+</apex:page>

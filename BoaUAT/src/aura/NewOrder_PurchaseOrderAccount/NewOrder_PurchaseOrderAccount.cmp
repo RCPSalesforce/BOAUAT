@@ -1,0 +1,129 @@
+<!-- 
+ @purpose - This component is used to create a new order
+ @CreatedBy - Centelon Team
+-->
+<aura:component controller="NewOrder_SearchAccounts" access="global" >
+    
+    <ltng:require styles='/resource/NewOrderAlert/alertify/alertify.css,
+                          /resource/NewOrderAlert/alertify/default.css' 
+                  scripts='/resource/NewOrderAlert/alertify/alertify.js'/>
+    
+    <aura:attribute name="accountId" type="String" default=""/>
+    <aura:attribute name="accountDetails" type="Object"/>
+    <aura:attribute name="noSelectedAccount" type="Boolean" default="true"/>
+    <aura:attribute name="orderDate" type="Date"/>
+    <aura:attribute name="dueDate" type="Date"/>
+    <aura:attribute name="accConversionRate" type="Object"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="reference" type="String" default=""/>
+    <aura:attribute name="showAccountLookup" type="Boolean" default="false"/>
+    <aura:attribute name="defaultLocOptions" type="Object[]" />
+    <aura:attribute name="defaultLocSelectedVal" type="String"/>
+    <aura:attribute name="oppStages" type="Object[]" />
+    <aura:attribute name="selectedOppStage" type="String"/>
+    <aura:attribute name="internalNote" type="String"/>
+    <aura:attribute name="leadTime" type="Object[]" />
+    <aura:attribute name="selectedLeadTime" type="String"/>
+    <aura:attribute name="salesPersonOptions" type="Object[]" />
+    <aura:attribute name="salesPersonSelectedVal" type="String"/>
+    <aura:attribute name="selectedContactId" type="String"/>
+    <aura:attribute name="closedLostReason" type="String"/>
+    <aura:attribute name="todaysDate" type="String"/>
+    <aura:attribute name="userProfileName" type="String"/>
+    
+    <!--Edit Order Attributes -->
+    <aura:attribute name="opportunityData" type="Object"/>
+    <aura:attribute name="contactSearchField" type="String"/>
+    <aura:attribute name="oppIdExists" type="Boolean" default="false"/>
+    
+    <aura:method name="orderDetails" action="{!c.allOrderDetails}" 
+                 description="This method is called from NewOrder_Home component and is used to fire a component event that will be handled by NewOrder_Home"/> 
+    
+    <aura:registerEvent name="OrdProducts" type="c:NewOrder_SendCustomerDetails"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="selectedAccount" event="c:SelectedAccount" action="{!c.handleSelectedAccount}"/> 
+    
+    
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner variant="brand" alternativeText="Loading" size="medium" />
+    </aura:if>
+    
+    <div>
+        <lightning:layout multipleRows="true" class="accountSections"> 
+            <lightning:layoutItem padding="around-small" size="4">
+                <aura:if isTrue="{!v.showAccountLookup}">
+                    <c:NewOrder_AccountLookup recId="{!v.accountId}" accountType="supplier" oppIdExists="{!v.oppIdExists}"/>
+                </aura:if>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="4">
+                <aura:if isTrue="{!v.showAccountLookup}">
+                    <c:NewOrder_ContactLookUp accountId="{!v.accountId}" selectedContactId="{!v.selectedContactId}" searchKeyword="{!v.contactSearchField}"/>
+                </aura:if>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="4">
+                <lightning:select name="salesperson" label="Salesperson: " value="{!v.salesPersonSelectedVal}" disabled="{!v.noSelectedAccount}">
+                    <aura:iteration items="{!v.salesPersonOptions}" var="item">
+                        <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}"/>
+                    </aura:iteration>
+                </lightning:select>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    
+    <div>
+        <lightning:layout multipleRows="true" class="accountSections">
+            <lightning:layoutItem padding="around-small" size="4" class="accDetails">
+                <div>
+                    <lightning:input name="street" label="Line 1" value="{!v.accountDetails.ShippingStreet}" disabled="{!v.noSelectedAccount}"  maxlength="255"/>
+                    <lightning:input name="cityTown" label="City / Town" value="{!v.accountDetails.ShippingCity}" disabled="{!v.noSelectedAccount}" maxlength="30"/>
+                    <lightning:input name="postalCode" label="PostalCode" value="{!v.accountDetails.ShippingPostalCode}" disabled="{!v.noSelectedAccount}" maxlength="30"/>
+                    <lightning:input name="state" label="State" value="{!v.accountDetails.ShippingState}" disabled="{!v.noSelectedAccount}" maxlength="30"/>
+                    <lightning:input name="country" label="Country" value="{!v.accountDetails.ShippingCountry}" disabled="{!v.noSelectedAccount}"  maxlength="30"/>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="3" class="accDetails">
+                <div>
+                    <lightning:input type="date" name="orderDate" label="Order date: " value="{!v.orderDate}" disabled="{!v.noSelectedAccount}" required="true" aura:id="orderDate" min="{!v.opportunityData == undefined ? v.todaysDate : ''}"/>
+                    <lightning:input type="date" name="dueDate" label="Due date: " value="{!v.dueDate}" disabled="{!v.noSelectedAccount}" required="true" aura:id="dueDate" min="{!v.opportunityData == undefined ? v.todaysDate : ''}"/>    
+                    
+                    <lightning:select name="DefaultLoc" label="Default Loc #:" value="{!v.defaultLocSelectedVal}" disabled="{!v.noSelectedAccount}">
+                        <aura:iteration items="{!v.defaultLocOptions}" var="item">
+                            <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}"/>
+                        </aura:iteration>
+                    </lightning:select>
+                    
+                    <lightning:select name="LeadTime" label="Lead Time:" value="{!v.selectedLeadTime}" disabled="{!v.noSelectedAccount}">
+                        <aura:iteration items="{!v.leadTime}" var="item">
+                            <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}"/>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="4" class="accDetails">
+                <div>                                               
+                    <div class="salesperson">{!v.accountDetails.CurrencyIsoCode == null ? 'No currency available' : v.accountDetails.CurrencyIsoCode}</div>
+                    <div class="accountOwner" style="background-color: rgb(236, 235, 234);">{!v.accConversionRate.ConversionRate}</div>
+                </div>
+                <div>
+                    <lightning:input name="reference" label="Customer Note: " value="{!v.reference}" class="reference" maxlength="20" disabled="{!v.noSelectedAccount}"/>
+                </div>
+                <div>
+                    <lightning:input name="InternalNote" label="InternalNote: " value="{!v.internalNote}" class="reference" maxlength="20" disabled="{!v.noSelectedAccount}"/>
+                </div>
+                <div>
+                    <lightning:select name="OrderStage" label="Order Stage:" value="{!v.selectedOppStage}" disabled="{!v.noSelectedAccount}">
+                        <aura:iteration items="{!v.oppStages}" var="item">
+                            <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}"/>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+                <aura:if isTrue="{!v.selectedOppStage == 'Closed Lost'}">
+                    <div>          
+                        <lightning:input aura:id="lostReason" name="closedLostReason" label="Lost Reason:" value="{!v.closedLostReason}" disabled="{!v.noSelectedAccount}" maxlength="255" required="{!v.selectedOppStage == 'Closed Lost'}"/>                    
+                    </div>
+                </aura:if>
+            </lightning:layoutItem>              
+        </lightning:layout>            
+    </div>
+</aura:component>

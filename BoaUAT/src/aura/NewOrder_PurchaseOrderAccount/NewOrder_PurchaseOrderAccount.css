@@ -1,0 +1,26 @@
+.THIS .accountSections{
+    border: 1px solid #dddbda;
+    margin: 1rem;
+    border-radius: 0.5rem;
+}
+.THIS .accDetails{
+    margin: 1rem;
+    border: 1px solid #dddbda;
+    min-height: 185px;
+}
+.THIS .salesperson{
+    display: inline-block;
+    color: rgb(112, 110, 107);
+    font-size: .75rem;
+    margin-bottom: .125rem;
+}
+.THIS .accountOwner{
+    border: .05rem solid #d9dbdd;
+    max-width: 23.35rem;
+    min-height: 2rem;
+    border-radius: .3rem;
+    padding: 0.4rem;
+}
+.THIS .reference{
+    max-width: 23.35rem;
+}

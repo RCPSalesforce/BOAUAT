@@ -1,0 +1,115 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="GLOBAL">
+
+    <aura:attribute name="account" type="Object"/>
+    <aura:attribute name="customerRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+  
+    
+<force:recordData aura:id="forceRecordCmp"
+		layoutType="FULL"
+		recordId="{!v.recordId}"
+		targetError="{!v.recordError}"
+		targetRecord="{!v.account}"
+		targetFields="{!v.customerRecord}"
+    	fields="Aged_Balance0__c, Aged_Balance1__c, Aged_Balance2__c, Aged_Balance3__c, Balance__c, This_Month_TurnOver__c, This_year_Turnover__c, Last_Month_turnover__c, Last_year_turnover__c" 
+		mode="VIEW"/>
+    
+
+    <!-- Display a lightning card with details about the record -->
+   
+    <div class=""> 
+    <lightning:card iconName="standard:account" title="Turnover and aged balance details " >
+        <div style="width: 30rem;" class="demo-only">
+            <article class="slds-tile">
+            <p class="slds-tile__title slds-truncate"> Turnover : </p>
+            <div class="slds-tile__detail">
+              <dl class="slds-list_horizontal slds-wrap">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    This Month : </dt>
+                  <dd class ="slds-item_detail slds-truncate">
+                  	<lightning:formattedNumber style="currency" currencyCode="{!v.customerRecord.currencyIsoCode}" value="{!v.customerRecord.This_Month_TurnOver__c}" />
+                  </dd>	
+                  
+                   <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Last Month : </dt>
+                  <dd class ="slds-item_detail slds-truncate">
+                  	<lightning:formattedNumber style="currency" currencyCode="{!v.customerRecord.currencyIsoCode}" value="{!v.customerRecord.Last_Month_TurnOver__c}" />
+                  </dd>	
+                  
+            		<dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    This Year : </dt>
+                  <dd class ="slds-item_detail slds-truncate">
+                  	<lightning:formattedNumber style="currency" currencyCode="{!v.customerRecord.currencyIsoCode}" value="{!v.customerRecord.This_year_turnOver__c}" />
+                  </dd>
+           		
+                  <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Last Year : </dt>
+                  <dd class ="slds-item_detail slds-truncate">
+                  	<lightning:formattedNumber style="currency" currencyCode="{!v.customerRecord.currencyIsoCode}" value="{!v.customerRecord.Last_year_turnover__c}" />
+                  </dd>
+
+			           
+           
+                </dl>
+                
+            </div>
+            
+            </article>
+            </div>
+        
+        
+        <div style="width: 30rem;" class="demo-only">
+            <article class="slds-tile">
+            <p class="slds-tile__title slds-truncate"> Aged Balance : </p>
+            <div class="slds-tile__detail">
+              <dl class="slds-list_horizontal slds-wrap">
+                <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Current : </dt>
+                  <dd class ="slds-item_detail slds-truncate">
+                  	<lightning:formattedNumber style="currency" currencyCode="{!v.customerRecord.currencyIsoCode}" value="{!v.customerRecord.Aged_Balance0__c}" />
+                  </dd>	
+                  
+                   <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    1 Month : </dt>
+                  <dd class ="slds-item_detail slds-truncate">
+                  	<lightning:formattedNumber style="currency" currencyCode="{!v.customerRecord.currencyIsoCode}" value="{!v.customerRecord.Aged_Balance1__c}" />
+                  </dd>	
+                  
+            		<dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    2 Months : </dt>
+                  <dd class ="slds-item_detail slds-truncate">
+                  	<lightning:formattedNumber style="currency" currencyCode="{!v.customerRecord.currencyIsoCode}" value="{!v.customerRecord.Aged_Balance2__c}" />
+                  </dd>
+           		
+                  <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    3+ Months : </dt>
+                  <dd class ="slds-item_detail slds-truncate">
+                  	<lightning:formattedNumber style="currency" currencyCode="{!v.customerRecord.currencyIsoCode}" value="{!v.customerRecord.Aged_Balance3__c}" />
+                  </dd>
+				
+                  <dt class="slds-item_label slds-text-color_weak slds-truncate">
+                    Balance : </dt>
+                  <dd class ="slds-item_detail slds-truncate">
+                  	<lightning:formattedNumber style="currency" currencyCode="{!v.customerRecord.currencyIsoCode}" value="{!v.customerRecord.Balance__c}" />
+                  </dd>
+			           
+           
+                </dl>
+                
+            </div>
+            
+            </article>
+            </div>
+        
+       
+    </lightning:card>
+    </div>
+
+    
+    
+      <!-- Display Lightning Data Service errors, if any -->
+    <aura:if isTrue="{!not(empty(v.recordError))}">
+        <div class="recordError">
+            {!v.recordError}</div>
+    </aura:if>
+</aura:component>

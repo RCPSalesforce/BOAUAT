@@ -1,0 +1,446 @@
+<apex:page controller="sfcloud2.QuotePDF_Save" standardStylesheets="false" showHeader="false" docType="html-5.0" applyHtmlTag="false" applyBodyTag="false">
+    <html ng-app="QuotePDFApp" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <head>
+            <link rel="stylesheet" href="{!URLFOR($Resource.SLDS, 'assets/styles/salesforce-lightning-design-system.min.css')}" />
+            <link rel="stylesheet" href="{!URLFOR($Resource.GoCloudzResources, 'lib/font-awesome/css/font-awesome.css')}" />
+            <title>GoCloudz :: PDF Generator</title>
+            
+            <script src="{!URLFOR($Resource.GoCloudzResources, 'lib/jquery/jquery.js')}"></script>
+            <script src="{!URLFOR($Resource.GoCloudzResources, 'lib/angular/angular.js')}"></script>
+            <script src="{!URLFOR($Resource.GoCloudzResources, 'lib/underscore/underscore.min.js')}"></script>
+            <script type="text/javascript">
+                angular.module('QuotePDFApp', [])
+                .service('notificationService', ['$filter', '$timeout', function( $filter, $timeout){
+                    var self = this;
+                    var $sldsContainer = $('.slds');
+                    var notificationTemplate = '<div class="slds-notify slds-notify--alert {{theme}} slds-m-around--xx-small" role="alert">\
+                                                        <span class="slds-assistive-text">{{type}}</span>\
+                                                        <button class="slds-button slds-button--icon-inverse slds-notify__close">\
+                                                            <svg aria-hidden="true" class="slds-button__icon">\
+                                                                <use xlink:href="{{assetUrl}}/assets/icons/action-sprite/svg/symbols.svg#close"></use>\
+                                                            </svg>\
+                                                            <span class="slds-assistive-text">Close</span>\
+                                                        </button>\
+                                                        <h2>{{body}}</h2>\
+                                                    </div>';
+                    
+                    var spinnerTemplate =   '<div class="slds-spinner_container">\
+                                                <div class="slds-spinner--{{theme}} slds-spinner slds-spinner--{{size}}" aria-hidden="false" role="alert">\
+                                                    <div class="slds-spinner__dot-a"></div>\
+                                                    <div class="slds-spinner__dot-b"></div>\
+                                                </div>\
+                                            </div>';
+                    
+                
+                    self.alert = function(message) {
+                        var theme = 'slds-theme--inverse-text';
+                        if( message.type) {
+                            theme = 'slds-theme--' + message.type;
+                        }
+                        
+                        var $notification = $(notificationTemplate
+                                              .replace('{{theme}}', theme)
+                                              .replace(/{{type}}/g, message.type)
+                                              .replace('{{body}}', message.body)
+                                              .replace(/{{assetUrl}}/g, '{!URLFOR($Resource.SLDS)}'));
+                        
+                        var duration = message.duration ? message.duration : 5000;
+                        $sldsContainer.prepend($notification);
+                        var callbackPromise = $timeout(function() {
+                            $notification.remove();
+                        }, duration);
+                        
+                        var $closeBtn = $notification.find('.slds-notify__close');
+                        $closeBtn.on('click', { callbackPromise: callbackPromise}, function(event){
+                            $notification.remove();
+                            $timeout.cancel(event.data.callbackPromise);
+                        });
+                    }
+                }])
+                .directive('sldsLookup', ['$timeout', function($timeout) {
+                    return {
+                        restrict: 'E',
+                        require: ['ngModel'],
+                        replace: true,
+                        templateUrl: 'lookup.tpl.html',
+                        scope: {
+                            id: '@',
+                            label: '@',
+                            nameField: '@',
+                            object: '@',
+                            placeholder: '@',
+                            readonly: '@',
+                            model: '=ngModel'
+                        },
+                        link: function(scope, elem, attrs) {
+                            scope.data = [];
+                            scope.isAriaExpanded = false;
+                            
+                            var $lookupInput = elem.find('input');
+                            
+                            elem.on('keyup', function() {
+                                var $activeA = elem.find('.slds-lookup__list a:focus');
+                                if (event.keyCode === 40) {
+                                    if ($activeA.length > 0) {
+                                        var $nextA = $activeA.parent().next().find('a');
+                                        if($nextA.length > 0) {
+                                            $activeA = $nextA.focus();    
+                                        } else {
+                                            $activeA = elem.find('.slds-lookup__list').find('a:first').focus();
+                                        }
+                                    } else {
+                                        $activeA = elem.find('.slds-lookup__list').find('a:first').focus();
+                                    }
+                                }
+                                
+                                if (event.keyCode === 38) {
+                                    if ($activeA.length > 0) {
+                                        var $prevA = $activeA.parent().prev().find('a');
+                                        if($prevA.length > 0) {
+                                            $activeA = $prevA.focus();    
+                                        } else {
+                                            $activeA = elem.find('.slds-lookup__list').find('a:last').focus();
+                                        }
+                                    } else {
+                                        $activeA = elem.find('.slds-lookup__list').find('a:last').focus();
+                                    }
+                                }
+                                
+                                $lookupInput.attr('aria-activedescendant', $activeA.attr('id'));
+                            });
+                            
+                            scope.searchLookup = function() {
+                                $timeout.cancel(scope.callbackPromise);
+                                
+                                scope.callbackPromise = $timeout(function() {
+                                    Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.QuotePDF_Save.searchLookup}', scope.object, scope.nameField, scope.model[scope.nameField], 100, function(result, event) {
+                                        if( result.Success) {
+                                            scope.$apply(function() {
+                                                scope.data = result.Data.Records;
+                                                console.log('SearchLookup Called...');
+                                            });
+                                        }
+                                    }, { escape: false });
+                                }, 300);
+                            }
+                            
+                            scope.onItemClick = function(item) {
+                                scope.model = item;
+                                scope.isAriaExpanded = false;
+                            }
+                            
+                            scope.clearLookup = function() {
+                                scope.model = { Id: '', Name: '' };
+                                $timeout(function(){
+                                    $lookupInput.focus();
+                                }, 100);
+                            }
+                            
+                            scope.onKeyup = function(event) {
+                                scope.isAriaExpanded = !(event.keyCode === 27);
+                                if( event.keyCode == 8 || (event.keyCode >= 65 && event.keyCode <= 90) || (event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 97 && event.keyCode <= 122)) {
+                                    scope.searchLookup();    
+                                }
+                            }
+                            
+                            scope.onLookupFocus = function() {
+                                if( scope.data.length === 0) {
+                                    scope.searchLookup();
+                                }
+                                scope.isAriaExpanded = !scope.isAriaExpanded;
+                            }
+                        }
+                    }
+                }])
+                .controller('QuotePDFCtrl', ['$scope', '$timeout', 'notificationService', function($scope, $timeout, notificationService) {
+                    var initResultString = '{!InitResultString}';
+                    angular.SAC = $scope;
+                    $scope.IsLEXEnabled = (('{!$User.UITheme}' === 'Theme4d' || '{!$User.UITheme}' === 'Theme4t') && {!$User.UITheme == $User.UIThemeDisplayed});
+                    $scope.SelectedTemplate = { Id: '', Name: '--Select Template--' };
+                    $scope.PDFTemplateList = [];
+                    $scope.PDFTemplateList.push($scope.SelectedTemplate);
+                    $scope.IFrameSrcURL = '';
+                    $scope.PageMessage = '';
+                    $scope.SendEmailHeader = '';
+                    $scope.SelectedSObject = { Id: '', Name: '' };
+                    
+                    if(initResultString) {
+                        $scope.InitResult = JSON.parse(initResultString);
+                        $scope.SelectedSObject[$scope.InitResult.Data.LookupNameField] = '';
+                        var accessResult = $scope.InitResult.Data.AccessResult;
+                        $scope.PageMessage = accessResult.Success ? '' : accessResult.Message;
+                        $scope.HasRecipients = accessResult.Success;
+                        
+                        if($scope.InitResult.Success) {
+                            angular.forEach($scope.InitResult.Data.PDFTemplateList, function(template) {
+                                $scope.PDFTemplateList.push(template);
+                            });
+                            
+                            if($scope.InitResult.Data.PageParams.action != 'preview' && $scope.PDFTemplateList.length === 1) {
+                                $scope.PageMessage = 'No active template found, go to "PDF Templates" tab to create one. Please contact your system administrator for further assistance.';
+                            } else if($scope.PDFTemplateList.length === 2) {
+                                $scope.SelectedTemplate = $scope.PDFTemplateList[1];
+                                $scope.SendEmailHeader = 'Go to "PDF Templates" tab to configure templates. Please click the help link or contact your system administrator for assistance.';
+                                
+                                $timeout(function() {
+                                    if($scope.InitResult.Data.PageParams.id && $scope.SelectedTemplate.Id) {
+                                        $scope.IFrameSrcURL = '/apex/QuotePDF_View?id=' + $scope.InitResult.Data.PageParams.id + '&templateId=' + $scope.SelectedTemplate.Id;
+                                    }
+                                });
+                            } else {
+                                $scope.SendEmailHeader = 'Go to "PDF Templates" tab to configure templates. Please click the help link or contact your system administrator for assistance.';
+                            }
+                        }
+                    }
+                    
+                    $scope.onTemplateChange = function(parentId, templateId) {
+                        if(parentId && templateId) {
+                            $scope.IFrameSrcURL = '/apex/QuotePDF_View?id=' + parentId + '&templateId=' + templateId;
+                        } else {
+                            $scope.IFrameSrcURL = '';    
+                        }
+                    }
+                    
+                    $scope.save = function(bQuickSave) {
+                        if($scope.IsSaving) return;
+
+                        $scope.InitResult.Data.PageParams.action = $scope.InitResult.Data.PageParams.action || '';
+                        $scope.IsSaving = true;
+                        Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.QuotePDF_Save.save}', $scope.InitResult.Data.PageParams.id, $scope.InitResult.Data.SObjectType, $scope.InitResult.Data.PageParams.action, $scope.SelectedTemplate.Id, bQuickSave, $scope.IsLEXEnabled, function(result, event) {
+                            $scope.$apply(function() {
+                                $scope.IsSaving = false;
+                                
+                                console.log(result, event);
+                                if(!event.status) {
+                                    notificationService.alert({ type: 'error', body: 'An error occurred while processing your request. Please contact your system administrator' });
+                                    console.log(event);
+                                    window.scrollTo(0, 0);
+                                    return;
+                                }
+                                
+                                if(result.Success) {
+                                    if($scope.IsLEXEnabled) {
+                                        sforce.one.navigateToURL(result.Data.RetUrl);
+                                    } else {
+                                        window.open(result.Data.RetUrl, '_self');
+                                    }
+                                } else {
+                                    notificationService.alert({ type: 'error', body: result.Message });
+                                    window.scrollTo(0, 0);
+                                }
+                            });
+                        }, { escape: false });
+                    }
+                    
+                    $scope.$watch('SelectedSObject', function(newValue) {
+                        $scope.onTemplateChange(newValue.Id, $scope.InitResult.Data.PageParams.templateId);
+                    });
+                    
+                    console.log($scope.InitResult);
+                }]);
+            </script>
+        </head>
+        <body class="slds" ng-controller="QuotePDFCtrl">
+            <!-- SLDS Lookup Template Starts -->
+            <script type="text/ng-template" id="lookup.tpl.html">
+                <div class="slds-lookup" data-select="single" data-scope="single" data-typeahead="true">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="{{id}}">{{label}}</label>
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
+                            <svg aria-hidden="true" class="slds-input__icon slds-icon-text-default" ng-class="{'slds-hide': model.Id}">
+                                <use xlink:href="{!URLFOR($Resource.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#search')}"></use>
+                            </svg>
+                            <div class="slds-pill_container slds-hide" ng-class="{'slds-show': model.Id}">
+                                <a href="javascript: void(0)" class="slds-pill">
+                                    <svg aria-hidden="true" class="slds-icon slds-icon-standard-account slds-pill__icon">
+                                        <use xlink:href="{!URLFOR($Resource.SLDS, '/assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+                                    </svg>
+                                    <span class="slds-pill__label">{{model[nameField]}}</span>
+                                    <button class="slds-button slds-button--icon-bare slds-pill__remove" ng-click="clearLookup()">
+                                        <svg ng-hide="readonly" aria-hidden="true" class="slds-button__icon">
+                                            <use xlink:href="{!URLFOR($Resource.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#close')}"></use>
+                                        </svg>
+                                        <span class="slds-assistive-text">Remove</span>
+                                    </button>
+                                </a>
+                            </div>
+                            <input id="{{id}}" class="slds-input" ng-class="{'slds-hide': model.Id}" type="text" aria-autocomplete="list" role="combobox" aria-expanded="isAriaExpanded" ng-model="model[nameField]" ng-click="isAriaExpanded=true" ng-focus="onLookupFocus()" ng-keyup="onKeyup($event)" aria-activedescendant="" placeholder="{{placeholder}}" />
+                        </div>
+                    </div>
+                    <div class="slds-lookup__menu slds-hide" ng-class="{'slds-show': isAriaExpanded}" role="listbox">
+                        <ul class="slds-lookup__list" role="presentation">
+                            <li class="slds-lookup__item" ng-repeat="item in data | limitTo: 5">
+                                <a id="s0{{$index}}" href="javascript: void(0)" role="option" ng-click="onItemClick(item)">
+                                    <svg aria-hidden="true" class="slds-icon slds-icon-standard-account slds-icon--small">
+                                        <use xlink:href="{!URLFOR($Resource.SLDS, '/assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+                                    </svg>{{item[nameField]}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </script>
+            <!-- SLDS Lookup Template Ends -->
+            
+            
+            
+            <div class="slds-page-header" role="banner">
+                <div class="slds-grid">
+                    <div class="slds-col slds-has-flexi-truncate">
+                        <div class="slds-media slds-no-space slds-grow">
+                            <div class="slds-media__figure">
+                                <svg aria-hidden="true" class="slds-icon slds-icon-standard-user">
+                                    <use xlink:href="{!URLFOR($Resource.SLDS, '/assets/icons/standard-sprite/svg/symbols.svg#user')}"></use>
+                                </svg>
+                            </div>
+                            <div class="slds-media__body">
+                                <h1 class="slds-page-header__title slds-m-right--small slds-align-middle slds-truncate" title="{{InitResult.Data.ParentRecord[InitResult.Data.LookupNameField] || InitResult.Data.ParentRecord.Name}}">
+                                    <a class="slds-text-link--reset" href="/{{InitResult.Data.ParentRecord.Id}}" title="{{InitResult.Data.ParentRecord[InitResult.Data.LookupNameField] || InitResult.Data.ParentRecord.Name}}">
+                                        {{InitResult.Data.ParentRecord[InitResult.Data.LookupNameField] || InitResult.Data.ParentRecord.Name}}
+                                    </a>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-no-flex slds-grid slds-align-top">
+                        <div class="slds-button-group" role="group">
+                            <button class="slds-button slds-button--neutral">
+                                <a class="slds-text-link--reset" href="https://appexchange.salesforce.com/listingDetail?listingId=a0N3000000B4AsxEAF&tab=r" target="_blank" title="Rate this app (opens in new window)">
+                                    <span class="slds-text-link">Rate PDF Generator 
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </button>
+                            <button class="slds-button slds-button--neutral">
+                                <a class="slds-text-link--reset" href="/apex/QuotePDF_Documentation" target="_blank" title="Opens in new window">
+                                    <span class="slds-text-link">Help 
+                                        <i class="fa fa-question-circle" aria-hidden="true"></i>
+                                    </span></a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div ng-if="PageMessage" class="slds-box slds-m-around--small slds-theme--error slds-theme--alert-texture">
+                <p>{{PageMessage}}</p>
+            </div>
+            
+            <div ng-show="InitResult.Data.PageParams.action === 'sendEmail' && SendEmailHeader" class="slds-box slds-m-around--small">
+                <p>{{SendEmailHeader}}</p>
+            </div>
+            
+            <article class="slds-card slds-m-around--small">
+                <div class="slds-card__header slds-grid">
+                    <form ng-show="InitResult.Data.PageParams.action !== 'preview'" class="slds-form--inline">
+                        <!-- Select Template -->
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="select-01">Select Template</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select id="SelectTemplateDropdown" class="slds-select" ng-model="SelectedTemplate" ng-change="onTemplateChange(InitResult.Data.ParentRecord.Id, SelectedTemplate.Id)" ng-options="template as template.Name for template in PDFTemplateList"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Save PDF -->
+                        <button ng-if="SelectedTemplate.Id" class="slds-button slds-button--brand" ng-click="save(true)" title="Save to {{InitResult.Data.PageTitle}}">
+                            <i class="fa fa-spinner fa-spin" ng-show="IsSaving" /> Save to {{InitResult.Data.PageTitle}}
+                        </button>
+                        <!-- Email/E-Signature Button -->
+                        <button ng-if="(InitResult.Data.PageParams.action === 'sendEmail' && SelectedTemplate.Id) || (InitResult.Data.PageParams.action === 'sendForESignature' && SelectedTemplate.Id && HasRecipients)" class="slds-button slds-button--brand" ng-click="save(false)" title="{{InitResult.Data.PageParams.action === 'sendEmail' ? 'Save and Email' : 'Save and send for E-Signature' }}">
+                            <i class="fa fa-spinner fa-spin" ng-show="IsSaving" /> {{InitResult.Data.PageParams.action === 'sendEmail' ? 'Save and Email' : 'Save and send for E-Signature' }}
+                        </button>
+                    </form>
+                    
+                    <!-- Select sObject to preview template -->
+                    <form ng-show="InitResult.Data.PageParams.action === 'preview'" class="slds-form--stacked">
+                    	<slds-lookup id="SObjectField" label="Lookup an existing {{InitResult.Data.PageTitle}} to preview the template" name-field="{{InitResult.Data.LookupNameField}}" object="{{InitResult.Data.SObjectType}}" ng-model="SelectedSObject" placeholder="Lookup an existing {{InitResult.Data.PageTitle}} to preview the template" />
+                    </form>
+                </div>
+                
+                <!-- View PDF -->
+                <div ng-if="IFrameSrcURL" class="slds-card__body slds-p-around--medium">
+                    <apex:iframe id="pdf" src="{{IFrameSrcURL}}" scrolling="false" height="520px" />
+                    <!-- <iframe src="{{IFrameSrcURL | trustAsResourceUrl}}"></iframe> -->
+                </div>
+            </article>
+        </body>
+    </html>
+</apex:page>
+
+
+<!-- OLD non-LEX code ---
+    <style>
+        .error { color: red; font-weight: strong; font-size: 1.3em; }
+        .error1 { color: red; font-weight: strong; font-size: 1.1em; }
+        .bold { color: black; font-size: 1.5em; }
+        .bold1 { font-weight: bold; font-size: 1em; }
+        body { overflow:hidden; }
+    </style>
+
+    <apex:pageMessages id="messages" escape="false" rendered="{!action!='preview'}" />
+    <br /> 
+    
+    <apex:form id="form"> 
+        
+        
+        <!-- Select a template -- > 
+        <apex:outputPanel id="pnlSelect" rendered="{!IF(AND(action!='preview', options.size>0), true, false)}"> 
+        
+            <table style="width:100%;">
+                <tbody>
+                    <tr>
+                        <td style="width: 550px" class="error1">
+                            <a href="/{!id}" title="Go back to {!sObj['Name']}" class="error1">Go back to {!sObj['Name']}</a>     
+                        </td>
+                        <td style="text-align: right;">
+                            <a href="https://appexchange.salesforce.com/listingDetail?listingId=a0N3000000B4AsxEAF&tab=r" target="_blank" class="helpLink" title="Rate this app (opens in new window)">Rate Quote PDF</a> | 
+                            <a href="/apex/QuotePDF_Documentation" target="_blank" class="helpLink" title="Opens in new window">
+                                Help 
+                                <img src="/s.gif" alt="" class="helpIcon" />
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br/>
+            
+            <!-- Select Template -- >
+            <apex:selectList value="{!templateId}" size="1" required="true" title="Select Template">
+                <apex:selectOptions value="{!options}" /> 
+                <apex:actionSupport event="onchange" rerender="form" status="loading0"/>            
+            </apex:selectList>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+             
+            <!-- Save PDF -- >       
+            <apex:commandButton action="{!save}" value="Save to {!sObjLabel}" title="Save to {!sObjLabel}" alt="Save to {!sObjLabel}" status="loading0" rerender="pnlView, messages" rendered="{!templateId!=''}">
+                <apex:param name="quickSave" value="true" /> 
+            </apex:commandButton>
+            &nbsp;&nbsp;
+            
+            <!-- Email/E-Signature Button -- >
+            <apex:variable var="btn" value="{!IF(action=='sendEmail', 'Save and Email', 'Save and send for E-Signature')}"/>
+            <apex:commandButton action="{!save}" value="{!btn}" title="{!btn}" alt="{!btn}" status="loading0" rerender="pnlView, messages" rendered="{!AND(templateId!='', canSave)}" />
+            &nbsp;&nbsp; 
+                     
+            <apex:actionStatus id="loading0"  startText=" loading..." />     
+        </apex:outputPanel>         
+            
+        <!-- Select sObject to preview template -- >
+        <apex:outputPanel id="pnlPreview" rendered="{!IF(action='preview', true, false)}" style="font-size:1.6em;">
+            Lookup an existing {!sObjNameNoNameSpace} to preview the template
+            <apex:inputField value="{!preview[sObjNameNoNameSpace + '__c']}" required="true">
+                 <apex:actionSupport status="loading0" event="onchange" rerender="form" />
+            </apex:inputField>
+        </apex:outputPanel>
+        <br/>
+        
+        <!-- View PDF -- >
+        <apex:outputPanel id="pnlView" rendered="{!AND(templateId!='', OR(id!='', preview[sObjNameNoNameSpace + '__c']!=''))}">
+            <br/>
+            <apex:iframe id="pdf" src="/apex/QuotePDF_View?id={!IF(action='preview', preview[sObjNameNoNameSpace + '__c'], id)}&templateId={!templateId}" scrolling="false" height="520px" />     
+        </apex:outputPanel>
+        
+    </apex:form>
+   -->

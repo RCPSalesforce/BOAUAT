@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <customHelpPage>QuotePDF_Documentation</customHelpPage>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>Recipients for e-signature and email delivery</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Action__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Action</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Sign</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Recipients</relationshipLabel>
+        <relationshipName>Contact_Recipient</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Email__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <formula>IF(
+  NOT(ISBLANK( Contact__c ) ) ,
+  Contact__r.Email ,
+  IF(
+    NOT(ISBLANK( User__c ) ) ,
+    User__r.Email ,
+    Lead__r.Email 
+  )
+)</formula>
+        <label>Email</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Lead__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Lead</label>
+        <referenceTo>Lead</referenceTo>
+        <relationshipLabel>Recipients</relationshipLabel>
+        <relationshipName>Recipients</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Name__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <formula>IF(
+  NOT(ISBLANK( Contact__c ) ) ,
+  Contact__r.FirstName &amp;&quot; &quot;&amp; Contact__r.LastName ,
+  IF(
+    NOT(ISBLANK( User__c ) ) ,
+    User__r.FirstName &amp;&quot; &quot;&amp; User__r.LastName ,
+    Lead__r.FirstName &amp;&quot; &quot;&amp; Lead__r.LastName 
+  )
+)</formula>
+        <label>Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Opportunity__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Opportunity</label>
+        <referenceTo>Opportunity</referenceTo>
+        <relationshipLabel>Recipients</relationshipLabel>
+        <relationshipName>Opportunity_Recipient</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Order1__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Order</label>
+        <referenceTo>Order</referenceTo>
+        <relationshipLabel>Recipients</relationshipLabel>
+        <relationshipName>Recipients</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Order__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Required for e-signature only. Order in which the recipient will sign the PDF document</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Required for e-signature only. Order in which the recipient will sign the PDF document</inlineHelpText>
+        <label>Order</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Primary__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Should this user&apos;s or contact&apos;s information be merged when sending email? From Winter 17, WhoId can be User or Contact record</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Should this user&apos;s or contact&apos;s information be merged when sending email?</inlineHelpText>
+        <label>Primary</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Quote__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Quote</label>
+        <referenceTo>Quote</referenceTo>
+        <relationshipLabel>Recipients</relationshipLabel>
+        <relationshipName>Quote_Recipient</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Receive_email_as__c</fullName>
+        <deprecated>false</deprecated>
+        <description>How should the recipient receive email?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>How should the recipient receive email?</inlineHelpText>
+        <label>Receive email as</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>To</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>CC</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>BCC</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Signer_Role__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Required for e-signature only. Role determines where the recipient needs to sign on the PDF document</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Required for e-signature only. Role determines where the recipient needs to sign on the PDF document</inlineHelpText>
+        <label>Signer Role</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Signer 1</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Signer 2</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Signer 3</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Signer 4</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>User__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>User</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>User_Recipient</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <label>Recipient</label>
+    <nameField>
+        <displayFormat>R-{0000}</displayFormat>
+        <label>Recipient #</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Recipients</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <validationRules>
+        <fullName>Multiple_Recipients</fullName>
+        <active>true</active>
+        <errorConditionFormula>OR(
+  AND(
+    NOT ( ISBLANK( Contact__c ) ) ,
+    NOT ( ISBLANK( User__c ) ) 
+  ),
+  AND(
+    NOT ( ISBLANK( Contact__c ) ) ,
+    NOT ( ISBLANK( Lead__c ) ) 
+  ),
+  AND(
+    NOT ( ISBLANK( Lead__c ) ) ,
+    NOT ( ISBLANK( User__c ) ) 
+  )
+)</errorConditionFormula>
+        <errorMessage>Cannot select multiple recipients. Select either Contact, Lead, or User as recipient.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Order_must_be_positive_integer</fullName>
+        <active>true</active>
+        <errorConditionFormula>OR(
+  Order__c &lt;=0,
+  AND(
+    TEXT( Signer_Role__c ) != &apos;&apos;,
+    ISBLANK(Order__c) 
+  )
+)</errorConditionFormula>
+        <errorDisplayField>Order__c</errorDisplayField>
+        <errorMessage>Invalid order. It must be positive number and required if &quot;Signer Role&quot; is populated.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Recipient_Required</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(
+   ISBLANK( Contact__c ) ,
+   ISBLANK( User__c ) ,
+   ISBLANK( Lead__c ) 
+  )</errorConditionFormula>
+        <errorMessage>Recipient required. Please select either a Contact, Lead, or User as recipient.</errorMessage>
+    </validationRules>
+</CustomObject>

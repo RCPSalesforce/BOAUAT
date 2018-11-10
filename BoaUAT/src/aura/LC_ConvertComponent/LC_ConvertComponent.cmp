@@ -1,0 +1,62 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="ConvertComponentController">
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="selectedDocConfigId" type="String" />
+    <aura:attribute name="docConfigs" type="List" />
+    <aura:attribute name="docConfigIds" type="String" />
+    <aura:attribute name="locale" type="String" />
+   	<aura:attribute name="showLocale" type="Boolean" />
+    <aura:attribute name="alternative" type="String" />
+   	<aura:attribute name="showAlternative" type="Boolean" />
+    <aura:attribute name="showPdfProfiles" type="String" />
+    <aura:attribute name="showDocxProfiles" type="String" />
+    <aura:attribute name="currentUser" type="User" />
+   	<aura:attribute name="showPdfButton" type="Boolean" />
+   	<aura:attribute name="showDocxButton" type="Boolean" />
+	
+    <lightning:spinner variant="brand" size="large" aura:id="mySpinner" class="slds-hide" />
+    <a name="fileDownload" id="fileDownload" download="pdfbutler.pdf"/>
+    <lightning:card >
+        <aura:set attribute="title">PDF Butler Document Selection
+            <p class="slds-p-horizontal_small">
+                <aura:if isTrue="{!v.showLocale}">
+                	<lightning:input label="Locale" name="locale" value="{!v.locale}" placeholder="Locale"/>
+                </aura:if>
+                <aura:if isTrue="{!v.showAlternative}">
+                	<lightning:input label="Alternative" name="alternative" value="{!v.alternative}" placeholder="Alternative Name"/>
+                </aura:if>
+            </p>
+        </aura:set>
+        <p class="slds-p-horizontal_small">
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped fixedwidth">
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th scope="col" width="60%">
+                            <div class="slds-truncate" title="Field">DocConfig Name</div>
+                        </th>
+                        <th scope="col" width="40%">
+                            <div class="slds-truncate" title="Action">Actions</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.docConfigs}" var="docConfig">
+                        <tr>
+                            <td>{! docConfig.Name }</td>
+                            <td>
+                                <div class="slds-button-group" role="group">
+                                    <aura:if isTrue="{!v.showPdfButton}">
+                                    	<button class="slds-button slds-button_neutral" onclick="{! c.genPdf }" data-record="{!docConfig.Id}">PDF</button>
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.showDocxButton}">
+                                    	<button class="slds-button slds-button_neutral" onclick="{! c.genDocx }" data-record="{!docConfig.Id}">DOCX</button>
+                                    </aura:if>
+                                </div>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </p>
+    </lightning:card>
+</aura:component>

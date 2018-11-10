@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <customHelpPage>QuotePDF_Documentation</customHelpPage>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>Columns that will be displayed in Quote PDF</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Aggregate_Label__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Enter text if the field needs to be aggregated for this table.
+Note: Only integer, decimal, currency, and percent fields can be aggregated.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter text if the field needs to be aggregated for this table.
+Note: Only integer, decimal, currency, and percent fields can be aggregated.</inlineHelpText>
+        <label>Aggregate Label</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Aggregate_Type__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Select aggregate type for this field.
+Note: Math functions available for number fields only. For eample Currency, Percent, etc</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Select aggregate type for this field.
+Note: Math functions available for number fields only. For eample Currency, Percent, etc</inlineHelpText>
+        <label>Aggregate Type</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Field_Type__c</controllingField>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Sum</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Avg</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Min</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Max</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Append</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>as-is</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Number</controllingFieldValue>
+                <controllingFieldValue>Currency</controllingFieldValue>
+                <controllingFieldValue>Percent</controllingFieldValue>
+                <valueName>Sum</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Number</controllingFieldValue>
+                <controllingFieldValue>Currency</controllingFieldValue>
+                <controllingFieldValue>Percent</controllingFieldValue>
+                <valueName>Avg</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Number</controllingFieldValue>
+                <controllingFieldValue>Currency</controllingFieldValue>
+                <controllingFieldValue>Percent</controllingFieldValue>
+                <valueName>Min</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Number</controllingFieldValue>
+                <controllingFieldValue>Currency</controllingFieldValue>
+                <controllingFieldValue>Percent</controllingFieldValue>
+                <valueName>Max</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Number</controllingFieldValue>
+                <controllingFieldValue>Currency</controllingFieldValue>
+                <controllingFieldValue>Percent</controllingFieldValue>
+                <controllingFieldValue>String</controllingFieldValue>
+                <controllingFieldValue>Date</controllingFieldValue>
+                <valueName>as-is</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>String</controllingFieldValue>
+                <controllingFieldValue>Date</controllingFieldValue>
+                <valueName>Append</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Append_Currency_Symbol__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Do you want to append currency symbol to this field? For e.g. $, €, £</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Do you want to append currency symbol to this field? For e.g. $, €, £</inlineHelpText>
+        <label>x-Deprecated -- Append Currency Symbol</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Background_Color_Aggregate__c</fullName>
+        <defaultValue>&quot;FFFFFF&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Background Color (Aggregate)</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Background_Color_Header__c</fullName>
+        <defaultValue>&quot;d9d9d9&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Background Color (Header)</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Background_Color_Rows__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk
+Keep it blank if you have specified alternate row color on the template.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk
+Keep it blank if you have specified alternate row color on the template.</inlineHelpText>
+        <label>Background Color (Column)</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Field_Type__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Select type to format the value as per user locale</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Select type to format the value as per user locale</inlineHelpText>
+        <label>Field Type</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Number</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Currency</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Percent</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>String</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Date</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Font_Color_Aggregate__c</fullName>
+        <defaultValue>&quot;000000&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Font Color (Aggregate)</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Font_Color_Header__c</fullName>
+        <defaultValue>&quot;000000&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Font Color (Header)</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Font_Color_Rows__c</fullName>
+        <defaultValue>&quot;000000&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Font Color (Column)</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Font_Weight_Aggregate__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Font Weight (Aggregate)</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>normal</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>bold</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Font_Weight_Header__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Font Weight (Header)</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>normal</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>bold</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Font_Weight_Rows__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Font Weight (Column)</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>normal</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>bold</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Group_By__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Would you like to group items on Quote PDF by this field? For e.g You can group items by Product Family 
+Note: You can group items only by Product field</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Would you like to group items on Quote PDF by this field? For e.g You can group items by Product Family
+Note: You can group items only by Product field.</inlineHelpText>
+        <label>Group By</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Order__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Order</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PDF_Section__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>PDF Table</label>
+        <referenceTo>PDF_Section__c</referenceTo>
+        <relationshipLabel>PDF Columns</relationshipLabel>
+        <relationshipName>PDF_Columns</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Quote_line_item_API_name__c</fullName>
+        <deprecated>false</deprecated>
+        <description>API name for quote line item fields. Eg Discount, Quantity, etc</description>
+        <externalId>false</externalId>
+        <inlineHelpText>API name for quote line item fields. Eg Discount, Quantity, etc</inlineHelpText>
+        <label>API Name</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Text_Align_Aggregate__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Text Align (Aggregate)</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>left</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>right</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>center</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Text_Align_Header__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Text Align (Header)</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>left</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>right</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>center</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>justify</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Text_Align_Rows__c</fullName>
+        <defaultValue>&quot;right&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Text Align (Column)</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>left</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>right</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>center</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>justify</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Width__c</fullName>
+        <defaultValue>15</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Column width in %. For eg 10%. Do not append %</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Column width in %. For eg 10%. Do not append %</inlineHelpText>
+        <label>Width</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>PDF Column</label>
+    <nameField>
+        <label>Label</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>PDF Columns</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <validationRules>
+        <fullName>Validate_Group_By</fullName>
+        <active>false</active>
+        <description>If Group By is checked, make sure Quote line item API name is for Product object.</description>
+        <errorConditionFormula>AND (
+  Group_By__c,
+  NOT BEGINS( Quote_line_item_API_name__c , &apos;PricebookEntry.Product2.&apos;) 
+)</errorConditionFormula>
+        <errorDisplayField>Quote_line_item_API_name__c</errorDisplayField>
+        <errorMessage>You can group items only by product field. 
+For e.g. &quot;PricebookEntry.Product2.Family&quot; OR
+&quot;PricebookEntry.Product2.Custom_Field__c&quot;</errorMessage>
+    </validationRules>
+</CustomObject>

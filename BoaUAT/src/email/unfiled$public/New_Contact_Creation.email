@@ -1,0 +1,7 @@
+Hi Team,
+
+  Contact {!Contact.Name} has created for Customer {!Account.Name}.
+  Please click the below link to review the contact.
+  Contact {!Contact.Link}
+
+Thanks.

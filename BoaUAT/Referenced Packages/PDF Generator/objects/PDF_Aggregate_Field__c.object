@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <customHelpPage>QuotePDF_Documentation</customHelpPage>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>Aggregate fields to display at end of the Quote. For eg: Total Price, Tax, etc</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Append_Currency_Symbol__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Do you want to append currency symbol to this field? For e.g. $, €, £</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Do you want to append currency symbol to this field? For e.g. $, €, £</inlineHelpText>
+        <label>x-Deprecated -- Append Currency Symbol</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Background_Color__c</fullName>
+        <defaultValue>&quot;FFFFFF&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red 
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Background Color</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Field_Type__c</fullName>
+        <defaultValue>&quot;Currency&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Select type to format the value as per user locale</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Select type to format the value as per user locale</inlineHelpText>
+        <label>Field Type</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Number</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Currency</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Percent</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Date</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Font_Color__c</fullName>
+        <defaultValue>&quot;000000&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hexadecimal notation (HEX). For eg FF0000 == Red
+Color picker: bit.ly/36KFwk</inlineHelpText>
+        <label>Font Color</label>
+        <length>6</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Font_Size__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Font Size</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>10px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>11px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>12px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>13px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>14px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>15px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>16px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>17px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>18px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>19px</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>20px</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Font_Weight__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Font Weight</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>normal</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>bold</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Label__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Label</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Order__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Order</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Template_Name__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Template Name</label>
+        <referenceTo>PDF_Template__c</referenceTo>
+        <relationshipLabel>Aggregate Fields</relationshipLabel>
+        <relationshipName>PDF_Aggregate_Fields</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Text_Align__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Text Align</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>left</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>right</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Width__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Width in %. For eg 10%. Do not append %</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Width in %. For eg 10%. Do not append %</inlineHelpText>
+        <label>Width</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>PDF Aggregate Field</label>
+    <nameField>
+        <label>API Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>PDF Aggregate Fields</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

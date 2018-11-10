@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>Test</letterhead>
+    <name>CAF Notification1</name>
+    <style>freeForm</style>
+    <subject>Customer - {!Account.Name} has requested for credit application</subject>
+    <textOnly>Dear Team,
+
+Customer {!Account.Name} has requested for credit limit with BOA. Please go through credit application and take appropriate application.
+
+
+Thanks</textOnly>
+    <type>html</type>
+</EmailTemplate>

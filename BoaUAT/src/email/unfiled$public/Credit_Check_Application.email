@@ -1,0 +1,20 @@
+<html>
+	<head>
+		<style>
+			body, p{
+			width:100%;
+            font-family: Arial,Helvetica Neue,Helvetica,sans-serif;
+			}
+		</style>
+	</head>
+	<body>
+		<p>Dear {!Account.Name},</p>
+		<p>There has been a request for a Credit Check Application on your business. Please look at the attached document and fill in the Credit Check Application.</p>
+		<p>When you have completed this, please send it back to us as soon as possible.</p>
+		<p>If you have any queries, please do not hesitiate to let us know at <a href="mailto:info@boa.co.nz">info@boa.co.nz</a>.</p>
+		<br />
+		<p>Many thanks,
+		<br />
+		BOA</p>
+	</body>
+</html>

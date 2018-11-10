@@ -1,0 +1,28 @@
+.THIS {
+}
+.THIS .headerPanel{
+    margin-bottom: 1rem;
+}
+.THIS .newOrderButton{
+    float: right;
+    margin-top: -1rem;
+}
+.THIS .forceEntityIcon{
+    display: none;
+}
+/*
+.THIS .oppIcon{
+width: 2rem;
+height: 2rem;
+fill: rgb(255, 255, 255);
+background-color: #FCB95B;
+display: block;
+border-radius: .125rem;
+}
+*/
+.THIS .test-drillin{
+    display:none;
+}
+.THIS .uiOutputText{
+    display:none;
+}

@@ -1,0 +1,50 @@
+<aura:component controller="NewOrder_SearchAccounts" implements="flexipage:availableForAllPageTypes" access="global" >
+    
+    <aura:attribute name="accountId" type="String"/>
+    <aura:attribute name="searchKeyword" type="String"/>
+    <aura:attribute name="contactList" type="Object[]"/>
+    <aura:attribute name="selectedContactId" type="String"/>
+    
+    <aura:handler name="change" value="{!v.accountId}" action="{!c.handleChangedAccId}"/>
+    
+    <div class="contactLookupContainer">
+        <div class="{!$Browser.isPhone ? '' : 'slds-m-around_medium'}">
+            <!-- SEARCH INPUT --> 
+            <lightning:input aura:id="searchField"
+                             label="Contact:"
+                             value="{!v.searchKeyword}"
+                             placeholder="Search contacts..."                             
+                             onkeyup="{!c.searchContact}"
+                             />
+            <aura:if isTrue="{!v.searchKeyword.length > 0}">
+                <button aura:id="removeButton" class="{!$Browser.isPhone ? 'slds-button slds-button_icon slds-input__icon slds-input__icon_right clearSelectionPhone' : 'slds-button slds-button_icon slds-input__icon slds-input__icon_right clearSelection'}" onclick="{!c.removeSelectedItem}" title="{!'Remove ' + v.searchKeyword}">
+                    <span>
+                        <lightning:icon iconName="utility:close" size="x-small" class="contactClose"/>
+                    </span>
+                    <span class="slds-assistive-text">Remove selected option</span>
+                </button> 
+            </aura:if> 
+        </div>
+        <div>
+            <aura:if isTrue="{!v.contactList.length > 0}">
+                <div aura:id="searchResults" role="listbox">
+                    <ul class="{!$Browser.isPhone ? 'slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid contactListPhone' : 'slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid contactList'}" role="presentation">
+                        <aura:iteration items="{!v.contactList}" var="m">
+                            <li role="presentation" class="slds-listbox__item">
+                                <span id="listbox-option-unique-id-01" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta slds-has-focus" role="option" title="{!m.Name}" data-Record="{!m.Id}" onclick="{!c.selectedContact}">
+                                    <span class="slds-media__figure">
+                                        <span class="slds-icon_container slds-icon-standard-contact" title="{!m.Name}">
+                                            <lightning:icon iconName="standard:contact" size="small"/>
+                                            <span class="slds-assistive-text">{!m.Name}</span>
+                                        </span>
+                                    </span>                                   
+                                    <span class="slds-listbox__option-text slds-listbox__option-text_entity contactName" title="{!m.Name}" data-Record="{!m.Id}" onclick="{!c.selectedContact}">{!m.Name}</span>
+                                </span>
+                            </li>  
+                        </aura:iteration>
+                    </ul>
+                </div>                    
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,62 @@
+<aura:component>
+    
+    <aura:attribute name="showAddress" type="Boolean" default="false"/>
+    <aura:attribute name="customerDeliveryAddress" type="Object[]"/>
+    <aura:attribute name="selectedDelAddr" type="Object"/>
+    <aura:attribute name="showError" type="Boolean" default="false"/>
+    
+    <aura:registerEvent name="updateDeliveryAddress" type="c:NewOrder_UpdateDeliveryAddress"/>
+    
+    <!--<lightning:button variant="brand" label="Select Delivery Address" onclick="{!c.displayAddress}"/>-->
+  
+    <a href="javascript:void(0);" onclick="{!c.displayAddress}" class="delAddress">Select Delivery Address</a>
+    
+    <aura:if isTrue="{!v.showAddress}">             
+        <div class="slds-page-header slds-page-header_vertical">
+            <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+                <div class="{!$Browser.isPhone ? 'slds-modal__container phoneModalContainer' : 'slds-modal__container'}">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick="{!c.displayAddress}">
+                            <lightning:icon iconName="utility:close" size="x-small" variant="inverse"/>                       
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Select Delivery Address</h2>
+                    </header>
+                    
+                    <div class="{!$Browser.isPhone ? 'slds-modal__content' : 'slds-modal__content slds-p-around_medium'}">
+                        <aura:if isTrue="{!v.showError}">
+                            <div class="slds-text-color_error slds-m-left_small">Please select a delivery address</div>
+                        </aura:if>                        
+                        <lightning:layout multipleRows="true">
+                            <aura:iteration items="{!v.customerDeliveryAddress}" var="custdeladdr" indexVar="i">
+                                <lightning:layoutItem padding="around-small" size="12">                                
+                                    <ul class="slds-has-dividers_around-space">
+                                        <li class="slds-item">                                                                               
+                                            <lightning:tile class="slds-tile_board">
+                                                <div class="slds-truncate_container_75" style="display: -webkit-inline-box;">             
+                                                    <p><input type="radio" name="delAddr" onchange="{!c.selectDeliveryAddress}" value="{!i}" style="margin-left: 1rem; margin-right: 2rem;vertical-align: middle"/></p>
+                                                    <p class="slds-truncate" title="{!custdeladdr.Street__c + ' ' + custdeladdr.City__c + ', ' + custdeladdr.State__c + ' ' +custdeladdr.Postal_Code__c + ' ' +custdeladdr.Country__c}">
+                                                        <a href="{!'/lightning/r/Delivery_Address__c/' + custdeladdr.Id + '/view'}" target="_blank" class="delAddressLink">{!custdeladdr.Street__c} <br/> {!custdeladdr.City__c}, &nbsp; {!custdeladdr.State__c} &nbsp; {!custdeladdr.Postal_Code__c} <br/> {!custdeladdr.Country__c}</a>
+                                                    </p>
+                                                    <aura:if isTrue="{!custdeladdr.Is_Primary__c == true}">
+                                                        <p class="primaryAddressIndicator">P</p>
+                                                    </aura:if>
+                                                </div>                                               
+                                            </lightning:tile>
+                                        </li>
+                                    </ul>
+                                </lightning:layoutItem>
+                            </aura:iteration>                           
+                        </lightning:layout>
+                        
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick="{!c.displayAddress}">Cancel</button>
+                        <button class="slds-button slds-button_brand" onclick="{!c.sendDelAddr}">Done</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </aura:if>
+</aura:component>

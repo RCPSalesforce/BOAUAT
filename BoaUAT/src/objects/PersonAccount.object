@@ -1,0 +1,876 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <compactLayoutAssignment>SYSTEMPersonAccount</compactLayoutAssignment>
+    <enableHistory>true</enableHistory>
+    <recordTypes>
+        <fullName>PersonAccount</fullName>
+        <active>true</active>
+        <label>Retail Customers</label>
+        <picklistValues>
+            <picklist>AccountSource</picklist>
+            <values>
+                <fullName>Advertisement</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Email Enquiry</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Facebook</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Industry Body</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Linkedin</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Manual Prospect</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Organic</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Paid Search</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Phone Enquiry</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Referral</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Retargeting</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Website</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Base_Price__c</picklist>
+            <values>
+                <fullName>Bulk Buy</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Contractor</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Dealer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Retail</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Trade</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Wholesale</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>CRIMPER__c</picklist>
+            <values>
+                <fullName>H19MMFP</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>H19MMHP</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>H25MINI-HP</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>H25SECO</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>N%2FA</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>P20-12V</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>P20-240V</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>P20-24V</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>P20-3 Phase</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>P20-AP</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>P20-HP</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>P20Q-240V</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>P32-12V</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>P32-240V</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>P32-24V</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>P32-3Phase</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>P32-CNC3PH</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>P32Q-3PHAS</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>P58Q-3PHAS</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>S76-3Phase</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>S76-CNC3PH</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Contact_Role_list</picklist>
+            <values>
+                <fullName>Hose Champion</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mechanic</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Operations Manager</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Owner</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Credit_Terms__c</picklist>
+            <values>
+                <fullName>15th Following Month</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>20th of Month</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>30th of Month Following</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>60 Day Account</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Cash Only</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Net 120 Days</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Net 180 Days</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Net 21 Days</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Net 30 Days</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Net 60 Days</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Net 7 Days</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Net 90 Days</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Customer_Class__c</picklist>
+            <values>
+                <fullName>AA %28A Active%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>AP %28A Potential%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>BA %28B Active%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>BP %28B Potential%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>CA %28C Active%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>CP %28C Potential%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>DA %28Everyone Else %3C %24499%29</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>EA %28Everyone else tiny%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>EP %28Epotential Classified%29</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Default_Invoice__c</picklist>
+            <values>
+                <fullName>GL</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>STOCK</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Default_payment_type__c</picklist>
+            <values>
+                <fullName>Bedogni</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Cash</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Cheque</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>D%2FCredit</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>D%2FDebit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Dishonour</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>EFTPOS</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>M-Powered</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mastercard</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Paypal</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Trade USD</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>USD</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Visa</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Fitting_Type__c</picklist>
+            <values>
+                <fullName>1-Piece</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2-Piece</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>N%2FA</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Industry</picklist>
+            <values>
+                <fullName>Agriculture</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Civil</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Engineering</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Forestry</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Machinery</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Manufacturing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Industry_Type_from_Portal__pc</picklist>
+            <values>
+                <fullName>Agriculture</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Civil</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Engineering</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Forestry</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Machinery</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Manufacturing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Onboarding_Status__c</picklist>
+            <values>
+                <fullName>Complete</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>In Progress</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Need to initiate</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Ownership</picklist>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Private</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Public</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Subsidiary</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Primary_Group__c</picklist>
+            <values>
+                <fullName>Suppliers</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Rating</picklist>
+            <values>
+                <fullName>Cold</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Hot</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Warm</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Region__c</picklist>
+            <values>
+                <fullName>AUSTRALIA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Auckland</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>BAY OF PLENTY</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>CHINA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Canterbury</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>GISBORNE</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Hawkes Bay</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Manawatu</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>NORTH SHORE</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Northland</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>OTAGO</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pacific Islands</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Southland</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Taranaki</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tasman%2FMarlborough%2FWest Coast</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Waikato</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Wellington</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Secondary_Group_del__c</picklist>
+            <values>
+                <fullName>No Group Selected</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Set_up_Hose_Type__c</picklist>
+            <values>
+                <fullName>N%2FA</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Polyhose</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Silflo</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yokohama</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Source__pc</picklist>
+            <values>
+                <fullName>EX Capricorn</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Email Campaign</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MEN-Motor Equipment News</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Statement_Delivery__c</picklist>
+            <values>
+                <fullName>Email</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Type</picklist>
+            <values>
+                <fullName>AGRI - CROPPING</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>AGRI - DAIRY %26 LIVESTOCK</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>AGRI - TRACTOR</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>CHEMICAL %26 PETROLEUM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>COMPETITORS - COOKES</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>COMPETITORS - EATON</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>COMPETITORS - HYDRAULINK</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>COMPETITORS - PARKER</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>COMPETITORS - PERTEK</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>COMPETITORS - RYCO</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>CONTRACT - EARTHMOVE %26 ROAD</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>CONTRACT - FORESTRY</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>CONTRACT - QUARRY</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>EXHAUSTS</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FOOD %26 BEVERAGE</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>H%2FMACH - CONCRETE</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>H%2FMACH - CRANE</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>H%2FMACH - DEMO%2FDRILL%2FBLAST</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>H%2FMACH - MINING</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>HIRE</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>HYD ENGINEERS %26 H%2FMECHANIC</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MARINE</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MATERIALS HANDLING</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>OEM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>OTHERS</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>PUMP %26 IRRIGATION</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>STAFF ACCOUNT</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SUPPLIER</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>TRANSPORT</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>WATERBLAST %26 SEWER CLEAN</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Type__c</picklist>
+            <values>
+                <fullName>AGRI - CROPPING</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>AGRI - DAIRY %26 LIVESTOCK</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>AGRI - TRACTOR</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>CHEMICAL %26 PETROLEUM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>COMPETITORS - COOKES</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>COMPETITORS - EATON</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>COMPETITORS - HYDRAULINK</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>COMPETITORS - PARKER</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>COMPETITORS - PERTEK</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>COMPETITORS - RYCO</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>CONTRACT - EARTHMOVE %26 ROAD</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>CONTRACT - FORESTRY</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>CONTRACT - QUARRY</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>EXHAUSTS</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FOOD %26 BEVERAGE</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>H%2FMACH - CONCRETE</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>H%2FMACH - CRANE</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>H%2FMACH - DEMO%2FDRILL%2FBLAST</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>H%2FMACH - MINING</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>HIRE</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>HYD ENGINEERS %26 H%2FMECHANIC</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MARINE</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MATERIALS HANDLING</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>OEM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>OTHERS</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>PUMP %26 IRRIGATION</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>STAFF ACCOUNT</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SUPPLIER</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>TRANSPORT</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>WATERBLAST %26 SEWER CLEAN</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ZZ-HYDRAULIC</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ZZ-HYDRAULIC NZ</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ZZ-INDUSTRIAL</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>override_GST_rate__c</picklist>
+            <values>
+                <fullName>Auto Select Rate</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" 
+description="This event is fired from NewOrder_Account component and will be handled by NewOrder_SelectedProdcuts component" >
+    <aura:attribute name="createOrder" type="Object" description="This attribute contains all the data for creating order"/>
+</aura:event>

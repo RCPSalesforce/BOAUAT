@@ -1,0 +1,16 @@
+<aura:component controller='con' implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+	<aura:attribute name="IsSpinner" type="Boolean"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+        <div >
+        <center>
+            <H1>Are you Sure?</H1>     
+        </center>
+    </div>
+    <aura:if isTrue="{!v.IsSpinner}">
+        <lightning:spinner variant="brand"  size="small" class="spinnerPosition" />
+    </aura:if> 	
+    <center>
+        <ui:button label="Yes" press="{!c.sendtopdf}"/>
+    </center>
+</aura:component>

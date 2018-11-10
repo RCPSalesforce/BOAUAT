@@ -1,0 +1,2 @@
+<apex:page sidebar="true" showHeader="true" standardStylesheets="false" action="http://www.gocloudz.com/documentation-PDF/PDF-Generator-Quote-Opportunity-Guide.pdf" title="GoCloudz :: PDF Generator Documentation">
+</apex:page>

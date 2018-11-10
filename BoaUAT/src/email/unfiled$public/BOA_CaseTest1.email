@@ -1,0 +1,10 @@
+Hi {!Contact.FirstName},
+
+Thank you for contacting the BOA Client Support team. This message is to confirm that we have received your request and have opened a case for your issue. 
+
+The new case number is: {!Case.CaseNumber}. In order to check on the status of your ticket, please contact the Client Support team at ####.
+
+
+Thank you,
+Customer Advocate Team
+BOA.

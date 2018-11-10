@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <customHelpPage>QuotePDF_Documentation</customHelpPage>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>Business process for selecting right template for quote and opportunity.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>BCC__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Always bcc me when sending the email</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Always bcc me when sending the email</inlineHelpText>
+        <label>BCC me</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>CC__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Always cc me when sending the email</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Always cc me when sending the email</inlineHelpText>
+        <label>CC me</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Email_Template1__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <formula>IF( 
+  ISBLANK(Email_Template__c) , 
+  &apos;No Email Template Defined&apos;,
+  HYPERLINK( Email_Template__c , &quot;View Email Template&quot;)
+)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Email Template</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Email_Template__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Salesforce id for email template. Once defined email would be sent automatically to all recipients. Make sure you test email template before providing the id. Id must start from 00X</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Salesforce id for email template. Once defined email would be sent automatically to all recipients. Make sure you test email template before providing the id. Id must start from 00X</inlineHelpText>
+        <label>Email Template</label>
+        <length>18</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Field_Name__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Field API name which needs to be checked</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Field API name which needs to be checked</inlineHelpText>
+        <label>Field Name</label>
+        <length>200</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Field_Value__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Field value which needs to be compared against</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Field value which needs to be compared against</inlineHelpText>
+        <label>Field Value</label>
+        <length>200</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Internal_Email_Id__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Specify Internal Email Ids to test the Email &amp; PDF automation before sending to customers who are part of the Recipient list</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Specify Internal Email Ids to test the Email &amp; PDF automation before sending to customers who are part of the Recipient list</inlineHelpText>
+        <label>Internal Email Id(s)</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Object__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Name of the object to which this rule is applied</description>
+        <externalId>false</externalId>
+        <formula>TEXT(Template__r.Object__c)</formula>
+        <inlineHelpText>Name of the object to which this rule is applied</inlineHelpText>
+        <label>Object</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Order__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Order in which this rule is executed</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Order in which this rule is executed</inlineHelpText>
+        <label>Order</label>
+        <precision>10</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Template__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>Template that will be used to auto generate PDF upon meeting this criteria</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Template that will be used to auto generate PDF upon meeting this criteria</inlineHelpText>
+        <label>PDF Template</label>
+        <referenceTo>PDF_Template__c</referenceTo>
+        <relationshipName>Template_Rules</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <label>PDF Rule</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Object__c</columns>
+        <columns>Field_Name__c</columns>
+        <columns>Field_Value__c</columns>
+        <columns>Template__c</columns>
+        <columns>Email_Template1__c</columns>
+        <columns>Order__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>PDF Rules</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Object__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Field_Name__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Field_Value__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Template__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Order__c</customTabListAdditionalFields>
+        <excludedStandardButtons>Accept</excludedStandardButtons>
+        <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
+        <lookupDialogsAdditionalFields>Object__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Field_Name__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Field_Value__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Template__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Order__c</lookupDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>Object__c</searchFilterFields>
+        <searchFilterFields>Field_Name__c</searchFilterFields>
+        <searchFilterFields>Field_Value__c</searchFilterFields>
+        <searchFilterFields>Template__c</searchFilterFields>
+        <searchFilterFields>Order__c</searchFilterFields>
+        <searchResultsAdditionalFields>Object__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Field_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Field_Value__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Template__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Order__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

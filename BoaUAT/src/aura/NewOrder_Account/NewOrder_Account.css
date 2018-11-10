@@ -1,0 +1,46 @@
+.THIS .accountSections{
+    border: 1px solid #dddbda;
+    margin: 1rem;
+    border-radius: 0.5rem;
+}
+.THIS .accDetails{
+    margin: 1rem;
+    border: 1px solid #dddbda;
+    min-height: 185px;
+}
+.THIS .salesperson{
+    display: inline-block;
+    color: rgb(112, 110, 107);
+    font-size: .75rem;
+    margin-bottom: .125rem;
+}
+.THIS .accountOwner{
+    border: .05rem solid #d9dbdd;
+    max-width: 23.35rem;
+    min-height: 2rem;
+    border-radius: .3rem;
+    padding: 0.4rem;
+}
+.THIS .reference{
+    max-width: 23.35rem;
+}
+
+.THIS .phoneContactLookUp{
+    margin-top: -4%;
+}
+.THIS .onHold{
+    margin: 10px 0;
+    top: 5px;
+    padding: 0.5rem;
+    border: 1px solid rgb(221, 219, 218);
+    border-radius: .25rem;
+}
+
+@media only screen and (max-width: 760px),(min-device-width: 768px) and (max-device-width: 1024px) {
+    .THIS .accountSections{
+        margin: 0 0 1rem 0;
+    }
+    .THIS .accDetails{
+        margin: 0;
+    }
+}

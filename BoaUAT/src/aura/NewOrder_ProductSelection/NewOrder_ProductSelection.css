@@ -1,0 +1,24 @@
+.THIS {
+}
+.THIS .productSearch{
+    /*margin-left: 72%;*/
+    margin-top: -3%;
+}
+.THIS.addProductButton{
+    text-align: center;
+    margin-top: -3.8rem;
+    margin-bottom: 2rem;
+}
+.THIS.pill-container{
+    margin: 1.5rem;
+}
+.THIS .slds-pill{
+    margin: 5px;
+}
+.THIS .slds-pill__label{
+    margin: 5px;
+}
+.THIS .slds-checkbox_faux{
+    width: 66%;
+    height: 24px;
+}

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <description>PDF Generator settings</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>DocuSign_Email_Blurb__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>DocuSign Email Blurb</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>DocuSign_Email_Subject__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>DocuSign Email Subject</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Hide_columns_if_value_is_0__c</fullName>
+        <defaultValue>true</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Hide columns on PDF if all records have 0 value. For example, Discount field if no discount provided to any line items</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Hide columns on PDF if all records have 0 value. For example, Discount field if no discount provided to any line items</inlineHelpText>
+        <label>Hide columns if value is &quot;0&quot;</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>PDF Settings</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>SETUP_TYPE</columns>
+        <columns>Hide_columns_if_value_is_0__c</columns>
+        <columns>DocuSign_Email_Subject__c</columns>
+        <columns>DocuSign_Email_Blurb__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <visibility>Public</visibility>
+</CustomObject>
